@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Type: String</title>
+  </head>
+  <body>
+    <script>
+      var a = "1";
+      var b = "2";
+      console.log(typeof a, typeof b); // 'string' 'string'
+
+      console.log(typeof "11", typeof 11); // 'string' 'number'
+
+      /* We can use different quotation mark inside another quotation mark. */
+      /* But the internal quotation mark cannot be the same as the outer one. */
+      console.log("Hello, I am 'cute'. ");
+      console.log('Hello, I am "cute". ');
+
+      console.log("===Escape Characters===");
+      /* Use of escape character. */
+      /* Note: The formatting tool will correct it for me. */
+      // console.log("Hello \"Wei Xin\""); // Hello "Wei Xin"
+      // Error!
+      // console.log("Hello, I am "Cute"");
+      console.log("Hello, \n world!");
+      console.log("Hello, \\ WeiXin");
+      console.log("Hello, \t WeiXin");
+
+      /* String Concatenation */
+      console.log("===String Concatenation===");
+      /* Use + to join characters */
+      var greeting = "Hello " + "World" + "!";
+      console.log(greeting); // Hello World!
+      /* string with any other data type => string */
+      var a = "string" + 1;
+      var b = NaN + "string";
+      var c = Infinity + "string";
+      console.log(a); // string1
+      console.log(b); // NaNstring
+      console.log(c); // Infinitystring
+
+      /* String joins with variables  */
+      var name = "Jing Yi";
+      var name2 = "Wei Xin";
+      var age = 24;
+      var str = name + " is " + age + " years old.";
+      console.log(str);
+      var str2 = `${name2} and ${name} are friends.`;
+      console.log(str2);
+
+      /* Empty String */
+      console.log("===Empty String===");
+      // var emptyString1 = '';
+      // var emptyString2 = "";
+      // console.log(typeof emptyString1, typeof emptyString2); // 'string' 'string'
+
+      /* 1. type conversion */
+      var letter = 1;
+      console.log(letter, typeof letter); // "number";
+      letter = letter + "";
+      console.log(letter, typeof letter); // "string"
+
+      /* 2. pre-define variable as string */
+      /* use of empty string */
+      var result = "";
+      for (var i = 0; i < 5; i++) {
+        result = result + parseInt(Math.random() * 10);
+      }
+      console.log(result); // Random 5 digits number.
+
+      /* without empty string -> variable stores undefined. */
+      var result2;
+      for (var i = 0; i < 5; i++) {
+        result2 += result2 + parseInt(Math.random() * 10);
+      }
+      console.log(result2); // NaN -> undefined + number = NaN & NaN + NaN is also NaN.
+
+      /* Length */
+      console.log("===Length===");
+      var longStr = "I am Wei Xin I am 25 years old!!!";
+      console.log(longStr.length); // 33
+      console.log("".length); // 0
+      console.log("   ".length); // 3 - Note: spaces are counted inside "".
+    </script>
+  </body>
+</html>
