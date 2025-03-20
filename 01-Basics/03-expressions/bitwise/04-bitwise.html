@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Bitwise OR</title>
+  </head>
+  <body>
+    <script>
+      /* Get integer part with bitwise OR | */
+      /* 
+        - convert 5.467 to 32 bit integer.
+      */
+
+      // parseInt
+      var num = 5.467;
+      console.time("1");
+      console.log(parseInt(num)); // 5
+      console.timeEnd("1");
+
+      // Bitwise OR
+      console.time("2");
+
+      // Note: any number | 0 will get back the integer part of number.
+      // 5 => 00000000 00000000 00000000 00000101
+      // 0 => 00000000 00000000 00000000 00000000 &
+      //      -------------------------------------
+      //   => 00000000 00000000 00000000 00000101
+      //   => 5
+      console.log(num | 0); // 5
+      console.timeEnd("2");
+
+      var num2 = -5.457;
+      console.log(num2 | 0); // -5
+    </script>
+  </body>
+</html>

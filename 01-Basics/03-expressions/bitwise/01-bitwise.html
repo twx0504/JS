@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Bitwise</title>
+  </head>
+  <body>
+    <script>
+      var str = 0b11111111111111111111111111111011;
+      // >> Convert Binary to Decimal
+      console.log(str >> 0); // -5 - Right shift - interpret str as 32-bit signed integer (the sign is preserved).
+      console.log(str >>> 0); // 4294967291 - Unsigned right shift - interpret str as 32-bit unsigned integer, so it will treat 11111111111111111111111111111011 as is.
+    </script>
+  </body>
+</html>

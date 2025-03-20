@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>09-Expression: Composite Expression Test</title>
+  </head>
+  <body>
+    <script>
+      /* 
+      Note: 
+        - && and || will have short circuit, you need to look at its left hand side expression before looking at its right hand side.
+        - it will affect higher precedence order operator than itself. like () 
+
+
+      */
+
+      /* #1 */
+      //   var a = 0,
+      //     c;
+      //     // due to the short-circuit property of &&, the expression on the right hand side of && will be run if the left hand side expression is evaluated to be true.
+      //   c = !3 + 4 / 2 > 5 && ++a; // false + 2 > 5 && ++a; => false && ++a => false
+      //   console.log(c, a); // false 0
+
+      /* #2  */
+      var a = 0;
+      var b = (a++ && a < 11) || a++; // (0 && a < 11) || a ++  => 0 || a++ therefore b = 1 a = 2 (because there is two a++)
+      var c = a + 1 && a + 2; // 3 && 4 therefore c = 4
+      console.log(b, c, a); // 1 4 2
+    </script>
+  </body>
+</html>

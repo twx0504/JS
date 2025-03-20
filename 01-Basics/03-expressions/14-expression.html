@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>14-Expression: Ternary Application - Padding Zeroes</title>
+  </head>
+  <body>
+    <script>
+      /* Padding Zero Concept */
+      //   var a = 9;
+      //   a = a < 10 ? "0" + a : a;
+
+      var date = new Date();
+      var year = date.getFullYear();
+      // month: 0 = Jan, 11 = Dec.
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      // Padding
+      month = month < 10 ? "0" + month : month;
+      day = day < 10 ? "0" + day : day;
+      console.log(year + "-" + month + "-" + day);
+    </script>
+  </body>
+</html>
