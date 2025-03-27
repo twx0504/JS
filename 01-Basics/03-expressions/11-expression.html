@@ -18,6 +18,9 @@
       var isLeapYear =
         (year % 4 === 0 && year % 100 !== 0) ||
         (year % 100 === 0 && year % 400 === 0);
+
+      /* Alternative:  */
+      // var isLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
       alert("Is " + year + " a leap year? " + isLeapYear);
     </script>
   </body>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Control Flow: Basic if statement</title>
+  </head>
+  <body>
+    <script>
+      // if (condition) {
+      //     // Code
+      // }
+
+      if (3 > 2) {
+        console.log("3 is greater than 2");
+      }
+
+      if (3 < 2) {
+        console.log("This is not executed.");
+      }
+
+      if (null) {
+        console.log("This is not executed.");
+      }
+      if ("") {
+        console.log("This is not executed.");
+      }
+      if ("" + null) {
+        console.log("This is truthy!");
+      }
+
+      if (1) {
+        console.log("This is 1.");
+      }
+
+      /* This code is executed regardless of the previous if statements. */
+      console.log("This is a code outside of if statement.");
+
+      if (true)
+        console.log(
+          "This is a concise way of writing if statement in one line."
+        );
+    </script>
+  </body>
+</html>

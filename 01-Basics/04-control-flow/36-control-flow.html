@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>36-Control Flow: Labeled Statement</title>
+  </head>
+  <body>
+    <script>
+      console.log("Label with continue");
+      outer: for (var i = 0; i < 5; i++) {
+        for (var j = 0; j < 5; j++) {
+          if (j === 2) {
+            continue outer; // Terminate the outer loop current iteration.
+          }
+          console.log(i, j);
+        }
+      }
+
+      console.log("Label with break");
+      outer: for (var i = 0; i < 5; i++) {
+        for (var j = 0; j < 5; j++) {
+          if (j === 2) {
+            break outer; // Break out of outer loop.
+          }
+          console.log(i, j);
+        }
+      }
+    </script>
+  </body>
+</html>

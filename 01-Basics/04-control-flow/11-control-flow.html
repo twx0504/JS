@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>11-Control Flow</title>
+  </head>
+  <body>
+    <script>
+      var a = 1;
+      switch (a) {
+        case 0:
+          console.log("Not matched.");
+          break;
+        case 1:
+          console.log("Matched");
+          // No break!
+          // Fall through happens
+          // The case blocks after the matched one will also be executed
+          // Until a break keyword is met.
+        case 2:
+          console.log("Not matched");
+        case 3:
+          console.log("Not matched");
+        case 4:
+          console.log("Not matched");
+          break;
+        default:
+          console.log("All not matched.");
+      }
+
+      // matched
+      // Not matched
+      // Not matched
+      // Not matched
+    </script>
+  </body>
+</html>

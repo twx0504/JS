@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>37-Control Flow</title>
+  </head>
+  <body>
+    <script>
+      /* 1 */
+      var str = "weixin";
+      var num = parseInt(str);
+      if (num == NaN) {
+        console.log(NaN);
+      } else {
+        console.log(str);
+      }
+
+      // weixin
+
+      /* 2 */
+      var a = 1;
+      var b = 0;
+      var str1 = "";
+      var str2 = false;
+      if (a || b || str1) {
+        console.log(!str2); // true
+      }
+      if (a && !str1 && !str2) {
+        console.log(!str1); // true
+      }
+
+      // 
+    </script>
+  </body>
+</html>

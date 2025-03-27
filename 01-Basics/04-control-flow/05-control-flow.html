@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-Control Flow: Check if it is a number?</title>
+  </head>
+  <body>
+    <script>
+      // Check if the input is a pure number type.
+
+      var input = prompt("Enter a number: ");
+
+      if (isNaN(Number(input))) {
+        // filter NaN & Not a number (e.g., 'a')
+        // Number("abc") / Number("null") / Number("undefined") -> NaN
+        // Number("") / Number(" ") -> 0
+        console.log(input + " is not a number.");
+      } else if (isNaN(parseInt(input))) {
+        // filter white spaces
+        console.log(input + "is not a number (white space)");
+      } else {
+        // Pure number
+        console.log(input + " is purely a number.");
+      }
+
+
+      /* Q: isNaN intrinsicly using Number(), do we still explicitly use Number()? */
+    //   if (isNaN(input)) {
+    //     // filter NaN & Not a number (e.g., 'a')
+    //     // Number("abc") / Number("null") / Number("undefined") -> NaN
+    //     // Number("") / Number(" ") -> 0
+    //     console.log(input + " is not a number.");
+    //   } else if (isNaN(parseInt(input))) {
+    //     // filter white spaces
+    //     console.log(input + "is not a number (white space)");
+    //   } else {
+    //     // Pure number
+    //     console.log(input + " is purely a number.");
+    //   }
+    </script>
+  </body>
+</html>
