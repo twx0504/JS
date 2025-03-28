@@ -24,13 +24,14 @@
       var str1 = "";
       var str2 = false;
       if (a || b || str1) {
-        console.log(!str2); // true
+        console.log(a + b + str1); // 1 + 0 + "" => "1"
+      }
+      if (a && b && !str2) { 
+        console.log(!str2);
       }
       if (a && !str1 && !str2) {
         console.log(!str1); // true
       }
-
-      // 
     </script>
   </body>
 </html>
