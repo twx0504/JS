@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Random Colors</title>
+    <style>
+      .ball {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ball"></div>
+    <script>
+      var ball = document.querySelector(".ball");
+
+      // Actually, we have picked the colors rather than really randomly generated.
+      // For aesthetically reason.
+      // Then, randomly pick the colors from the selected colors.
+      var colors = ["pink", "khaki", "skyblue", "tomato", "orange", "orchid"];
+      setInterval(() => {
+        ball.style.backgroundColor =
+          colors[Math.floor(Math.random() * colors.length)];
+      }, 1000);
+    </script>
+  </body>
+</html>

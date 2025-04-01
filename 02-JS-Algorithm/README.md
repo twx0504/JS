@@ -94,4 +94,69 @@ console.log(String.fromCodePoint(emoji.codePointAt(0)));
 
 ## 02-Bubble Sort
 
+- O(n^2) time complexity
+
+> idea: 
+> - Each turn, compare every two adjacent elements.
+> - Swapping the order when the right element appears to be greater than the left one.
+> - Otherwise, the position remains unchanged.
+> - At the end of each turn, move the largest number from the unordered area to the end position.
+
+> E.g., [1, 5, 3, 2, 6]
+
+| Index | Turn | Comparison Count | Ordered Area Count |
+| ----- | ---- | ---------------- | ------------------ |
+| 0     | 1st  | 4                | 1                  |
+| 1     | 2nd  | 3                | 2                  |
+| 2     | 3rd  | 2                | 3                  |
+| 3     | 4th  | 1                | 4                  |
+
+
+> arr.length = 5
+> totalTurn: arr.length - 1
+> - condition: i = 0; i < arr.length - 1
+> comparison count: arr.length - currentIndex - 1
+> - condition: j = 0; j < arr.length - i - 1
+
+```js
+var arr = [22, 1, 5, 3, 2, 6, 77, 11, 3, 12, 50];
+
+var len = arr.length;
+// Control turns.
+for (var i = 0; i < len - 1; i++) {
+  // Control the comparison count.
+  for (var j = 0; j < len - i; j++) {
+    // When left element > right element, swapping happens.
+    if (arr[j] > arr[j + 1]) {
+      // Swapping logic.
+      var temp = arr[j];
+      arr[j] = arr[j + 1];
+      arr[j + 1] = temp;
+
+      // XOR Swapping logic.
+      // arr[j] = arr[j] ^ arr[j + 1];
+      // arr[j + 1] = arr[j] ^ arr[j + 1];
+      // arr[j] = arr[j] ^ arr[j + 1];
+    }
+  }
+}
+
+```
+
+### 2.1 Bubble Sort V2
+
+- use assumption method.
+
+> Assume the array is sorted (isSorted = true).
+> If swapping occurs, the array is not fully sorted (isSorted = false).
+> Break out the loop if there's no swaps happen in a full pass (meaning: the comparison logic is not entered).
+> remember the isSorted is reset.
+
+### 2.2 Bubble Sort V3
+
+> build on top of V2.
+> find the index of the element during last exchange in every turn. (index = j)
+> sortedBorder = index (where index is the index of element during last exchange)
+> in next turn, the inner loop (represents the comparison counts) will run up to index before sortedBorder. (j < sortedBorder)
+
 ## 03-Complexity & Recursion

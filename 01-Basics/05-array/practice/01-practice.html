@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Practice</title>
+  </head>
+  <body>
+    <script>
+      // 1.
+      //   var arr = [1, 2, 3, 4];
+      //   arr[7] = "A"; // [1, 2, 3, 4, empty x 3, 'A']
+      //   console.log(arr.length); // 8
+      //   console.log(arr[4]); // undefined
+
+      // 2.
+      //   var scores = [];
+      //   var sum = 0;
+      //   while (true) {
+      //     var score = prompt("Enter student score: ");
+      //     if (score === null) {
+      //       break;
+      //     } else {
+      //       if (!isNaN(score) && !isNaN(parseInt(score))) {
+      //         scores[scores.length] = Number(score);
+      //       }
+      //     }
+      //   }
+
+      //   for (var i = 0; i < scores.length; i++) {
+      //     sum += scores[i];
+      //   }
+
+      //   if (scores.length !== 0) {
+      //     var average = (sum / scores.length).toFixed(2);
+      //     console.log(sum);
+      //     alert("The average score is " + average);
+      //   } else {
+      //     alert("There's no input!");
+      //   }
+
+      // 2. Solution
+
+      var scores = [];
+      var score;
+      var sum = 0;
+      while (score !== "Quit") {
+        score = prompt("Enter a student score: ");
+        scores[scores.length] = score;
+      }
+      // Remove 'Quit' at the end of the array.
+      scores.length -= 1;
+      for (var i = 0; i < scores.length; i++) {
+        sum += Number(scores[i]);
+      }
+
+      alert(sum / scores.length);
+
+
+      // 1. How do you choose the loop statement?
+      // - for loop: when you know the how many iterations you need.
+      // - while loop: when you know the condition of terminating the loop. 
+      // - do while: when there's at most 1 iteration in which you can get the result.
+
+      // 2. When you want to store data that is related to each other, use array.
+      // 3. How do you delete the last element of the array? remove the element by modifying length.
+    </script>
+  </body>
+</html>

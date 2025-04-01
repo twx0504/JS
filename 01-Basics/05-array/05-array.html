@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-Array</title>
+  </head>
+  <body>
+    <script>
+      var arr = ["A", "B", "C", "D"];
+      // Precaution 1: Accessing a non-existent index does not throw error, it returns undefined.
+      console.log(arr[10]); // undefined
+
+      // Precaution 2: Accessing empty slot returns undefined.
+      var arr = ["A", , "C", "D"];
+      console.log(arr[1]); // undefined
+
+      // Similar to this one, but you need to know they are not the same.
+      /* Empty means nothing there. */
+      /* undefined means there's a value undefined. */
+      var arr = ["A", undefined, "C", "D"];
+      console.log(arr[1]); // undefined
+
+      // Precaution 3: Changing arr.length will affect the array.
+
+      var arr = [1, 2, 3, 4, 5];
+      // Clearing array
+      arr.length = 0;
+      console.log(arr); // []
+
+      // Add empty slots
+      var arr2 = [1, 2, 3, 4, 5];
+      arr2.length = 10;
+      console.log(arr2); // [1, 2, 3, 4, 5, empty * 5]
+
+      // Remove items
+      var arr3 = [1, 2, 3, 4, 5];
+      arr3.length = 3;
+      console.log(arr3); // [1, 2, 3]
+    </script>
+  </body>
+</html>
