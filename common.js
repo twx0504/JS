@@ -38,11 +38,11 @@ function isNumber(val) {
  * Check if a given year is a leap year.
  * - when year is divisible by 4 and year is not divisible by 100.
  * - when year is divisible by 400.
- * - leap year 
+ * - leap year
  * -> when the days of the year has one more day.
  * -> February has 29 days in a leap year.
- * @param {number} year 
- * @returns 
+ * @param {number} year
+ * @returns
  */
 function isLeapYear(year) {
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
@@ -50,10 +50,36 @@ function isLeapYear(year) {
 
 /**
  * Generate a random number within the range [min, max].
- * @param {number} min 
- * @param {number} max 
- * @returns 
+ * @param {number} min
+ * @param {number} max
+ * @returns
  */
 function getRandom(min, max) {
   return min + Math.floor(Math.random() * (max - min + 1));
 }
+
+/**
+ * reverse elements in arr.
+ * usage: when an arr is already sorted, and you want to reverse the order.
+ *
+ * @param {Array} arr
+ */
+function reverse(arr) {
+  for (var i = 0, j = arr.length - 1; i < j; i++, j--) {
+    var temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+}
+
+// function reverse(arr) {
+//   var i = 0,
+//     j = arr.length - 1;
+//   while (i < j) {
+//     var temp = arr[i];
+//     arr[i] = arr[j];
+//     arr[j] = temp;
+//     i++;
+//     j--;
+//   }
+// }

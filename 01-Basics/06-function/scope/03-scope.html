@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Scope: Global Scope cannot access function scope.</title>
+  </head>
+  <body>
+    <script>
+      var a = 2;
+      function fn() {
+        var b = 3;
+      }
+      console.log(b); // Uncaught ReferenceError: b is not defined
+    </script>
+  </body>
+</html>

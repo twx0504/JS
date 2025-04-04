@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Strict: With statement is not allowed in strict mode</title>
+  </head>
+  <body>
+    <script>
+      //   function fn() {
+      //     var obj = { a: 1, b: 2 };
+      //     with (obj) {
+      //       console.log(a, b);
+      //     }
+      //   }
+      //   fn();  // 1 2
+
+      //   function fn2() {
+      //     "use strict";
+      //     var obj = { a: 1, b: 2 };
+      //     with (obj) {
+      //       console.log(a, b);
+      //     }
+      //   }
+      //   fn2(); // Uncaught SyntaxError: Strict mode code may not include a with statement
+    </script>
+  </body>
+</html>

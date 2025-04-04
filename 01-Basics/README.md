@@ -2336,6 +2336,8 @@ for (var i = 0; i < 5; i ++) {
 
 ### 5.4 While
 
+> Tip: Usually, while loop can achieve what a single for loop can do.
+
 ```js
 while(condition) {
 
@@ -2676,5 +2678,466 @@ console.log(arr2[0]); // 'A'
 
 ## 07-Function
 
-## 08-Variable Hoisting, Scope
+> grouping multiple statements that performs a specific task (encapsulation of statements).
+> define once, use multiple times.
+> benefit: reduce redundancy, improve readability.
 
+
+> In Js,
+> - functions are objects.
+> - functions are reference data types.
+
+
+### 7.1 Function Declaration
+
+> `functionName` refers to identifier, naming similar to how you name a variable.
+> `parameters` refers to a list of parameters, each is separated by a comma. Without parameters, parantheses are still required.
+
+
+```js
+function functionName(parameters) {
+  // function body (statements)
+}
+
+// Function Declaration
+function greeting() {
+  console.log("Hello World!");
+}
+
+// Function Call - when you are trying to debug, you need to put the breakpoint at function call, not the function declaration.
+greeting();
+
+```
+
+
+> Tip: 
+> - Js will not execute the function declaration until the function is called.
+> - Put breakpoint at function call when debugging.
+
+
+### 7.2 Function Expression
+
+```js
+var identifier = function () {
+  // function body
+  
+};
+
+```
+### 7.3 Type Checking
+
+> typeof fn returns `function`.
+
+
+```js
+function fn () {
+  console.log("A func");
+}
+
+typeof fn; // 'function'
+
+
+```
+
+### 7.4 Function Parameters
+
+#### 7.4.1 Parameters & Arguments
+
+> parameters: defined within the function declaration. 
+> arguments: provided when we call the function.
+
+> parameters acts as placeholders and are initialized with the values of arguments passed.
+> their relationship follows a one-to-one correspondence to ensure the correct order.
+
+> parameters can be any types.
+> when certain values inside the function body are not fixed, and are usually determined by the user, we use parameters and provide the values via arguments.
+```js
+// function identifier(parameter1, parameter2, parameter3) {
+//   // function body
+// }
+
+// identifier(argument1, argument2, argument3);
+
+function sum(a, b) {
+  console.log(a + b);
+}
+
+sum(1, 2);
+
+// when calling a function with 1 and 2 as arguments
+// It is similar to defining variable a and b inside the function and initialize them with the arguments' values.
+// function sum(a, b) {
+//   var a = 1;
+//   var b = 2;
+//   console.log(a + b);
+// }
+
+// var identifier = function(parameter1, parameter2) {
+//   // function body
+// }
+
+// identifier(argument1, argument2);
+var sum = function(a, b) {
+  console.log(a + b);
+}
+
+```
+
+**The Effect of The Number of Arguments and Parameters: **
+> 1. arguments > parameters
+> - nothing.
+> 2. arguments = parameters
+> - nothing.
+> 3. arguments < parameters
+> - might get unexpected result / errors (not necessary throw errors).
+> - the parameter without corresponding argument will be `undefined`.
+
+```JS
+function sum(a, b) {
+  console.log(a + b);
+}
+
+// When arguments = parameters
+console.log(sum(3, 2)); // 5
+
+// When arguments > parameters
+console.log(sum(3, 2, 4, 5, 6)); // 5 (the extra arguments are not used.)
+
+// When arguments < parameters 
+console.log(sum(3)); // NaN (unexpected result!)
+
+// Similar to:
+// function sum(a, b) {
+//   var a = 3;
+//   var b; // undefined
+//   console.log(a + b);
+// }
+
+```
+
+#### 7.4.2 Default Value
+
+> when you want to avoid problem when not providing an argument during function call.
+> assign values to parameters during function definition.
+> when we do not pass corresponding arguments, the parameters will use the default values instead.
+> usually, default value is primitive type, but you can also use array, object, function, anything as the default value.
+> 
+
+```js
+function sum(a = 0, b = 0) {
+  console.log(a + b);
+}
+
+function sum(a, b = 0) {
+  console.log(a + b);
+}
+
+function sum(a = 0, b) {
+  console.log(a + b);
+}
+
+function func(a = {}, b) {
+
+}
+
+function func(a = [], b) {
+  
+}
+
+function sum(a = function() {}, b) {
+  
+}
+```
+
+**Alternative:**
+
+```js
+function sum(a, b) {
+  a = a || 0;
+  b = b || 0;
+  console.log(a + b);
+}
+
+// For better readability:
+function func(a, b) {
+  // function as default value is a bit bulky, it is good to write inside the function body.
+  a = a || function() {};
+}
+```
+
+#### 7.4.3 Arguments Object
+
+> a built-in array-like object in function.
+> - an object, do not have array methods.
+> - has length property.
+> - access arguments via index, index starts at 0.
+> represents the arguments the function receives.
+> example: arguments, NodeList, HTMLCollection, DOMTokenList, ...
+
+> string is not technically an array-like object but it does shows array-like behaviours through implicit boxing.
+
+```js
+function func() {
+  console.log(arguments);
+}
+```
+
+**Convert arguments object to array**
+
+> concept: 
+> - creating an empty array and copy the arguments to the empty array. 
+> - the arguments object remains unchanged.
+
+- for loop
+- slice() / concat()
+- Array.from()
+- Array.apply()
+
+#### 7.4.5 Return Values of a Function
+
+> end the function execution and return a specified value.
+> default: undefined.
+
+> the code appears on the next line of the return statement will not be executed.
+
+```js
+function sum(a, b) {
+  return a + b
+}
+
+function max(a, b) {
+  if (a > b) return a;
+  return b;
+}
+```
+
+#### 7.4.6 Functions Passed as Arguments
+
+> function parameters can be of any type. 
+> A lot of built-in APIs (functions that encapsulate specific logics) have one or more parameters that accept functions as arguments.
+> **fn2 without parameters**
+
+```js
+function fn(a) {
+  a(); // a accepts a function as an argument.
+}
+
+function fn2() {
+  // statements.
+}
+
+fn(fn2);
+
+```
+
+> **fn2 with parameters**
+
+```js
+function fn(a) {
+  a(1, 2); // a accepts a function as an argument.
+}
+
+function fn2(a, b) {
+  // statements.
+}
+
+fn(fn2);
+
+```
+
+> **Common Mistake**
+> supplying arguments while passing functions as arguments is not possible.
+> the arguments can only be passed when the function is actually called within another function body.
+
+```js
+function fn(a) {
+  a();
+}
+
+function fn2(a, b) {
+  // statements
+}
+
+// Common mistake.
+// fn2(1, 2) is calling fn2, return value of the fn2 will be passed as an argument to fn!
+fn(fn2(1, 2)); // Uncaught TypeError: a is not a function -> undefined is not a function.
+```
+
+> Tip: When several functions share most of the same logic but differ in small parts, we can encapsulate these differences into another function and pass it as an argument.
+
+## 08-Scope & Variable Hoisting
+
+### 8.1 Scopes
+
+> Scopes: <https://developer.mozilla.org/en-US/docs/Glossary/Scope>
+> Closure: <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures>
+
+#### 8.1.1 Types of Scope
+
+> types:
+>
+> 1. Global Scope
+> 2. Function Scope
+> 3. Block Scope (ES6+)
+
+#### 8.1.2 Scope Chain Lookup
+
+> Remember: Outside cannot access Inside.
+>
+> - Js cannot access local variables from global scope (Error!).
+> - Js can access global variables from function / local scope.
+> **Scope Chain Lookup**
+> when functions are nested within each other, it leads to nesting of function scopes.
+> When a variable is referenced within the inner function, Js first look for the variable in the inner function's scope (local).
+> If it is not found, the lookup process moves outwards, searching each outer scope, until it reaches the global scope.
+> If the variable is not found in the global scope, it will throw Reference Error.
+> The lookup process forms a chain of scopes (it is called the scope chain lookup).
+
+#### 8.1.3 Shadowing Effect
+
+> If the variable defined within the function body (local variable) has the same name as the variable in the global scope (global variable), the local variable will shadow / override the global variable.
+
+#### 8.1.4 Parameters are Local Variables.
+
+```js
+var a = 10;
+function fn(a) { 
+  // var a;
+  console.log(a);
+}
+
+fn(8); // 8
+fn(); // undefined
+```
+
+#### 8.1.5 Special Global Variable
+
+> When Js is not in strict mode, any variable declared without using var will become a global variable.
+> It becomes a property of the window object (in browser).
+
+```js
+function fn(a = 2) {
+  // with parameter, a is local variable.
+  // var a = 2;
+  a = 4; // a = 4;
+  console.log(a, window.a); // 4 undefined
+}
+fn();
+
+function fn2() {
+  a = 9; // window.a = 9;
+  console.log(a, window.a); // 9 9
+}
+fn2();
+
+```
+
+#### 8.1.6 Strict Mode
+
+> invoking strict mode for script.
+
+```js
+"use strict"
+
+```
+
+> invoking strict mode for a function.
+
+```js
+
+function fn() {
+  "use strict";
+  // statements
+}
+```
+
+> In strict mode,
+>
+> - variable must be declared with var, let, const.
+>   - variable without declaration keywords throws Reference Errors.
+>   - variable without declaration keywords will not become a property of the window object.
+> - no duplicated parameters.
+> - no with statement.
+> - this inside functions is undefined.
+> - this inside functions do not convert to object if passing primitive as thisArg via `function.prototype.call(thisArgs)` / `function.prototype.apply(thisArgs, [])`
+>   - this in function will not become window object when not explicitly set.
+>   - null & undefined no longer becomes window object.
+>   - primitive (string, number, boolean) no longer becomes wrapper object.
+
+#### 8.1.7 Static Scoping & Dynamic Scoping
+
+> static scoping (aka lexical scoping): the scope is determined and fixed before runtime, based on its location in the source code.
+> dynamic scoping: the scope is determined during runtime.
+> Js uses lexical scoping.
+> Tip: You must differentiate passing an argument to a function vs the variable lookup during function execution!
+
+```js
+var a = 3;
+var b = 4;
+function fn(a) {
+  // var a;
+  // a = 3;
+  function fn2(b) {
+    // var b;
+    // b = 4
+    var b = 2; // b = 2
+    console.log(a); // 3
+    fn3(b); // passing 2 as arguement from var b. Note: passing argument and the lookup process of variable during function execution isdifferent.
+    fn3(); // undefined
+    fn4(); // 4
+  }
+  function fn3(b) {
+    // var b;
+    console.log(b);
+  }
+  function fn4() {
+    console.log(b);
+  }
+  fn2(b); // passing 4 from global
+}
+fn(a);
+
+// 3
+// 2
+// undefined
+// 4 - note: fn4 is in the scope of fn, not fn2. So it will look variable b from the global scope instead of from fn2.
+```
+
+### 8.2 Hoisting
+
+Before Js is executed, there will be a precompilation process.
+
+Hoisting occurs until the top of the current scope.
+
+#### 8.2.1 Variable Hoisting & Function Hoisting
+
+> **Variable Hoisting**
+>
+> - variable declaration using var will be moved to the top of > the script.
+> - the value assignment is not hoisted.
+> - the hoisted variable declaration will have a default value > of `undefined`.
+>
+> **Function Hoisting**
+>
+> - function declaration will be moved to the top of the script.
+> - function declaration & function expression is different.
+
+#### 8.2.2 Function Declaration VS Function Expression
+
+```js
+// only var a is hoisted.
+var a = function() {}
+// the entire function body is hoisted.
+function b() {}
+
+```
+
+#### 8.2.3 Function Hoisting > Variable Hoisting
+
+> **Two functions with the same name**
+>
+> - the latter one override the previous one.
+>
+> **Function and Variable has the same name**
+>
+> - function declaration has higher priority.

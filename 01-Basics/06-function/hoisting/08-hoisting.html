@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08-Hoisting</title>
+  </head>
+  <body>
+    <script>
+      /* When a function is called, the code inside only executes. */
+      function fn() {
+        // var a; -> 1
+        // var b; -> 3
+        // function fn2() {}
+        console.log(a); // undefined
+        console.log(b); // undefined
+        fn2(); // NaN
+        var a = 1;
+        var b = 3;
+        function fn2() {
+          console.log(a + b);
+        }
+      }
+      fn(); // Calling the fn
+    </script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Scope: Local Scope access Global Scope </title>
+  </head>
+  <body>
+    <script>
+      var a = 2;
+      function fn() {
+        var b = 3;
+        console.log(a);
+      }
+      fn(); // 2
+    </script>
+  </body>
+</html>

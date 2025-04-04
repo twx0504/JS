@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Hoisting</title>
+  </head>
+  <body>
+    <script>
+      // Precompilation occurs before Js execution.
+      // - involves the hoisting of variable declarations and function declarations to the top.
+
+      // var a;
+      // function b(){}
+      console.log(a); // undefined
+      b(); // "b"
+      var a = 2;
+      function b() {
+        console.log("b");
+      }
+
+      // var a;
+      // function b() {
+      //   console.log("b");
+      // }
+      // console.log(a);
+      // b();
+      // a = 2;
+    </script>
+  </body>
+</html>
