@@ -272,3 +272,150 @@ console.log(arr, arr2);
 // So the total space complexity is also O(n).
 
 ```
+
+## 05 Stack
+
+- a data structure follows the LIFO (Last In First Out) 
+
+### 5.1 Implementation of Stack
+
+- Stack is a logical structure (an abstraction), while an array is a physical strucuture (something existed in your computer!).
+- We can implement stack using array.
+
+> operation: push() & pop()
+
+> `[ 1, 2 ,3, 4, 5]   <- push`
+> `[ 1, 2 ,3, 4, 5]   -> pop`
+
+
+## 06 Binary Search
+
+> in each turn, the search range is halved.
+> calculate mid index.
+> check nums[mid] > target i = mid + 1
+> check nums[mid] < target j = mid - 1
+
+
+> O(logn) time O(1) space
+> loop
+> recursion
+>
+> Note: Generally, loop has better performance than loop.
+> Note: brute force search has better performance over binary search if the input array is small.
+
+## 07 Longest Repeating Characters
+
+> brute force
+> - involves skip steps
+```js
+function longestRepeatingSequence(str) {
+  var res = {
+    char: "",
+    length: 0,
+  };
+  var len = str.length;
+  var count;
+  for (var i = 0; i < len; i++) {
+    // Reset count
+    count = 0;
+    for (var j = i; j < len; j++) {
+      if (str[i] === str[j]) {
+        count++;
+      }
+      if (str[i] !== str[j] || j === len - 1) {
+        if (count >= res.length) {
+          res.char = str[i]; // use i. i is fixed, j might get different char.
+          res.length = count;
+        }
+        if (j < len - 1) { // when j is not the last item index. (Avoid infinite loop)
+          i = j - 1;
+        }
+        break; // break inner loop when different char is met, we are not going to search further.
+      }
+    }
+  }
+  return res;
+}
+```
+
+> double pointer
+
+```js
+function longestRepeatingSequenceDP(str) {
+  var i = 0;
+  var j = 0;
+  var res = {
+    char: "",
+    length: 0,
+  };
+  var count = 0;
+  while (i < str.length) {
+    if (str[i] === str[j]) {
+      count++;
+    }
+    if (str[i] !== str[j] || i === str.length - 1) { // check difference OR the last item
+      if (res.length < count) {
+        res.char = str[j];
+        res.length = count;
+      }
+
+      count = 0; // Reset count
+      j = i; // move j to i
+
+      // Do not put i-- outside conditionals i < str.length - 1, it causes infinite loops.
+      // if i = str.length - 1 (23) -> i -- => 22 -> i++ => 23 
+      // if i = str.length - 1 (23) -> i -- => 22 -> i++ => 23 
+      // if i = str.length - 1 (23) -> i -- => 22 -> i++ => 23 
+      // ...
+      // Infinite loop
+      if (i < str.length - 1) { // Correct i for i other than the last item index.
+        i--;
+      }
+    }
+    i++;
+  }
+  return res;
+}
+```
+
+## 08 Quick Sort
+
+> O(nlogn) time when the best, the worst might not reach O(logn)
+> - outer for loop (n)
+> - inner divide and conquer (logn)
+> O(n) space note that the first time: lefts + mids + rights = arr
+> find any number as pivot. Usually we use midpoint.
+> termination condition: when arr.length === 0 / 1 return arr (do not sort)
+> prepare lefts, mids, rights arrays.
+> use arr.splice / arr.slice to get pivot.
+> loop through the entire array.
+>
+> - `arr[i] > pivot` push to rights
+> - `arr[i] < pivot` push to lefts
+> - `arr[i] === pivot` push to mids
+>
+> return quickSort(lefts).concat(pivot, mids, quickSort(rights)) -> some extra overheads in arr.concat.
+
+
+**Double Pointers**
+> O(nlogn) best time (On^2 worst time) but it is faster than implementation using splice / slice.
+> O(n) space
+> - select leftmost element as pivot
+> - terminating condition: left >= right return undefined
+> - pivot partitioning: 
+>   - requirement: 
+>   - i = 0
+>   - j = arr.length - 1
+>   - outer loop: condition: i < j
+>   - inner loop: (Note: we search right to left first, otherwise the partitioning is failed because there's case when i === j such that `nums[i] === nums[j] > nums[left]` and the swapping of the bigger number to the leftmost could happens.)
+>     - swaps elements >= pivot to the right (search right to left)
+>     - j -- when elements are already bigger than pivot.
+>     - swaps elements <= pivot to the left. (search left to right)
+>     - i ++ when elements are already smaller than pivot.
+>     - swap `arr[i]` & `arr[j]`
+>   - swap `arr[i]` with `leftmost element` (exit outer loop means now i === j)
+>   - return i
+> - quickSort(i, p - 1)
+> - quickSort(p + 1, j)
+
+> further optimisation: implement getMedianOfThree & doing quickSort on smallest subarray.

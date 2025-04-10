@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-Average</title>
+  </head>
+  <body>
+    <script>
+      // Sum of each item and get average
+      var scores = [99, 96, 95, 89, 86, 88, 67, 53, 69, 36];
+      function sum(arr) {
+        var sum = 0;
+        arr.forEach(function (element) {
+          sum += element;
+        });
+        return sum;
+      }
+      var totalScores = sum(scores);
+      var average = totalScores / scores.length;
+      console.log(average); // 77.8
+    </script>
+  </body>
+</html>

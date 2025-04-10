@@ -3141,3 +3141,6 @@ function b() {}
 > **Function and Variable has the same name**
 >
 > - function declaration has higher priority.
+
+#### 8.2.4 Closures
+
