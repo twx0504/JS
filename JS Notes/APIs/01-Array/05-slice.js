@@ -120,3 +120,5 @@ console.log(mySlice(arr, -2)); // ["c", "d"]
 console.log(arr.slice(-2));
 console.log(mySlice(arr, 0)); // ["a", "b", "c", "d"]
 console.log(arr.slice(0));
+console.log(mySlice(arr, -1)); // ["a", "b", "c", "d"]
+console.log(arr.slice(-1));
