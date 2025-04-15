@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>09-VO Creation</title>
+  </head>
+  <body>
+    <script>
+      // 1. When the page is loaded, and the parser reaches the <script> tag, it starts preparsing.
+      // 2. Create the global execution context:
+      //    - The global variable object is `window` in browsers.
+      //    - During preparsing, function declarations and variable declarations are hoisted:
+      //      -> window.sum = undefined
+      //      -> window.fn = function fn(a) {...}
+      // 3. Global code is executed top to bottom:
+      //    -> window.sum = 1
+      // 4. When `fn(1)` is called:
+      //    -> A new function execution context is created.
+
+      var sum = 1;
+      function fn(a) {
+        // console.log(arguments);
+
+        // 1. Create function execution context.
+        // 2. Create an Activation Object (AO):
+        //    -> AO = {}
+
+        // 3. Initialize AO with `arguments` object:
+        //    -> AO.arguments = { 0: 1, length: 1 }
+
+        // 4. Map parameters to arguments:
+        //    -> AO.a = 1
+
+        // 5. Process function declarations:
+        //    -> AO.num = function num() {}
+
+        // 6. Process variable declarations:
+        //    -> AO.b = undefined
+        //    -> AO.c = undefined (note: `c` is declared via `var`, even though it's a function expression)
+        var b = 2;
+        function num() {}
+        var c = function () {}; // this is not function declaration, this is function expression.
+        b = 3;
+
+        // window.d = 4
+        d = 4; // ! No `var`/`let`/`const` → Implicit global variable (non-strict mode only!)
+        console.log(num);
+      }
+      fn(1);
+
+      // When the code inside the function body runs,
+      // all variable/function assignments happen from top to bottom — during **execution phase**.
+      // Note: if the variable cannot find its variable within the function body, it will look it up along the scope chain until Global scope.
+    </script>
+  </body>
+</html>

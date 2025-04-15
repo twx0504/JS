@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>13- Closure Use Case: Emulate Private Variables</title>
+  </head>
+  <body>
+    <script>
+      function createCalculator() {
+        var val = 0;
+
+        return {
+          add() {
+            val++;
+          },
+          minus() {
+            val--;
+          },
+          divide() {
+            val /= 2;
+          },
+          multiply() {
+            val *= 2;
+          },
+          clear() {
+            val = 0;
+          },
+          show() {
+            console.log(val);
+          },
+        };
+      }
+
+      var myCalculator = createCalculator();
+      myCalculator.add();
+      myCalculator.add();
+      myCalculator.add();
+      myCalculator.add();
+      myCalculator.add();
+      myCalculator.add();
+      myCalculator.add();
+      myCalculator.add();
+      myCalculator.show();
+      myCalculator.clear();
+      myCalculator.show();
+      myCalculator.minus();
+      myCalculator.minus();
+      myCalculator.minus();
+      myCalculator.minus();
+      myCalculator.minus();
+      myCalculator.divide();
+      myCalculator.divide();
+      myCalculator.divide();
+      myCalculator.show();
+    </script>
+  </body>
+</html>

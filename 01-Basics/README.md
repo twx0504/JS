@@ -3136,11 +3136,389 @@ function b() {}
 
 > **Two functions with the same name**
 >
-> - the latter one override the previous one.
+> - the latter one overrides the previous one.
 >
 > **Function and Variable has the same name**
 >
-> - function declaration has higher priority.
+> - function declaration has a higher priority.
 
-#### 8.2.4 Closures
+## 09 JS Execution
 
+> preparser: https://v8.dev/blog/preparser
+
+> **Things to be done before Js execution**:
+>  1. preparsing
+>   - syntax checking: throw SyntaxError if found errors.
+>   - collect global meta data - global variable, function declaration (fnName, numberOfParameters, fnPosition), etc.
+>     > - only know the fn exists and how to call, but the function body will not be parsed.
+>   - skip functions that are not called.
+>  2. creation of execution context.
+>   - global execution context: based on the global meta data
+>   - function execution context: based on the function meta data obtained during full-parsing.
+>  3. compilation into machine-readable bytecode.
+
+> **difference pre-parsing vs full parsing**:
+> - pre-parsing:
+>   - scans the global code in the script.
+>   - collect global and function declaration metadata.
+>   - generate incomplete AST
+>   - skip function bodies.
+> - full-parsing
+>   - parses the function body when a function is called.
+>   - generate complete AST
+
+> **conclusion**:
+> - JS engine uses lazy parsing, parsing based on need.
+>   - global code is parsed immediately when the page is first loaded, skipping function body (pre-parsing).
+>   - function code is parsed only when the function is called (full-parsing).
+> - creation of execution context.
+> - compilation of machine readable bytecode.
+
+> **process:**
+```js
+// Global:
+// preparsing of whole script (global + function declarations only, not function bodies)
+//   -> creation of global execution context
+//   -> compilation of global bytecode
+//   -> execution of global code
+//     (functions are lazily parsed when called)
+
+// Function:
+// full parsing (only when the function is called)
+//   -> creation of function execution context
+//   -> compilation of function bytecode
+//   -> execution of function code
+```
+
+### 9.1 What is a Execution Context?
+
+> - Js execution contexts: https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide/In_depth#javascript_execution_contexts
+> - Scope is the current execution context. https://developer.mozilla.org/en-US/docs/Glossary/Scope
+
+> - Execution context: a runtime environment for a fragment of Js Code to run.
+
+#### 9.1.1 Global Execution Context
+
+> - the execution context to run the main body of the code, that is, any code that exists outside of a Js function.
+> - There is only one global execution context.
+> - The global execution context is dumped / destroyed when the whole page is closed, otherwise, the data is stored inside memory.
+
+```js
+var a = 1;
+var b = 2;
+function sum(a, b) {
+  console.log(a + b);
+}
+```
+
+> - note: when there's multiple scripts in a html page, all scripts shares the same global execution context.
+
+> - when writing variables in the global context, it might increase the memory usage, because the variables are not destroyed until the page is closed.
+
+#### 9.1.2 Function Execution Context
+
+> - When a function is called, the function body is fully parsed and compiled, and then creates a function execution context.
+> - Generally, when a function is done, the function execution context is destroyed.
+> - Use case: Reduce memory usage.
+
+#### 9.1.3 Eval Execution Context
+
+> - only created in strict mode.
+>   - similar to the eval code is put inside another function.
+> - eval is banned due to the security concerns - opens to injection attack / trojan.
+
+### 9.2 Execution Context Stack / Call Stack
+
+#### 9.2.1 Stack
+
+> - a linear data structure.
+> - LIFO principle: last in first out.
+
+#### 9.2.2 Call Stack Explained
+> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Execution_model#agent_execution_model
+
+> - call stack: manages the execution contexts by pushing and popping the stack frames (execution context).
+
+> - when the page is first loaded, the global execution context is created and push to the stack.
+>   - the bottom of the stack is always the global execution context.
+> - when a function is called, the function execution context is created and pushed to the call stack.
+> - when the function is done, it will be popping out of the stack.
+> - the global execution context will not be popped out of the stack, until the page is closed.
+
+
+
+```js
+function fn() {
+  fn2();
+  function fn2() {
+    fn3();
+    function fn3(){}
+  }
+}
+
+fn();
+```
+#### 9.2.3 Stack Overflow
+
+> - there's a size limit for call stack.
+> - different browsers allocate different memory for call stack.
+> - stackover flow happens when the limit is exceeded, which means the memory allocated for the call stack is fully used.
+> - Js will throw error: `Uncaught RangeError: Maximum call stack size exceeded`.
+> - common when we perform operations in recursion.
+> - the size of the function body - the amount of code you wrote inside a function - affects the size of each stack frame pushing to the call stack.
+
+```js
+var i = 0;
+function a() {
+  i ++;
+  if (i < size) { // when we know the size, we can stop recursion before the stack overflow occurs.
+    a();
+  }
+}
+a();
+
+// to know what is the global variable i value, you need to wrap a() inside try-catch.
+// try {
+//   a();
+// } catch {
+//   console.log(i);
+// }
+```
+### 9.3 The Components of a Execution Context
+![Execution Context](execution-context.png)
+
+#### 9.3.1 Variable Environment
+> - related to variable hoisting and function hoisting.
+> - Variable Object (VO) exists in this environment.
+> - any variable declared using var or functions are stored in VO.
+> - VO is inaccessible, but we can directly access its members.
+
+> note: inspecting VO in dev tool.
+
+![inspect VO](inspect-vo.png)
+
+##### 9.3.1.1 Variable Environment of Global Execution Context
+
+> - VO of global execution context refers to globalThis.
+>   - browser: window
+>   - nodejs: global
+>   - we can access the global VO.
+>     - we can access `window` object in browsers.
+> - VO of global execution context can be said as Global Object (GO)
+
+##### 9.3.1.1 Variable Environment of Function Execution Context
+
+> - VO of function execution context is called Activation Object (AO).
+> - VO is inaccessible.
+> - AO contains arguments, this, variable & function declaration becomes the member of AO (refers to hoisting).
+
+##### 9.3.1.1 Variable Environment of Eval Execution Context
+
+> - eval can convert string into executable JS codes.
+> - because of the security concerns like the injection attack, eval is not recommended.
+> - so we do not discuss here.
+
+#### 9.3.2 The Process of Creating a Variable Object
+
+> 1. Create a AO object. `AO = {}`
+> 2. Initialize arguments `A0 = { arguments: {0: 1, length: 1}}`
+> 3. Handle parameters and arguments `A0 = { arguments: {0: 1, length: 1, ...}, a:1}`
+> > - map parameters and their corresponding arguments and make them as the properties of AO.
+> > - add property `parameter: argument`
+> > - add property `parameter: undefined` if argument is not passed.
+> 4. Handle function declaration `A0 = { arguments: {0: 1, length: 1, ...}, a:1, num: function(){}}`
+> >  - The latter replaces the former if the function declarations have the same names.
+> 5. Handle variable declaration inside function body `A0 = { arguments: {0: 1, length: 1, ...}, a:1, num: function(){}, x: undefined, y: undefined}`
+> > - if the variable declaration has the same name as the function declaration, it won't override the function declaration.
+> > - add property `variableName: undefined`
+
+
+> note: 
+> - VO has this, but we don't mention here.
+> - Recall hoisting, function hoisting is priotized over variable hoisting.
+> - when we are trying to see arguments / some uncalled functions, we need to use it in order to see them.
+
+```js
+
+// 1. When the page is loaded, and the parser reaches the <script> tag, it starts preparsing.
+// 2. Create the global execution context:
+//    - The global variable object is `window` in browsers.
+//    - During preparsing, function declarations and variable declarations are hoisted:
+//      -> window.sum = undefined
+//      -> window.fn = function fn(a) {...}
+// 3. Global code is executed top to bottom:
+//    -> window.sum = 1
+// 4. When `fn(1)` is called:
+//    -> A new function execution context is created.
+
+var sum = 1;
+function fn(a) {
+  // 1. Create function execution context.
+  // 2. Create an Activation Object (AO):
+  //    -> AO = {}
+
+  // 3. Initialize AO with `arguments` object:
+  //    -> AO.arguments = { 0: 1, length: 1 }
+
+  // 4. Map parameters to arguments:
+  //    -> AO.a = 1
+
+  // 5. Process function declarations:
+  //    -> AO.num = function num() {}
+
+  // 6. Process variable declarations:
+  //    -> AO.b = undefined
+  //    -> AO.c = undefined (note: `c` is declared via `var`, even though it's a functiexpression)
+  var b = 2;
+  function num() {}
+  var c = function () {}; // this is not function declaration, this is function expression.
+  b = 3;
+
+  // window.d = 4 - when the code reaches here, it add d to window.
+  d = 4; // ! No `var`/`let`/`const` → Implicit global variable (non-strict mode only!)
+}
+fn(1);
+
+// When the code inside the function body runs,
+// all variable/function assignments happen from top to bottom — during **execution phase**.
+// Note: if the variable cannot find its variable within the function body, it will look it up along the scope chain until Global scope.
+
+```
+#### 9.3.2 Scope Chain (outer)
+
+> the mechanism and actual structure in Javascript for looking up variables.
+
+> - each function has an internal `[[scope]]` property that stores references to the outer **lexical environments** of its enclosing execution contexts, forming the scope chain.
+> - the `[[scope]]` is set when the function is defined.
+> - a variable from an outer scope is only recorded if it is actually referenced in the inner function.
+>   - this is how closures work, the referenced outer variables are included as Closure in `[[scope]]`.
+> - globalThis - it is already the outermost scope (global) so any function has access to it.
+> - since the lookup process follows a chain structure, this mechanism is referred to as scope chain lookup.
+
+**Visualization on dev tool:**
+
+![scope private property](scope.png)
+
+> - scope is determined before runtime.
+> - before fn2 is executed, the values fn2 is going to use are already recorded.
+> - it only records the value it is going to use, not all the values!
+>   - this improve the lookup process efficiency because it doesn't need to search through all the other values.
+> - currently it is undefined, because the assignment of values are not yet done.
+
+**Visualization of the lookup process:**
+![scope chain lookup](scope-chain.png)
+
+> - the lookup process starts at current execution context's lexical environment, then current variable environment.
+> - the lookup process proceeds to the outer scope (outer execution context).
+> - until global scope.
+> - if not found ,throw `Uncaught ReferenceError: xxx is not defined`
+
+#### 9.3.3 Lexical Environment
+> https://262.ecma-international.org/6.0/#sec-let-and-const-declarations
+![lexical environment](lexical.png)
+
+> - variable declared with let / const (ES6) is put inside lexical environment.
+
+> Note: closure is related to lexical environment.
+
+#### 9.3.4 this
+
+> - `this` is already discussed in Object.
+
+### 9.4 Closures
+
+> A function that remembers variables in the lexical environment of its outer scope.
+> closure = function + its outer lexical environment
+> A function is created during function creation time (function definition)
+
+**What closures solve / benefit?**
+> - make variable lookup easy.
+> - imagine there's 1000+ variables in the outer function, lookup process takes a long time.
+> - closure only stores what is needed, lookup process becomes much easier.
+
+
+#### 9.4.1 Accessing Variables from Outer Scope
+> - the underlying principle of how inner function has access to the variables from the other scopes is due to `closures`.
+> - the closure can't be kept, and will be destroyed once the fn execution is done.
+
+```js
+function fn() {
+  var a = 1;
+  var b = 2;
+  function fn2() {
+      // fn2 can find variable a because it has form a closure { a : 1 }.
+      // it has access to the variable a very easily.
+      // instead of finding a from all the other variables defined in fn.
+    console.log(a);
+  }
+  fn2();
+}
+fn();
+
+```
+![closure](closure.png)
+
+> - look at the closure. a is stored there.
+>   - JS engine will create a Closure object internally (not an object in the traditional sense, but a record on the scope chain), storing the variable a and its value.
+> - good for variable lookup.
+
+
+#### 9.4.2 Case 2: Inner Functions was Returned and Stored.
+
+> - when an inner function is returned and stored in another variable, and that inner function uses variables from its outer scope.
+> - the closure can be kept in the memory for a long time.
+> - the inner function only forms a closure with outer functions when the inner function uses variables from the outer scope.
+```js
+// GO
+// var fn3, fn
+      
+function fn() {
+  // var a
+  // var b 
+  // fn2
+  var a = 1;
+  var b = 2;
+  function fn2() {
+    console.log(a); // use the outer variable a, forming a closure.
+    fn3();
+    function fn3() {
+      // Note: the closure is already determined before execution.
+      // since fn3 uses fn2 and fn variables
+      // there are two closures
+      // closure fn2 { c = 3 }
+      // closure fn { b = 2 }
+      console.log(b, c);
+
+      // note: if fn3 only uses fn variable, then it only forms closure with fn, not fn2.
+      // comment out below and comment the above code and see.
+      // closure fn { b = 2 }
+      // console.log(b);
+    } 
+  }
+  return fn2;
+}
+
+var fn3 = fn(); // fn2 - the closure is kept.
+fn3(); // 1
+
+```
+![closure2](closure2.png)
+
+#### 9.4.3 The Relationship between Closures and Scope Chain
+
+> - when an inner function accesses variables from its outer function(s), it forms a closure.
+> - the closure object contains the outer function's variables that the inner function uses.
+> - the inner function's internal `[[scope]]` property contains a reference to this closure object.
+> - the scope chain lookup works by searching for variables in the current scope. If not found, it continues looking up through the `[[scope]]` chain, ultimately reaching to the global object if necessary.
+
+```js
+// fn3[[scope]] = [fn2 Closure{ a : 1 }, fn1 Closure{ b : 2 },  window]
+//                           0                    1                2
+//                each is the reference / address to the memory.
+```
+#### 9.4.5 The Use Case of Closures
+
+> - memory / persistent state
+> - emulate private variables
+
+## 10 Error Handling

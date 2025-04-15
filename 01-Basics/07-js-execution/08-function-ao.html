@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08-Function Activation Object</title>
+  </head>
+  <body>
+    <script>
+      function sum(c) {
+        // In this function execution context, all the variables and function declaration
+        // becomes the members of the Activation Object.
+        // AO is inaccessible, unlike global Object.
+        /**
+         * AO = {
+         *  arguments: arguments;
+         *  a = undefined, // Assignment of value is not done yet.
+         *  b = undefined, // Assignment of value is not done yet.
+         *  c: 1
+         * }
+         */
+        var a = 2;
+        var b = 3;
+        console.log(arguments);
+        console.log(a, b, c);
+      }
+      sum(1);
+    </script>
+  </body>
+</html>
