@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Garbage Collection</title>
+  </head>
+  <body>
+    <script>
+      function fn() {
+        var a = 1;
+        var b = 2;
+        function sum() {
+          console.log(a + b);
+        }
+        return sum;
+      }
+      var s = fn();
+      s();
+
+      // when fn execution is done, it returns sum to variable s. 
+      // A closure is formed because sum internally uses a & b from its outer function.
+      // Are closure considered a memory leak?
+      // No, we do it intentionally for a reason. Garbage Collecting them causing error!
+    </script>
+  </body>
+</html>

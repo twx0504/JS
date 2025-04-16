@@ -3238,14 +3238,11 @@ function sum(a, b) {
 > https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Execution_model#agent_execution_model
 
 > - call stack: manages the execution contexts by pushing and popping the stack frames (execution context).
-
 > - when the page is first loaded, the global execution context is created and push to the stack.
 >   - the bottom of the stack is always the global execution context.
 > - when a function is called, the function execution context is created and pushed to the call stack.
 > - when the function is done, it will be popping out of the stack.
 > - the global execution context will not be popped out of the stack, until the page is closed.
-
-
 
 ```js
 function fn() {
@@ -3439,7 +3436,7 @@ fn(1);
 
 #### 9.4.1 Accessing Variables from Outer Scope
 > - the underlying principle of how inner function has access to the variables from the other scopes is due to `closures`.
-> - the closure can't be kept, and will be destroyed once the fn execution is done.
+> - the closure is destroyed immediately once the fn execution is done.
 
 ```js
 function fn() {
@@ -3463,10 +3460,10 @@ fn();
 > - good for variable lookup.
 
 
-#### 9.4.2 Case 2: Inner Functions was Returned and Stored.
+#### 9.4.2 Case 2: Inner Functions was Returned and Stored (Practical Closure).
 
 > - when an inner function is returned and stored in another variable, and that inner function uses variables from its outer scope.
-> - the closure can be kept in the memory for a long time.
+> - the closure is not destroyed, and is kept in memory for later use.
 > - the inner function only forms a closure with outer functions when the inner function uses variables from the outer scope.
 ```js
 // GO
@@ -3515,10 +3512,112 @@ fn3(); // 1
 // fn3[[scope]] = [fn2 Closure{ a : 1 }, fn1 Closure{ b : 2 },  window]
 //                           0                    1                2
 //                each is the reference / address to the memory.
+// the actual Closure / object is stored in heap memory.
 ```
 #### 9.4.5 The Use Case of Closures
 
 > - memory / persistent state
+
+```js
+/* Check temperature based on standard temperature */
+function createCheckTemp(standardTemperature) {
+  return function checkTemp(n) {
+    return !(n > standardTemperature);
+  };
+}
+```
+
 > - emulate private variables
 
-## 10 Error Handling
+```js
+function createCalculator() {
+  var val = 0;
+  return {
+    add() {
+      val++;
+    },
+    minus() {
+      val--;
+    },
+    divide() {
+      val /= 2;
+    },
+    multiply() {
+      val *= 2;
+    },
+    clear() {
+      val = 0;
+    },
+    show() {
+      console.log(val);
+    },
+  };
+}
+
+// Each method has [[scope]] containing closure storing val from their outer scope.
+```
+
+
+## 10 Memory Management & Garbage Collection (GC)
+
+### 10.1 What is Garbage Collection (GC)?
+
+> - garbage: data that is not needed anymore (now and future).
+> > - data that the developer will still use in the future and currently occupy some memory space is not considered a garbage.  
+> - JS engine uses a form of automatic memory management called garbage collection and monitors memory allocation and free up memory space that is not needed anymore.
+
+> The hardest part / problem of GC is determining when the allocated memory is no longer needed.
+> - there's cases where JS engine can't identify as a garbage.
+
+
+### 10.2 Garbage Collection Strategies
+
+#### 10.2.1 Reference Counting Algorithm
+
+> determine if an object still have any references.
+
+![reference counting](reference-counting.png)
+
+> - an oldschool garbage collection algorithm.
+> - modern JS engines do not use this anymore.
+> - track the number of reference points to a particular object.
+> - when the track reference count is 0, the object is collectible.
+
+**Problem:**
+> object containing circular reference is never collectible by GC.
+![circular reference](circular-reference.png)
+
+
+#### 10.2.2 Mark and Sweep Algorithm
+
+> determine if an object is still reachable.
+
+> - modern browsers are shipped with this algorithm.
+
+> - root is the global object.
+> - GC finds all the object that are referenced from these root (reachable) and all unreachable object.
+
+> using the circular reference example, when the fn execution is done, both obj1 & obj2 are not reachable from global object, therefore they are garbaged collected, despite whether there are circular reference or not.
+
+#### 10.2.3 Manually Mark As Garbage
+
+> - set global variable to null to break the reference.
+>   - when there's no reference to the actual obj in heap memory, garbage collector will collect the garbage soon.
+> - avoid setting global variable if not necessary.
+
+### 10.3 Closures 
+
+> - memory leak: a type of resource leak that occurs when a computer program incorrectly manages memory allocations in a way that memory which is no longer needed is not released by the garbage collector.
+
+**Will closure cause memory leak?**
+> - No, if the closure is intentional and serves a specific purpose. For example, keeping local variables in memory via a closure to solve a particular problem — this is expected behavior and not a leak.
+> - Yes, if the closure is created unintentionally or misused — especially when it holds references to large or unnecessary variables, and those references are never cleared. This kind of closure can lead to unexpected memory leaks.
+
+**Difference between Memory Leak & Out of Memory**
+> - memory leak: a condition where the allocated memory is not freed up even though it's no longer needed. Over time, the accumulation can cause the memory usage to grow continuously.
+> - out of memory: an undesired state when there's no enough available memory for a program to allocate, which can cause crashes or failures. (e.g., stack overflow)
+
+
+
+
+## 11 Error Handling

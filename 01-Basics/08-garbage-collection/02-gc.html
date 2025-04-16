@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Garbage Collection</title>
+  </head>
+  <body>
+    <script>
+      function fn() {
+        var a = 1;
+        var obj = {
+          name: "twx",
+          age: 23,
+        };
+        window.a = a; // value of a 
+        window.obj = obj; // reference of obj
+      }
+
+      fn();
+
+      // once the fn is executed,
+      // the fn is garbage collected - all the variables etc..
+      // but the value of a and the reference to obj is added to window.
+      // so, they are not garbage collected.
+      // are {} in window.obj and window.a consider garbage? No, they are added to global object for a reason.
+    </script>
+  </body>
+</html>
