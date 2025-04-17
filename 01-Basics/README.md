@@ -3143,36 +3143,22 @@ function b() {}
 > - function declaration has a higher priority.
 
 ## 09 JS Execution
-
+> ECMAScript: https://tc39.es/ecma262/
 > preparser: https://v8.dev/blog/preparser
 
-> **Things to be done before Js execution**:
->  1. preparsing
->   - syntax checking: throw SyntaxError if found errors.
->   - collect global meta data - global variable, function declaration (fnName, numberOfParameters, fnPosition), etc.
->     > - only know the fn exists and how to call, but the function body will not be parsed.
->   - skip functions that are not called.
->  2. creation of execution context.
->   - global execution context: based on the global meta data
->   - function execution context: based on the function meta data obtained during full-parsing.
->  3. compilation into machine-readable bytecode.
-
-> **difference pre-parsing vs full parsing**:
-> - pre-parsing:
->   - scans the global code in the script.
->   - collect global and function declaration metadata.
->   - generate incomplete AST
->   - skip function bodies.
-> - full-parsing
->   - parses the function body when a function is called.
->   - generate complete AST
-
-> **conclusion**:
-> - JS engine uses lazy parsing, parsing based on need.
->   - global code is parsed immediately when the page is first loaded, skipping function body (pre-parsing).
->   - function code is parsed only when the function is called (full-parsing).
-> - creation of execution context.
-> - compilation of machine readable bytecode.
+**Before JS Execution (Creation Phase / Pre-execution Phase / Compilation Phase):**
+> 1. Parsing (Lexical Analysis + Syntax Checking)
+> > tokenizing and create Abstract Syntax Tree (AST).
+> > throw early syntax error if necessary.
+> 2. Creation of Execution Context
+> > - prepare / set up an environment, including the creation of variable object, scope, ....
+> > - hoisting happens during **creation of variable object** (Our focus).
+> 3. Bytecode Generation.
+> > - convert JavaScript into bytecode (a form of intermediate representation between source code and machine code) from AST that the JavaScript engine can understand and execute at runtime.
+> > - Js interpreter executes bytecode in a sequential, instruction-by-instruction (line by line) manner.
+> > - the evolution of JS engine introduces Just-in-time (JIT) compilation.
+> > > - when the Js engine detects a fragment of bytecode that is frequently executed, it is considered 'hot code'.
+> > > - the JIT compiler intervenes and converts this bytecode into machine code to improve performance.
 
 > **process:**
 ```js
@@ -3189,6 +3175,15 @@ function b() {}
 //   -> compilation of function bytecode
 //   -> execution of function code
 ```
+
+**Summary:**
+| Stage           | Features                                                                 | Key Event                                                                                          |
+| --------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
+| Creation Phase  | Do not execute code, only handling declaration of function and variables | - create execution context <br/> - create a variable object <br/> - function and variable hoisting |
+| Execution Phase | Execute code                                                             | - variable assignment <br/> - invoke function <br/> - manage call stack                            |
+
+
+
 
 ### 9.1 What is a Execution Context?
 
@@ -3237,8 +3232,8 @@ function sum(a, b) {
 #### 9.2.2 Call Stack Explained
 > https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Execution_model#agent_execution_model
 
-> - call stack: manages the execution contexts by pushing and popping the stack frames (execution context).
-> - when the page is first loaded, the global execution context is created and push to the stack.
+> - call stack: manages and switches between execution contexts by pushing and popping the stack frames (execution context).
+> - when the page is first loaded, the global execution context is created and push to the stack (based on ECMAScript Specification, this is occurring before JS execution).
 >   - the bottom of the stack is always the global execution context.
 > - when a function is called, the function execution context is created and pushed to the call stack.
 > - when the function is done, it will be popping out of the stack.
@@ -3255,6 +3250,13 @@ function fn() {
 
 fn();
 ```
+
+**Closer Look:**
+![ECMAScript Script Evaluation](script-evaluation.png)
+
+> - step 13: script execution after preparation of execution context, pushing to call stack, and hoisting of variables and functions.
+
+
 #### 9.2.3 Stack Overflow
 
 > - there's a size limit for call stack.
