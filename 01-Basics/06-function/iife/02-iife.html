@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-IIFE - Value Assignment from Complex Calculation</title>
+  </head>
+  <body>
+    <script>
+      // var a = 1;
+      // a++;
+      // a *= 3;
+      // var s = a += "s";
+      // b = s;
+
+      /* When the assignment involves a complex calculation. */
+      var a = 1;
+      var b = (function () {
+        a++;
+        a *= 3;
+        return a + "s";
+      })();
+      console.log(b); // 6s
+
+      /* E.g., Pick random color 
+        - the fn is only for value assignment and will not be used anywhere else.
+        - after the function execution, it is destroyed and never found.
+      */
+      var color = (function () {
+        var colors = ["pink", "red", "blue", "green"];
+        var i = Math.floor(Math.random() * colors.length);
+        return colors[i];
+      })();
+      console.log(color);
+
+      /* E.g., Get status */
+      var age = 18;
+      var gender = "male";
+      var title = (function () {
+        if (age < 18) {
+          return "teenager";
+        } else {
+          if (gender === "male") {
+            return "Uncle";
+          } else if (gender === "female") {
+            return "Aunty";
+          }
+        }
+      })();
+      console.log(title);
+    </script>
+  </body>
+</html>

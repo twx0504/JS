@@ -2965,6 +2965,91 @@ fn(fn2(1, 2)); // Uncaught TypeError: a is not a function -> undefined is not a 
 
 > Tip: When several functions share most of the same logic but differ in small parts, we can encapsulate these differences into another function and pass it as an argument.
 
+### 7.5 Immediately-Invoked Function Expression (IIFE)
+
+> - Js function runs as soon as it's defined.
+> - an expression, because parentheses turns a function declaration into a function expression.
+
+```js
+(function () {
+  console.log("IIFE");
+})();
+
+/* Alternative: */
+//   (function () {
+//     console.log("IIFE");
+//   }());
+```
+
+> - there's more than one way to turn a function declaration into an expression.
+
+```js
++function() {
+  console.log("IIFE");
+}
+
+-function() [
+  console.log("IIFE");
+]
+
+delete function() {
+  console.log("IIFE");
+}
+
+!function() {
+  console.log("IIFE");
+}
+```
+
+#### 7.5.1 Use of IIFE
+
+##### 7.5.1.1 Value Assignment from Complex Calculation
+
+> - when you want to get a value from a function only once and never use later, you can use IIFE. 
+
+```js
+/* Pick random color */
+ var color = (function () {
+  var colors = ["pink", "red", "blue", "green"];
+  var i = Math.floor(Math.random() * colors.length);
+  return colors[i];
+})();
+
+/* Check title */
+var age = 18;
+var gender = "male";
+var title = (function () {
+  if (age < 18) {
+    return "teenager";
+  } else {
+    if (gender === "male") {
+      return "Uncle";
+    } else if (gender === "female") {
+      return "Aunty";
+    }
+  }
+})();
+```
+
+##### 7.5.1.2 Turn Global Variable to Local Variable
+
+> - involves closure.
+
+```js
+var arr = [];
+for (var i = 0; i < 5; i++) {
+  // IIFE
+  (function (i) {
+    // var i = ? based on i passed.
+    arr.push(function () {
+      // forming a closure
+      // this fn uses i from the ou function
+      console.log(i + 1);
+    });
+  })(i);
+}
+```
+
 ## 08-Scope & Variable Hoisting
 
 ### 8.1 Scopes
