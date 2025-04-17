@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-LHS VS RHS</title>
+  </head>
+  <body>
+    <script>
+      /* Creation Phase */
+      // Global scope: window.fn = fn
+
+      /* Execution Phase */
+      // fn(2);  RHS lookup, does fn exist? Yes, get its value (function() {})(2)
+      
+      function fn(c) {
+        // Function scope:
+        /* Creation Phase */
+        // c = 2 LHS lookup, does c exists? Yes, assign 2 to it (argument)
+        // var b
+        /* Execution Phase */
+        // Strictly speaking, there is also RHS of console window.console = {log(){}}
+        console.log(c); // RHS lookup of c → 2
+        console.log(b); // RHS lookup of b → undefined
+        // console.log(a);  // RHS lookup of a → ReferenceError (a not declared)
+        a = 1; // LHS lookup → if strict mode, ReferenceError; if non-strict, creates global variable a
+        var b = a; // RHS lookup of a → 1; LHS assignment to b
+        b(); // RHS lookup of b → 1; 1 is not a function → TypeError
+      }
+      fn(2);
+    </script>
+  </body>
+</html>

@@ -3826,7 +3826,7 @@ try {
 }
 ```
 
-> **note**: exception binding: an association of an identifier with a value.
+> **note**: binding: an association of an identifier with a value.
 
 #### 11.3.3 finally block
 > - control flow enters finally block in the following ways:
@@ -3923,4 +3923,24 @@ try {
 > - If an inner error is not handled within the function where it occurs, it will bubble up through the call stack, passing through outer functions, until it reaches the global scope or is caught by a catch block.
 
 
-## 12 How Assignment Works: Left-Hand Side vs Right-Hand Side
+## 12 Left-Hand Side (LHS) Lookup vs Right-Hand Side (RHS) Lookup
+
+> - LHS lookup: container lookup (Who is the target of the assignment?)
+> - RHS lookup: value lookup (Where does the value come from?)
+
+
+```js
+  // lhs = rhs;
+
+  var a = 1;
+  var b = a;
+
+  /* Creation Phase */
+  // var a = undefined;
+  // var b = undefined;
+
+  /* Execution Phase */
+  // a = 1; LHS lookup -> is variable a exists? Yes, it exists, assign 1 to it.
+  // b = a; RHS lookup -> is variable a exists? Yes, it exists, get the value of a.
+  //        LHS lookup -> is variable b exists? Yes, it exists, assign the value of variable a to b.
+```
