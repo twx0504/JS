@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Finally</title>
+  </head>
+  <body>
+    <script>
+      var a = 1;
+      try {
+        a();
+      } catch (e) {
+        console.log(e.message);
+      } finally {
+        console.log("I will execute even if try block got error");
+      }
+
+      function fn() {
+        var a = 1;
+        try {
+          a();
+          // The code after error will not be executed in try block.
+          console.log("try");
+          return 1;
+        } catch (e) {
+          console.log("catch");
+          return 2;
+        } finally {
+          console.log("finally");
+          return 3; // return in try and catch will not stop finally return.
+        }
+      }
+
+      console.log(fn());
+    </script>
+  </body>
+</html>

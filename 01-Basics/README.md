@@ -3704,7 +3704,223 @@ function createCalculator() {
 > - memory leak: a condition where the allocated memory is not freed up even though it's no longer needed. Over time, the accumulation can cause the memory usage to grow continuously.
 > - out of memory: an undesired state when there's no enough available memory for a program to allocate, which can cause crashes or failures. (e.g., stack overflow)
 
-
-
-
 ## 11 Error Handling
+
+### 11.1 Errors
+
+> - common errors:
+>   - SyntaxError
+>   - TypeError
+>   - ReferenceError
+>   - RangeError
+>   - URIError
+>   - EvalError
+>   - InternalError
+>   - etc
+
+> **Note**: We can construct instances of these errors using their constructors.
+> - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+
+
+**URI, URL, URN**
+
+![uri](uri.jpg)
+
+> - Uniform Resource Identifier (IC Card - contains both Name and Address): a unique sequence of characters that identifies resource on the web, includes both URN and URL.
+> > - https://www.weixin.com/project/index.html
+> - Uniform Resource Location (Address): a specific type of URI that tells you location of a resource on the web.
+> > - https://www.weixin.com/project/index.html (Same as URI)
+> - Uniform Resource Name (Name)：a specific type of URI that provides a unique name for a resource.
+> > - project/index.html
+
+#### 11.2 `throw`
+
+`throw expression`
+
+> - let you throw a user-defined exception.
+> - the statement after throw statement is not executed.
+> - pass control to the catch block. If catch block is not there, the program might crash.
+
+```js
+// Not recommeded
+throw 123;
+throw "message"; 
+
+// Recommended - always throw an instance of an Error / Error subclass.
+throw new Error("message");
+throw new TypeError("message");
+```
+
+### 11.3 `try...catch`
+
+> - let you handle errors during code execution to prevent crash if something goes wrong.
+
+```js
+/* 1. Full form */
+try {
+  // tryStatements
+  // the statement to be executed that might throws an error.
+} catch (exceptionVar) { // exceptionVar or e is optional
+  // catchStatements
+  // execute only if an exception is thrown in the try block.
+} finally {
+  // finallyStatements
+  // execute before control flow exits the try...catch...finally construct.
+  // execute regardless of whether an exception was thrown or caught.
+}
+
+/* 2. Without exceptionVar */
+try {
+
+} catch {
+
+} finally {
+
+}
+
+/* 3. Without finally */
+
+try {
+
+} catch {
+
+}
+
+/* 4. Without catch */
+
+try {
+
+} finally {
+
+}
+```
+
+
+> try / catch / finally must be written in block
+
+```js
+try doSomething(); // SyntaxError
+catch (e) console.log(e);
+```
+
+
+### 11.3.1 try block
+
+> - when an exeception is thrown in the try block, the code after the line of code is not executed anymore and handle the control to catch block.
+
+### 11.3.2 catch block
+
+> - when an exception is thrown in the try block, catch block is executed.
+> - catch block's exceptionVar will receive an object (exception value) containing information about the error thrown.
+> - the binding is writable.
+> - the exceptionVar is optional, you can omit if you don't use it.
+```js
+try {
+  throw "This is not an error object!";
+} catch (e) {
+  if (!(e instanceof Error)) {
+    // exception binding is writable
+    e = new Error(e); // Normalize the exception value to make sure it is an Error object.
+  }
+  console.log(e.message);
+}
+```
+
+> **note**: exception binding: an association of an identifier with a value.
+
+#### 11.3.3 finally block
+> - control flow enters finally block in the following ways:
+> > - after execution in try block is done without errors.
+> > - after execution in catch block is done.
+> > - immediately before the execution of a control flow statement (return, throw, break, continue) in the try / catch block that would exit the block.
+
+```js
+function fn() {
+  try {
+    // statements
+    return 1; // Before return statement of the try block, the control flow will enter the finally block.
+  } finally {
+    // statements
+    return 2; // When the finally block is executed, and then a return statement is met, the value is returned instead.
+  }
+}
+console.log(fn()); // 2
+```
+
+> **Importance**: It is a bad idea to have control flow statement in the finally block.
+> - e.g., if there are return statements in the try block and finally block, the finally block return value is returned instead.
+> - use for cleanup code.
+
+```js
+openFile();
+try {
+  writeFile(data);
+} finally {
+  closeFile(); // always close the resource regardless of there's error thrown or not.
+}
+```
+
+#### 11.3.4 Conditional Catch Block
+
+> - combine try...catch block with if...else if...else structure.
+
+```js
+try {
+  myRoutine();
+} catch(e) {
+  if (e instanceof TypeError) {
+
+  } else if (e instanceof RangeError) {
+
+  } else if (e instanceof EvalError) {
+
+  } else {
+    logMyErrors(e);
+  }
+}
+```
+
+> use case: catch a small subset of expected errors, and rethrow the error in other cases:
+
+```js
+var arr = [1, 2, 3];
+try {
+  arr.length = -1; // throw RangeError
+} catch(e) {
+  if (e instanceof RangeError) {
+    console.log(e.message);
+    // statement to handle this very common expected error
+  } else {
+    throw e; // re-throw the error as it is (without changing) - I don't know how to handle this, let outer catch to handle it.
+  }
+}
+
+```
+
+#### 11.3.5 Nested try Blocks
+
+```js
+try {
+  try {
+    throw new Error("oops");
+  } catch (e) {
+    console.log("inner", e.message);
+    throw e;
+  } finally {
+    console.log("finally");
+  }
+} catch (e) {
+  console.log("outer", e.message)
+}
+
+// inner oops
+// finally
+// outer oops
+```
+
+#### 11.3.6 Error Bubbling
+
+> - If an inner error is not handled within the function where it occurs, it will bubble up through the call stack, passing through outer functions, until it reaches the global scope or is caught by a catch block.
+
+
+## 12 How Assignment Works: Left-Hand Side vs Right-Hand Side

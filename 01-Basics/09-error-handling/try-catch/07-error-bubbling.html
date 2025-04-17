@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>07-Error Bubbling</title>
+  </head>
+  <body>
+    <script>
+      function A() {
+        console.log(B());
+        console.log("a1");
+      }
+
+      function B() {
+        C();
+      }
+
+      function C() {
+        throw new Error("this is an error");
+        console.log("c1");
+      }
+
+      //   try {
+      //     A();
+      //   } catch (e) {
+      //     console.log(e);
+      //   }
+
+      A(); // Error bubbling from C to global.
+      console.log("g1");
+
+        // 07-error-bubbling.html:20 Uncaught Error: this is an error
+        //    at C (07-error-bubbling.html:20:15)
+        //    at B (07-error-bubbling.html:16:9)
+        //    at A (07-error-bubbling.html:11:21)
+        //    at 07-error-bubbling.html:30:7
+    </script>
+  </body>
+</html>

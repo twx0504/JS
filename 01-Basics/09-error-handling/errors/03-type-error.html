@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Type Error</title>
+  </head>
+  <body>
+    <script>
+      /* a is a number type but treat as function */
+      // var a = 1;
+      // a(); // Uncaught TypeError: a is not a function
+
+      /* key in object */
+      // "name" in true; // Uncaught TypeError: Cannot use 'in' operator to search for 'name' in true
+
+      /* array doens't have call method */
+      // var arr = [];
+      // arr.call(null); // Uncaught TypeError: arr.call is not a function
+    </script>
+  </body>
+</html>
