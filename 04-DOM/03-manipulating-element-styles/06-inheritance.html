@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>06-Inheritance</title>
+  </head>
+  <body>
+    <div id="box"></div>
+    <h3>H3</h3>
+    <img src="" alt="" />
+    <canvas></canvas>
+    <script>
+      var html = document.getElementsByTagName("html")[0];
+      var box = document.getElementById("box");
+      var h3 = document.getElementsByTagName("h3")[0];
+      var img = document.getElementsByTagName("img")[0];
+      var canvas = document.getElementsByTagName("canvas")[0];
+      /* HTML */
+      console.log(html.__proto__); // HTMLHtmlElement
+      console.log(html.__proto__.__proto__); // HTMLElement
+
+      /* DIV */
+      console.log(box.__proto__); // HTMLDivElement.prototype
+      //   console.log(box.__proto__ === HTMLDivElement.prototype); // true
+      console.log(box.__proto__.__proto__); // HTMLElement.prototype
+      console.log(box.__proto__.__proto__.__proto__); // Element.prototype
+      console.log(box.__proto__.__proto__.__proto__.__proto__); // Node.prototype
+      console.log(box.__proto__.__proto__.__proto__.__proto__.__proto__); // EventTarget.prototype
+      console.log(
+        box.__proto__.__proto__.__proto__.__proto__.__proto__.__proto__
+      ); // Object.prototype
+      console.log(
+        box.__proto__.__proto__.__proto__.__proto__.__proto__.__proto__
+          .__proto__
+      ); // null
+
+      /* H3 */
+      console.log(h3.__proto__); // HTMLHeadingElement.prototype
+      console.log(h3.__proto__.__proto__); // HTMLElement.prototype
+      console.log(h3.__proto__.__proto__.__proto__); // Element.prototype
+      console.log(h3.__proto__.__proto__.__proto__.__proto__); // Node.prototype
+      console.log(h3.__proto__.__proto__.__proto__.__proto__.__proto__); // EventTarget.prototype
+      console.log(
+        h3.__proto__.__proto__.__proto__.__proto__.__proto__.__proto__
+      ); // Object.prototype
+      console.log(
+        h3.__proto__.__proto__.__proto__.__proto__.__proto__.__proto__.__proto__
+      ); // null
+
+      /* img */
+      console.log(img.__proto__); // HTMLImageElement
+
+      /* canvas */
+      console.log(canvas.__proto__);
+
+      /* 
+
+        - element & their constructor:
+            - html -> HTMLHtmlElement
+            - div -> HTMLDivElement
+            - h3 -> HTMLHeadingElement
+            - img -> HTMLImageElement
+        - adding property / method to these prototype is only for that specific element, not shared among other elements.
+        - there's a concept of base class: baseClass -> xxx -> instance
+        - addign property / method to base classs prototype is accessible for all elements!
+      */
+
+      /* How to get Doctype */
+      var docType = document.childNodes[0];
+      console.log(docType.__proto__); // DocumentType.prototype
+      console.log(docType.__proto__.__proto__); // Node.prototype
+
+      /* Attr 
+        - getAttribute is unable to get the Attr instance.
+        - we can only get it when we create them in js.
+      */
+      var attr = document.createAttribute("class");
+      console.log(attr.__proto__); // Attr.prototype
+      console.log(attr.__proto__.__proto__); // Node.prototype
+
+      /* Text 
+        - same as Attr
+      */
+      var text = document.createTextNode("a text");
+      console.log(text.__proto__); // Text.prototype
+      console.log(text.__proto__.__proto__); // CharacterData.prototype
+      console.log(text.__proto__.__proto__.__proto__); // Node.prototype
+    </script>
+  </body>
+</html>

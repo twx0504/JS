@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-cssText</title>
+    <style>
+      #box {
+        width: 200px;
+        height: 200px;
+        background-color: skyblue;
+        text-align: center;
+        line-height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box" style="font-size: 20px">A box</div>
+
+    <script>
+      var box = document.getElementById("box");
+      /* ✅ Each line below individually triggers style recalculation,
+         and possibly reflow/repaint depending on the property.
+      */
+      //   box.style.color = "red";
+      //   box.style.fontSize = "48px";
+      //   box.style.width = "200px";
+
+      /* ✅ element.style.cssText:
+         - Sets the inline style of the element all at once
+         - Replaces all existing inline styles
+         - Can help batch changes to reduce layout thrashing
+      */
+      console.log(box.style.cssText); // font-size: 20px;
+
+      /* ✅ This triggers one layout calculation (reflow) and a repaint,
+         because 'font-size' affects layout, while 'color' and 'background-color'
+         only affect visual appearance.
+      */
+      box.style.cssText =
+        "color: red; background-color: royalblue; font-size:30px";
+      console.log(box.style.cssText); // color: red; background-color: royalblue; font-size: 30px;
+
+      /* 
+        🔄 Reflow: happens when layout is recalculated.
+        - Triggered by changes that affect size, position, or structure.
+        - Examples: width, height, margin, padding, font-size, display, etc.
+        - Reflow always causes a repaint.
+
+        🖌️ Repaint: happens when only visual aspects change, not layout.
+        - Examples: background-color, color, visibility, box-shadow, etc.
+        - Cheaper than reflow but still not free.
+      */
+    </script>
+  </body>
+</html>

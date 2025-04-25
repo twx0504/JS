@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08-Elem.getBoundingClientRect</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        height: 3000px;
+      }
+      .box {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 200px;
+        height: 200px;
+        border: 10px solid red;
+        padding: 20px;
+        margin: 50px;
+        background-color: khaki;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+    <script>
+      var box = document.querySelector(".box");
+      var rect = box.getBoundingClientRect();
+      console.log(rect);
+      window.onscroll = function () {
+        rect = box.getBoundingClientRect();
+        console.log(rect);
+      };
+    </script>
+  </body>
+</html>

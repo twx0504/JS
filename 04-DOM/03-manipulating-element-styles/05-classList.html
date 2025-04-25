@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-classList</title>
+    <style>
+      .ball {
+        width: 100px;
+        height: 100px;
+        background-color: skyblue;
+      }
+
+      .ball1 {
+        border: 15px solid khaki;
+      }
+
+      .ball2 {
+        font-size: 20px;
+      }
+      .color {
+        color: red;
+      }
+      .test {
+        border-radius: 0;
+      }
+
+      .circle {
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ball" class="ball ball1 ball2 test">Content</div>
+    <script>
+      var ball = document.getElementById("ball");
+      //   console.log(ball.classList); // DOMTokenList(2) ['ball', 'ball1', value: 'ball ball1']
+      //   ball.classList.add("texture");
+      //   console.log(ball.classList); // DOMTokenList(3) ['ball', 'ball1', 'texture', value: 'ball ball1 texture']
+
+      /* add */
+      ball.classList.add("color");
+      /* remove */
+      ball.classList.remove("ball2");
+
+      /* toggle:
+        - If the class exists, remove it and return false
+        - If the class does not exist, add it and return true
+      */
+      console.log(ball.classList.toggle("ball")); // false - "ball" class was removed, so now this element doesn't have the "ball" class.
+      console.log(ball.classList.toggle("ball")); // true - "ball" class was added back, so now this element has the "ball" class.
+
+      /* contains */
+      console.log(ball.classList.contains("ball2")); // false - has been removed in the earlier operation
+      console.log(ball.classList.contains("ball")); // true - exist
+
+      /* replace(oldToken, newToken) */
+      console.log(ball.classList.replace("test", "circle")); // true - if the replacement is successful.
+
+      /* length - length of DOMTokenList */
+      console.log(ball.classList, ball.classList.length); // DOMTokenList(3) ['ball1', 'color', 'ball', value: 'ball1 color ball'] 3
+
+      /* item(index) */
+      console.log(ball.classList.item(0)); //ball1
+      console.log(ball.classList.item(1)); // circle
+      console.log(ball.classList.item(2)); // color
+
+      /* item(index) is similar to list[i] */
+      console.log(ball.classList[2]); // color
+    </script>
+  </body>
+</html>

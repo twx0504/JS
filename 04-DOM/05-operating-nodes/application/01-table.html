@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Table Dynamically</title>
+    <style>
+      .box {
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+
+      table tr td {
+        border: 1px solid red;
+        /* width: 50px;
+        height: 50px; */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+    <script>
+      // 15 rows 10 columns
+      var box = document.querySelector(".box");
+      var table = createTable(15, 10);
+      box.appendChild(table);
+
+      /* Think about passing data + style related things. */
+      function createTable(rows, columns) {
+        var table = document.createElement("table");
+        // section is initialized with thead first
+        var section = document.createElement("thead");
+        for (var i = 0; i < rows; i++) {
+          var tr = document.createElement("tr");
+          for (var j = 0; j < columns; j++) {
+            var td = document.createElement("td");
+            // td.style.width = "50px";
+            // td.style.height = "50px";
+            tr.appendChild(td);
+          }
+          section.appendChild(tr);
+          table.appendChild(section);
+          if (i === 0) {
+            // After first row, the section becomes tbody
+            section = document.createElement("tbody");
+          }
+        }
+        return table;
+      }
+    </script>
+  </body>
+</html>

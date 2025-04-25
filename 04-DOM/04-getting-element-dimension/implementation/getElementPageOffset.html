@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>getElementPageOffset</title>
+    <style>
+      .box {
+        position: absolute;
+        left: 250px;
+        top: 300px;
+        width: 350px;
+        height: 350px;
+        padding: 50px;
+        background-color: red;
+      }
+
+      .box1 {
+        position: absolute;
+        width: 250px;
+        height: 250px;
+        padding: 50px;
+        border: 10px solid red;
+        background-color: yellow;
+      }
+
+      .box2 {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        padding: 50px;
+        border: 10px solid red;
+        background-color: green;
+      }
+
+      .box3 {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        padding: 50px;
+        border: 10px solid red;
+        background-color: gold;
+      }
+
+      .box4 {
+        position: absolute;
+        left: 100px;
+        top: 100px;
+        width: 50px;
+        height: 50px;
+        background-color: royalblue;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div class="box1">
+        <div class="box2">
+          <div class="box3">
+            <div id="target" class="box4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./getElementPageOffset.js"></script>
+    <script>
+      var target = document.getElementById("target");
+      console.log("iteration: ", target._pageLeft());
+      console.log("recursion: ", target._pageLeftR());
+      console.log("iteration: ", target._pageTop());
+      console.log("recursion: ", target._pageTopR());
+      console.log(target._pageOffset());
+    </script>
+  </body>
+</html>

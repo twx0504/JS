@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exchange Node Position</title>
+  </head>
+  <body>
+    <ul class="list">
+      <!-- record new.nextElementSibling as ref -->
+      <!-- new replace old -->
+      <!-- insertBefore(old, ref) -->
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+    </ul>
+    <ul class="list2">
+      <li>6</li>
+      <li>7</li>
+      <li>8</li>
+      <li>9</li>
+      <li>10</li>
+    </ul>
+  </body>
+  <script src="../implementation/implementation.js"></script>
+  <script>
+    var ul = document.querySelector(".list");
+    var ul2 = document.querySelector(".list2");
+
+    var children1 = ul.children;
+    var children2 = ul2.children;
+    // function exchangeElementPosition(elem1, elem2) {
+    //   var p1 = elem1.parentNode;
+    //   var p2 = elem2.parentNode;
+    //   // Create a placeholder element based on elem's nodeName
+    //   var newNode1 = document.createElement(elem1.nodeName);
+    //   var newNode2 = document.createElement(elem2.nodeName);
+    //   // Insert a placeholder element in front of element.
+    //   p1.insertBefore(newNode1, elem1);
+    //   p2.insertBefore(newNode2, elem2);
+    //   // Break the link of elem1 & elem2 with their parents
+    //   //
+    //   var r1 = p1.removeChild(elem1);
+    //   var r2 = p2.removeChild(elem2);
+    //   p1.replaceChild(r2, newNode1);
+    //   p2.replaceChild(r1, newNode2);
+    // }
+
+    // function exchangeElementPosition(elem1, elem2) {
+    //   // Store reference to parentNodes
+    //   var p1 = elem1.parentNode;
+    //   var p2 = elem2.parentNode;
+    //   // Create a placeholder element based on elem's nodeName
+    //   var newNode = document.createElement(elem1.nodeName);
+    //   // Insert a placeholder element in front of element.
+    //   p1.insertBefore(newNode, elem1);
+    //   var r2 = p2.replaceChild(elem1, elem2);
+    //   p1.replaceChild(r2, newNode);
+    // }
+
+    // exchangeElementPosition(children1[0], children1[3]);
+    // exchangeElementPosition(children1[1], children2[2]);
+    children1[1]._exchange(children2[2]);
+  </script>
+</html>

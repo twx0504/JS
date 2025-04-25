@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Data Attribute</title>
+  </head>
+  <body>
+    <div id="box" data-test="custom attribute test">A box</div>
+    <img src="./husky.png" alt="A husky." data-animal-type="animal" />
+    <script>
+      var box = document.getElementById("box");
+
+      /* Get existing data attribute via kebab-case. */
+      console.log(box.getAttribute("data-test")); // custom attribute test
+
+      /* Accessing all data-* attributes via dataset. */
+      console.log(box.dataset); // DOMStringMap {test: 'custom attribute test'}
+      /* Adding data attribute */
+      box.dataset.absTest = "custom attribute abs";
+      /* Accessing data attribute - use camelCase */
+      console.log(box.dataset.absTest); // custom attribute abs
+
+      /* When using getAttribute / setAttribute to access data attribute, use kebab-case (data-a-b) */
+      /* e.g., absTest => data-abs-test */
+      console.log(box.getAttribute("data-abs-test")); // custom attribute abs
+      console.log(box.dataset);
+
+      var img = document.getElementsByTagName("img")[0];
+      console.log(img.dataset.animalType); // animal
+
+      console.log(img.getAttribute("data-animal-type")); // animal
+    </script>
+  </body>
+</html>

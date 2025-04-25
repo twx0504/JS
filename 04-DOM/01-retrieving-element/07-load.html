@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>07-load event</title>
+  </head>
+  <body>
+    <script>
+      var box = document.querySelector("div");
+      console.log(box); // null -> the element has not been loaded.
+
+      /* detect a fully-loaded page */
+      //   window.onload = function () {
+      //     var box = document.querySelector("div");
+      //     console.log(box); // div.box
+      //   };
+      window.addEventListener("DOMContentLoaded", function() {
+        var box = document.querySelector("div");
+          console.log(box); // div.box
+      })
+    </script>
+    <!-- div is put behind script. This div cannot be obtained yet! -->
+    <div>A box</div>
+  </body>
+</html>

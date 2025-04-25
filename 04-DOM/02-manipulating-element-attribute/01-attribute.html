@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Attribute</title>
+  </head>
+  <body>
+    <div id="box">A box</div>
+    <a href="https://www.google.com/" title="Google">Google</a>
+    <img src="./husky.png" alt="A husky." />
+    <script>
+      var box = document.getElementById("box");
+      /* Accessing standard w3c attributes. */
+      console.log(box.id);
+      // console.log(box["id"]);
+
+      /* Modifying id (Not recommended.) */
+      //   box.id = "www";
+      //   console.log(box.id);
+
+      /* Delete attribute on DOM is useless. */
+      //   delete box.id;
+
+      var link = document.getElementsByTagName("a")[0];
+      console.log(link, link.href, link.title);
+
+      var img = document.getElementsByTagName("img")[0];
+      console.log(img, img.src, img.alt);
+      /* Setting attributes */
+      img.src =
+        "https://cdn.outsideonline.com/wp-content/uploads/2023/03/Funny_Dog_H.jpg?crop=16:9&width=960&enable=upscale&quality=100";
+      img.width = 400;
+      img.height = 250;
+    </script>
+  </body>
+</html>

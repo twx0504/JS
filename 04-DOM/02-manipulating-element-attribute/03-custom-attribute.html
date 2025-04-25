@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Custom Attributes</title>
+  </head>
+  <body>
+    <div id="box" abs="custom attribute"></div>
+    <script>
+      var box = document.getElementById("box");
+      console.log(box);
+      /* getAttribute(key) */
+      /* Get custom attribute value by its name / key */
+      console.log(box.getAttribute("abs"));
+
+      /* setAttribute(key, value) 
+        - note: the key must be valid identifier (follow the naming convention)
+      */
+      /* Add custom attribute */
+      box.setAttribute("bb", "custom attribute bb");
+      box.setAttribute("b-b", "custom attribute b!b");
+      box.setAttribute("b:b", "custom attribute b!b");
+      box.setAttribute("b.b", "custom attribute b!b");
+      box.setAttribute("b_b", "custom attribute b!b");
+      // box.setAttribute("-bb", "custom attribute bb"); // Uncaught InvalidCharacterError: Failed to execute 'setAttribute' on 'Element': '-bb' is not a valid attribute name.
+      // box.setAttribute("b!b", "custom attribute bb"); // Uncaught InvalidCharacterError: Failed to execute 'setAttribute' on 'Element': 'b!b' is not a valid attribute name.
+      // box.setAttribute("123", "ss"); // Uncaught InvalidCharacterError: Failed to execute 'setAttribute' on 'Element': '123' is not a valid attribute name.
+
+      /* You cannot access custom attribute via dot notation! */
+      console.log(box.bb); // undefined
+      console.log(box["bb"]); // undefined
+      console.log(box.getAttribute("bb"));
+    </script>
+  </body>
+</html>

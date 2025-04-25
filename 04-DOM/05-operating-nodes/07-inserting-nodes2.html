@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>07-Inserting Node 2</title>
+  </head>
+  <body>
+    <script src="./implementation/implementation.js"></script>
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li class="reference">3 - ref</li>
+      <li>4</li>
+      <li>5</li>
+    </ul>
+    <script>
+      /* Note: 
+      - since an element can only exist at one place at a time!
+      - If you move the same reference, the element will be removed and insert at where you want them to be. */
+      /* append */
+      var ul = document.querySelector("ul");
+
+      var li = document.createElement("li");
+      li.innerText = "new li";
+      var li2 = document.createElement("li");
+      li2.innerText = "new li";
+      var li3 = document.createElement("li");
+      li3.innerText = "new li";
+      ul.append(li, li2, li3);
+
+      /* prepend */
+      ul.prepend(li, li2, li3);
+      ul.prepend("string1", "string2");
+
+      /* before */
+      var div = document.createElement("div");
+      div.innerText = "a new div";
+      var h3 = document.createElement("h3");
+      h3.innerText = "H3 Heading.";
+      ul.before(h3, div);
+
+      /* after */
+      var footer = document.createElement("footer");
+      footer.innerText = "a footer";
+      ul.after(footer);
+
+      
+
+      var referenceNode = document.querySelector(".reference");
+      var test = document.createElement("li");
+      test.innerText = "Test with insertAfter";
+      console.log(ul._insertAfter(test, referenceNode));
+    </script>
+  </body>
+</html>

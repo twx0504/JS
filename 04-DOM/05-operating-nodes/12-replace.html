@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>12-Replace</title>
+  </head>
+  <body>
+    <ul class="list">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+    </ul>
+    <script>
+      var ul = document.querySelector(".list");
+      var li = document.createElement("li");
+      li.innerText = "I am li element.";
+      //   console.log(ul.replaceChild(li, ul.lastElementChild));
+
+      // node.replaceChild(newChild, oldChild)
+      // Note: If the new node is already present somewhere else in the DOM, it is first removed from that position.
+      // the first child of ul is first removed, then replaced with the last child of ul.
+      // return value = last child of ul.
+      console.log(ul.replaceChild(ul.firstElementChild, ul.lastElementChild));
+
+      // ul.lastElementChild.replaceWith(ul.firstElementChild)
+      // ul.replaceChildren(li, "A text node")
+    </script>
+  </body>
+</html>

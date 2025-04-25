@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Check Collision</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        position: absolute;
+        top: 100px;
+        left: 100px;
+        width: 400px;
+        height: 500px;
+        background-color: pink;
+      }
+      .box {
+        width: 100px;
+        height: 100px;
+        position: absolute;
+      }
+      .box1 {
+        background-color: red;
+      }
+      .box2 {
+        background-color: blue;
+        top: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="box box1"></div>
+      <div class="box box2"></div>
+    </div>
+    <script src="./isCollided.js"></script>
+    <script>
+      var box1 = document.querySelector(".box1");
+      var box2 = document.querySelector(".box2");
+      console.log(isCollided(box1, box2));
+    </script>
+  </body>
+</html>

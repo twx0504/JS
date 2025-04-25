@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Retrieving Element: querySelector</title>
+  </head>
+  <body>
+    <div class="box box1">
+      <p>first p</p>
+      <p>second p</p>
+    </div>
+    <div class="box box2">
+      <p>box2 first p</p>
+      <div>
+        <p>div->p</p>
+      </div>
+    </div>
+    <script>
+      //   var firstP = document.querySelector("p");
+      //   console.log(firstP);
+
+      var firstP = document.querySelector(".box1 p");
+      console.log(firstP);
+      var box2P = document.querySelector(".box2 div p");
+      console.log(box2P);
+    </script>
+  </body>
+</html>
