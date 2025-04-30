@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-Click Application 5</title>
+    <style>
+      .list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .list li {
+        border: 1px solid;
+        width: 100px;
+        margin: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="list"></ul>
+    <script>
+      /* Method 1: Closure - change global variable to local variable. */
+      //   var ul = document.querySelector(".list");
+
+      //   var docFrag = document.createDocumentFragment();
+      //   for (var i = 0; i < 5; i++) {
+      //     var li = document.createElement("li");
+      //     li.innerText = i;
+      //     (function (j) {
+      //       li.addEventListener("click", function () {
+      //         alert(j);
+      //       });
+      //     })(i);
+      //     docFrag.appendChild(li);
+      //   }
+      //   ul.appendChild(docFrag);
+
+      /* Method 2: Data Attribute */
+      var ul = document.querySelector(".list");
+      var docFrag = document.createDocumentFragment();
+      for (var i = 0; i < 5; i++) {
+        var li = document.createElement("li");
+        li.dataset.i = i + 1;
+        li.textContent = i + 1;
+        li.addEventListener("click", function () {
+          alert(this.dataset.i);
+        });
+        docFrag.appendChild(li);
+      }
+      ul.appendChild(docFrag);
+
+      /* Method 3: use let / const ES6 */
+      // const ul = document.querySelector(".list");
+      // const docFrag = document.createDocumentFragment();
+      // for (let i = 0; i < 5; i++) {
+      //   const li = document.createElement("li");
+      //   li.textContent = i + 1;
+      //   li.addEventListener("click", function () {
+      //     alert(i + 1);
+      //   });
+      //   docFrag.appendChild(li);
+      // }
+      // ul.appendChild(docFrag);
+    </script>
+  </body>
+</html>

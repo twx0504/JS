@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-stopPropagation</title>
+    <style>
+      .box1 {
+        width: 100px;
+        height: 100px;
+        padding: 50px;
+        background-color: skyblue;
+      }
+      .box2 {
+        width: 100px;
+        height: 100px;
+        background-color: tomato;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box1">
+      <div class="box2"></div>
+    </div>
+    <script>
+      var box1 = document.querySelector(".box1");
+      var box2 = document.querySelector(".box2");
+
+      box1.addEventListener("click", function (e) {
+        console.log("box1");
+        console.log(e.cancelBubble);
+      });
+
+      box2.addEventListener("click", function (e) {
+        console.log(e);
+        console.log("box2");
+        e.stopPropagation(); // event will not bubble to box1 (parent).
+        console.log(e.cancelBubble);
+      });
+
+      // when box2 stop propagation,
+      // clicking on box2 will only print box2.
+      // box1 is not triggered.
+    </script>
+  </body>
+</html>

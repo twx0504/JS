@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Application</title>
+    <style>
+      ul,
+      li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      ul {
+        width: 200px;
+        height: 200px;
+      }
+
+      ul > li {
+        height: 50px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      ul > li > span {
+        position: relative;
+        top: 10px;
+        float: right;
+        padding: 0 10px;
+        background-color: skyblue;
+        height: 30px;
+        line-height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="js-create-btn">Create</button>
+    <ul id="js-list">
+      <!-- <li><span>Remove</span></li> -->
+    </ul>
+    <script>
+      var btn = document.querySelector("#js-create-btn");
+      var ul = document.querySelector("#js-list");
+      var count = 0;
+      btn.addEventListener("click", function () {
+        var li = document.createElement("li");
+        li.textContent = ++count;
+        var span = document.createElement("span");
+        span.className = "js-del";
+        span.textContent = "Remove";
+        li.appendChild(span);
+        ul.appendChild(li);
+
+        // span.addEventListener("click", function () {
+        //     // when click the remove btn, we want to remove the li.
+        //   this.parentElement.parentElement.removeChild(this.parentElement);
+        // });
+      });
+
+      ul.addEventListener("click", function (e) {
+        if (e.target.tagName !== "SPAN" && e.target.className !== "js-del")
+          return;
+        this.removeChild(e.target.parentElement);
+      });
+    </script>
+  </body>
+</html>

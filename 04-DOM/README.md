@@ -357,6 +357,9 @@ box.style.setProperty("prop", "value", undefined);
 > - read-only.
 > - pseudoElem: string of pseudo element (`::after`, `::before`, etc). Null / ommited means real elements.
 
+> - note: in order to get the computed styles, the element must be a part of DOM tree.
+
+
 
 #### 2.6.9 DOM Class Inheritance Tree
 

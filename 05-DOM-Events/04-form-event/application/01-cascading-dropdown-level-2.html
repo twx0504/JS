@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Cascading-Dropdown Level 2</title>
+  </head>
+  <body>
+    <select name="province" id="province"></select>
+    <select name="city" id="city"></select>
+    <script>
+      var data = [
+        {
+          province: "Johor",
+          city: ["Muar", "Johor Bahru", "Yong Peng"],
+        },
+        {
+          province: "Pahang",
+          city: ["Cameron Highland", "Kuantan"],
+        },
+        {
+          province: "Penang",
+          city: ["Georgetown", "Main Land"],
+        },
+      ];
+
+      // get dom
+      var provinceSelect = document.getElementById("province");
+      var citySelect = document.getElementById("city");
+
+      // initialize data
+      init(data);
+      provinceSelect.addEventListener("change", _changeCities);
+
+      function init(data) {
+        fillProvinces(provinceSelect, data);
+        // 2. city
+        var cityList = data[0].city;
+        fillCities(citySelect, cityList);
+      }
+
+      function fillProvinces(elem, data) {
+        elem.innerHTML = "";
+        var fragment = document.createDocumentFragment();
+        var count = data.length;
+        for (var i = 0; i < count; i++) {
+          var option = document.createElement("option");
+          option.text = data[i].province;
+          fragment.appendChild(option);
+        }
+        elem.appendChild(fragment);
+      }
+
+      function fillCities(elem, data) {
+        elem.innerHTML = ""; // clear previous elements.
+        var fragment = document.createDocumentFragment();
+        var count = data.length;
+        for (var i = 0; i < count; i++) {
+          var option = document.createElement("option");
+          option.text = data[i];
+          fragment.appendChild(option);
+        }
+        elem.appendChild(fragment);
+      }
+
+      function _changeCities() {
+        var _index = this.selectedIndex;
+        var provinceName = this.options[_index].text;
+        var selectedProvince = find(data, function (item) {
+          return item.province === provinceName;
+        });
+        var cityList = selectedProvince.item.city;
+        fillCities(citySelect, cityList);
+      }
+
+      function find(data, fn) {
+        var len = data.length;
+        for (var i = 0; i < len; i++) {
+          if (fn(data[i], i, data)) {
+            return {
+              item: data[i],
+              index: i,
+            };
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Mouseover</title>
+    <style>
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+    <script>
+      /* In most simple cases, it can be replaced with pseudo class :hover. */
+      var box = document.querySelector(".box");
+      box.addEventListener("mouseover", function () {
+        console.log("mouseover: pointer enters the element.");
+        this.textContent = "pointer enters the element.";
+        this.style.backgroundColor = "royalblue";
+      });
+      box.addEventListener("mouseout", function () {
+        console.log("mouseover: pointer leaves the element.");
+        this.textContent = "pointer leaves the element.";
+        this.style.backgroundColor = "tomato";
+      });
+    </script>
+  </body>
+</html>

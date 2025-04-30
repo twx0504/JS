@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skin qx</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        background: url("../assets/skin/big1.jpg") no-repeat center / cover;
+      }
+      button {
+        position: absolute;
+        right: 0;
+        width: 100px;
+        height: 30px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      ul,
+      li {
+        margin: 0;
+      }
+
+      ul {
+        padding: 0;
+        list-style: none;
+      }
+
+      .modal {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 560px; /* 260 + 260 + 20 */
+        background-color: white;
+        display: none;
+      }
+
+      .modal ul li {
+        width: 260px;
+        height: 164px;
+        margin: 10px;
+        float: left;
+        cursor: pointer;
+      }
+
+      .modal .close-btn {
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        border: 0;
+        display: block;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        border-radius: 50%;
+        background-color: black;
+        color: white;
+        cursor: pointer;
+      }
+
+      .clearfix::after {
+        content: "";
+        display: block;
+        clear: both;
+      }
+
+      .mask {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+      }
+      img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mask"></div>
+    <div class="modal">
+      <ul class="clearfix">
+        <li class="item">
+          <img
+            src="../assets/skin/min1.jpg"
+            alt=""
+            data-img="../assets/skin/big1.jpg"
+          />
+        </li>
+        <li class="item">
+          <img
+            src="../assets/skin/min2.jpg"
+            alt=""
+            data-img="../assets/skin/big2.jpg"
+          />
+        </li>
+        <li class="item">
+          <img
+            src="../assets/skin/min3.jpg"
+            alt=""
+            data-img="../assets/skin/big3.jpg"
+          />
+        </li>
+        <li class="item">
+          <img
+            src="../assets/skin/min4.jpg"
+            alt=""
+            data-img="../assets/skin/big4.jpg"
+          />
+        </li>
+      </ul>
+      <button class="close-btn" type="button">X</button>
+    </div>
+    <button class="open-btn" type="button">Change Skin</button>
+    <script>
+      var btn = document.querySelector(".open-btn");
+      var closeBtn = document.querySelector(".close-btn");
+      var mask = document.querySelector(".mask");
+      var modal = document.querySelector(".modal");
+
+      // opening the modal
+      btn.addEventListener("click", function (e) {
+        mask.style.display = "block";
+        modal.style.display = "block";
+      });
+
+      // closing the modal
+      closeBtn.addEventListener("click", function () {
+        mask.style.display = "none";
+        modal.style.display = "none";
+      });
+
+      // selecting and changing skin
+      var lis = document.querySelectorAll(".modal > ul > li > img");
+      var len = lis.length;
+      //   var prev = null;
+      var prev = lis[0];
+      for (var i = 0; i < len; i++) {
+        lis[i].addEventListener("click", function () {
+          // Remove outlines of all lis.
+          //   for (var i = 0; i < len; i++) {
+          //     lis[i].style.outline = "";
+          //   }
+          // If you use prev as null.
+          //   if (prev) {
+          //     prev.style.outline = "";
+          //   }
+          prev.style.outline = "";
+          document.body.style.backgroundImage =
+            "url('" + this.dataset.img + "')";
+          this.style.outline = "5px solid red";
+          prev = this;
+        });
+      }
+    </script>
+  </body>
+</html>

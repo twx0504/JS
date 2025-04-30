@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-focus, blur</title>
+  </head>
+  <body>
+    username: <input type="text" />
+    <script>
+      var inp = document.querySelector("input");
+      inp.addEventListener("focus", focus);
+
+      function focus() {
+        console.log("focus");
+        this.style.backgroundColor = "skyblue";
+        // default outline is black.
+        this.style.outline = "2px solid red"; // focus ring is outline.
+        // this.style.border = "none";
+      }
+
+      inp.addEventListener("blur", blur);
+      function blur() {
+        console.log("blur");
+        this.style.backgroundColor = "";
+        this.style.outline = "";
+      }
+    </script>
+  </body>
+</html>
