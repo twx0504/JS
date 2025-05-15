@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Linear Motion 2</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      .ball {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        position: absolute;
+        top: 50px;
+        left: 10px;
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="left-btn">Left</button>
+    <button id="right-btn">Right</button>
+    <div id="ball" class="ball"></div>
+    <script src="./animation.js"></script>
+    <script>
+      var rightBtn = document.getElementById("right-btn");
+      var leftBtn = document.getElementById("left-btn");
+      var ball = document.getElementById("ball");
+      var step = 20;
+      var target = 600;
+      rightBtn.addEventListener("click", function () {
+        move(ball, step, target);
+      });
+
+      leftBtn.addEventListener("click", function () {
+        move(ball, step, 0);
+      });
+    </script>
+  </body>
+</html>

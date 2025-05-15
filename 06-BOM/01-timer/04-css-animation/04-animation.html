@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Animation Event</title>
+    <style>
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: skyblue;
+        /* prop duration easing-fn delay animation-iteration-count */
+        animation: move 2s ease 2s 3;
+      }
+      @keyframes move {
+        0% {
+          width: 100px;
+          height: 100px;
+        }
+        50% {
+          width: 300px;
+          height: 300px;
+        }
+        100% {
+          width: 300px;
+          height: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+    <script>
+      var box = document.querySelector(".box");
+
+      // when the animation first start.
+      // but when the animation repeat due to animation-iteration-count set, the subsequent repeat will not trigger start.
+      box.addEventListener("animationstart", function () {
+        console.log("start");
+        // box.style.animation = "none"; // cancel animation
+      });
+      box.addEventListener("animationend", function () {
+        console.log("end");
+      });
+      box.addEventListener("animationcancel", function () {
+        console.log("cancel");
+      });
+      // number of iteration = animation-iteration-count - 1
+      // when the animation first starts, it is not counted as iteration.
+      // when the first animation ended, and repeat, it starts counting.
+      box.addEventListener("animationiteration", function () {
+        console.log("iteration");
+      });
+    </script>
+  </body>
+</html>

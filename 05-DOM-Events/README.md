@@ -363,6 +363,15 @@ document.addEventListener("click", function(e) {
 > - `e.stopPropagation()`: stop the event bubbling. The remaining event handlers of the current element will still execute as normal.
 > - `e.stopImmediatePropagation()`: stop the event bubbling, and all the remaining event handlers of the current element from executing.
 
+### 3.6.5 Image Loading Event
+
+| <event> | Description                           |
+| ------- | ------------------------------------- |
+| `load`  | when an image is successfully loaded. |
+| `error` | when an image loading is failed.      |
+
+
+
 ## 3.7 Event Delegation
 
 > **analogy: parent & children**
@@ -399,3 +408,4 @@ document.addEventListener("click", function(e) {
 > - reduce the number of the similar event handlers.
 > - reduce the memory overhead.
 > - improve performance.
+

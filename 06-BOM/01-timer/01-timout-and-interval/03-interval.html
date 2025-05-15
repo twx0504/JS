@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-setInterval</title>
+  </head>
+  <body>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <div id="interval">0</div>
+    <script>
+      var startBtn = document.getElementById("start");
+      var stopBtn = document.getElementById("stop");
+
+      var interval = document.getElementById("interval");
+      var timer = null; // Usually, we assign as null, indicating the absence of a timer.
+      var sum = 0;
+      startBtn.addEventListener("click", function () {
+        timer = setInterval(function () {
+          sum++;
+          interval.textContent = sum;
+        }, 1000);
+      });
+      stopBtn.addEventListener("click", function () {
+        clearInterval(timer);
+        timer = null;
+      });
+    </script>
+  </body>
+</html>

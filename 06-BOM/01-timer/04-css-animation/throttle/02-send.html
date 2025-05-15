@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Send</title>
+  </head>
+  <body>
+    <button id="send">Send</button>
+    <script src="./throttle.js"></script>
+    <script>
+      var send = document.getElementById("send");
+      function fn() {
+        console.log(1);
+      }
+
+      send.addEventListener("click", throttleLeading(fn, 5000));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-setTimeout</title>
+  </head>
+  <body>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <script>
+      var a = 0;
+      var startBtn = document.getElementById("start");
+      var stopBtn = document.getElementById("stop");
+      var timer = null;
+
+      startBtn.addEventListener("click", function () {
+        timer = setTimeout(function () {
+          console.log(a);
+        }, 1000);
+      });
+
+      stopBtn.addEventListener("click", function () {
+        clearTimeout(timer);
+      });
+
+      // eventHandler is executed before the callback scheduled by setTimeout.
+      // there's why the timer can be cancelled.
+    </script>
+  </body>
+</html>

@@ -25,15 +25,16 @@ var boxes = document.querySelectorAll(".box");
 //   return nearest.elem;
 // }
 
-function findClosestElement(target) {
-  var siblings = target.parentNode.children;
+HTMLElement.prototype._findClosestElement = function () {
+  var siblings = this.parentNode.children;
   var len = siblings.length;
-  if (len <= 1) return null;
+  if (len <= 0) return null;
+  if (len === 1) return siblings[0];
   var nearestElem = null;
   var shortestDist = Infinity;
   for (var i = 0; i < len; i++) {
-    if (siblings[i] !== target) {
-      var dist = midpointDistance(target, siblings[i]);
+    if (siblings[i] !== this) {
+      var dist = midpointDistance(this, siblings[i]);
       if (dist < shortestDist) {
         shortestDist = dist;
         nearestElem = siblings[i];
@@ -41,11 +42,30 @@ function findClosestElement(target) {
     }
   }
   return nearestElem;
-}
+};
 
-console.log(findClosestElement(target, boxes));
-console.log(findClosestElement(boxes[1], boxes));
-console.log(findClosestElement(boxes[3], boxes));
-console.log(findClosestElement(boxes[0], boxes));
-console.log(findClosestElement(boxes[2], boxes));
-console.log(findClosestElement(boxes[4], boxes));
+function findClosestElement2(target, lists) {
+  var len = lists.length;
+  if (len <= 0) return null;
+  if (len === 1) return lists[0];
+  var nearestElem = null;
+  var shortestDist = Infinity;
+  for (var i = 0; i < len; i++) {
+    if (lists[i] !== target) {
+      var dist = midpointDistance(target, lists[i]);
+      if (dist < shortestDist) {
+        shortestDist = dist;
+        nearestElem = lists[i];
+      }
+    }
+  }
+  return nearestElem;
+}
+console.log(boxes[1]._findClosestElement());
+
+console.log(findClosestElement2(target, boxes));
+console.log(findClosestElement2(boxes[1], boxes));
+console.log(findClosestElement2(boxes[3], boxes));
+console.log(findClosestElement2(boxes[0], boxes));
+console.log(findClosestElement2(boxes[2], boxes));
+console.log(findClosestElement2(boxes[4], boxes));

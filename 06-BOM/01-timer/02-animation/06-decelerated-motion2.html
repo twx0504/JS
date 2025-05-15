@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>06-Decelerated Motion 2</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      .ball {
+        position: absolute;
+        top: 40px;
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        border-radius: 50%;
+        opacity: 1; /* 100 ---> 30 */
+      }
+    </style>
+  </head>
+  <body>
+    <button id="left-btn">Left</button>
+    <button id="right-btn">Right</button>
+    <div id="ball" class="ball"></div>
+    <script src="./animation.js"></script>
+    <script>
+      var leftBtn = document.getElementById("left-btn");
+      var rightBtn = document.getElementById("right-btn");
+      var ball = document.querySelector(".ball");
+      var target = 600;
+      var n = 15;
+
+      leftBtn.addEventListener("click", function () {
+        // deceleratedMotion(ball, 0, 60);
+        moves(
+          ball,
+          { top: 400, left: 500, height: 300, width: 300, opacity: 30 },
+          function () {
+            console.log("animation done.");
+          }
+        );
+      });
+
+      // Callback Hell
+      rightBtn.addEventListener("click", function () {
+        deceleratedMotion(
+          ball,
+          target,
+          function () {
+            deceleratedMotion(ball, 0, function () {
+              deceleratedMotion(ball, target);
+            });
+          },
+          60
+        );
+      });
+    </script>
+  </body>
+</html>

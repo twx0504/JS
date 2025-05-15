@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-CSS Animation: Transition</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      .box {
+        position: absolute;
+        top: 40px;
+        left: 40px;
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        opacity: 1;
+        transition: all 1s ease;
+      }
+
+      .active {
+        left: 300px;
+        top: 200px;
+        width: 150px;
+        height: 200px;
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="start">toggle</button>
+    <div class="box"></div>
+    <script src="./throttle/throttle.js"></script>
+    <script>
+      var btn = document.getElementById("start");
+      var box = document.querySelector(".box");
+      //   var lock = true;
+      var timer = null; // null represents the absence of timer (lock = true)
+
+      function fn(a, b, c, d) {
+        // console.log(this);
+        // console.log(a, b, c, d);
+        box.classList.toggle("active");
+      }
+      var throttledFn = throttleES6(fn, 1000);
+      btn.addEventListener("click", function (e) {
+        throttledFn(e, 1, 2, 3, 4);
+      });
+    </script>
+  </body>
+</html>

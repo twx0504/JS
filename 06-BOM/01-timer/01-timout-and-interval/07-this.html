@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>07-this</title>
+  </head>
+  <body>
+    <button id="start-btn">Start</button>
+    <script>
+      var obj = {
+        username: "twx",
+        sayHello() {
+          console.log("My name is " + this.username);
+        },
+      };
+
+      // Passing the method reference directly
+      // The callback is executed by `window`, not `obj`
+      // So `this` refers to `window`, and `this.username` is undefined
+      //   var timer1 = setInterval(obj.sayHello, 1000); // My name is undefined
+
+      // Method 1: Use a wrapper fn
+      //   var timer2 = setInterval(function () {
+      // obj.sayHello(); // My name is twx
+      //   }, 1000);
+
+      // Method 2: Use bind to explicitly set this
+      //   var timer3 = setInterval(obj.sayHello.bind(obj), 1000);
+
+      
+    </script>
+  </body>
+</html>
