@@ -409,3 +409,145 @@ document.addEventListener("click", function(e) {
 > - reduce the memory overhead.
 > - improve performance.
 
+## 3.8 Wheel Events
+
+| <event>                         | Description                                                                       |
+| ------------------------------- | --------------------------------------------------------------------------------- |
+| `wheel`                         | `e.deltaY` <br/> supported by modern browsers.                                    |
+| `DOMMouseScroll` (non-standard) | `e.detail` <br/> older Firefox version. <br/> must be added by `addEventListener` |
+| `mousewheel` (non-standard)     | `e.wheelDelta` <br/>  Webkit & Edge, but not supported by Firefox.                |
+
+> Tip: open different browser to test out the events.
+
+## 3.9 Drag API
+
+> https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
+
+### 3.9.1 HTML Draggable Attribute
+
+> - `auto`: default browser behaviour: only text selections, images, links can be dragged.
+> - `true`: can be dragged.
+> - `false`: cannot be dragged.
+
+```html
+
+<!-- Note: you must explicitly specify the value! draggable alone is not working. -->
+<div draggable="true" class="box"></div>
+```
+
+> Note:
+> - draggable = "true" blocks text selection within the element - you can't drag to highlight its inner text directly.
+> - but, you can drag-select a range of content including the draggable elements and its surrounding elements.
+> - in this case, the draggable element, and its unselected content will still included in the drag operation.
+
+### 3.9.2 Drag & Drop Basic
+
+> - draggable element (drag source) & drop target
+
+![draggable element and drop target](drag-n-drop.png)
+
+
+### 3.9.3 Drag Events Related to Drag Source
+
+| <event>     | Description                                                                                                                                                                                                                                       |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `dragstart` | The user starts dragging an item.                                                                                                                                                                                                                 |
+| `drag`      | - A dragged item (element or text selection) is being dragged (fires repeatedly). <br/> - There's firefox issue when trying to obtain the pageX, pageY, clientX, clientY etc. <br/> - obtain pageX and pageY from dragover event of the document. |
+| `dragend`   | A drag operation ends (e.g., releasing the mouse button or pressing Esc).                                                                                                                                                                         |
+
+> - support event bubbling.
+> - we can consider throttle on drag.
+> **Compatibility Issue:** Firefox cannot get pageX and pageY (probably clientX and clientY, etc) from drag event.
+
+### 3.9.4 Drag Events Related to Drop Target 
+
+| <event>     | Description                                                                  |
+| ----------- | ---------------------------------------------------------------------------- |
+| `dragenter` | A dragged item enters a valid drop target.                                   |
+| `dragleave` | A dragged item leaves a valid drop target.                                   |
+| `dragover`  | A dragged item is being dragged over a valid drop target (fires repeatedly). |
+
+> - support event bubbling.
+> - we can consider throttle on dragover.
+> - note: throttling on dragover may cause some flickering of the cursor.
+
+### 3.9.5 Drop Event
+
+| <event> | Description                                |
+| ------- | ------------------------------------------ |
+| `drop`  | An item is dropped on a valid drop target. |
+
+> - by default, the only effective drop target is the input element / textarea element, but they only accepts dropping text, link, and image src.
+> - other elements are not allowed to have something dropped on them.
+> - these elements will not trigger the drop event, despite those elements can trigger `dragenter`, `dragover`, and `dragleave`.
+
+> solution:
+> - prevent default in both `dragenter` and `dragover` event handlers!
+
+### 3.9.6 Drop Event Compatibility Issues
+
+> - Issue in FireFox.
+> > - dragged element is a link: dropping it to the drop target navigates to the corresponding page.
+> > - dragged element is an image: dropping it to the drop target navigates to the image file.
+> > - dragged element is a text: dropping it to the drop target may causes invalid URL Error.
+
+> solution:
+> - prevent default in drop event handler (only affects the current target).
+> - stop propagation in drop event handler - stop drop event bubbling from the current target to the document.
+> > - since we do not prevent default in the document level, so the issue might still exist!
+
+```js
+dropTarget.addEventListener("drop", function (e) {
+    /* Though in my FireFox doesn't have this issue. */
+    e.preventDefault(); /* prevent redirection occurs in Firefox. */
+    e.stopPropagation(); /* stop this event from bubbling to document that causes the redirection. */
+    console.log("drop");
+});
+
+```
+
+> note: In my firefox, there's no issue.
+
+
+### 3.9.7 Data Transfer Object
+
+> - a property on the event object in drag-and-drop related events.
+> - hold data during drag and drop.
+> - can hold one or more data.
+> - can hold one or more data types.
+> - designed primary for Drag and Drop API, but also used in some other APIs.
+
+> drag data type: https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Recommended_drag_types
+
+| property                                                    | Description                                                                                                                                                                                                                                                                                                                                                                                       |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `e.dataTransfer.dropEffect`                                 | - define what the drop target wants to do with the dragged data. <br/> - must be set on `dragover`. </br> - set the cursor appearance on the drop target <br/> - what happens after dropping must be implemented by the developer. <br/> - drop event will only occur if the dropEffect you set is one of the options allowed by the `effectAllowed` <br/> - `none` will not trigger drop effect. |
+| `e.dataTransfer.effectAllowed`                              | - define what the drag source allows the drop target to choose from<br/> should be set on `dragstart` <br/> - set the cursor appearance on the drag source.                                                                                                                                                                                                                                       | retrieve drag data for a particular type. |
+| `e.dataTransfer.getData(format)`                            |                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `e.dataTransfer.setData(format, data)`                      | set the drag data to the specified data and type.                                                                                                                                                                                                                                                                                                                                                 |
+| `e.dataTransfer.clearData([format])`                        | - removes the drag data for a given type. <br/> - if format is not passed, or an empty string is passed, it clears all data. <br/> - if the data of a specific format doesn't exist, this method does nothing.                                                                                                                                                                                    |
+| `e.dataTransfer.setDragImage(imgElement, xOffset, yOffset)` | - set custom image that will be displayed under the user's cursor while dragging an element. <br/> - this method may show some inconsistency, and sometimes the custom image is not shown.                                                                                                                                                                                                        |
+
+
+#### 3.9.7.1 dropEffect
+
+| value | description                                                                    |
+| ----- | ------------------------------------------------------------------------------ |
+| copy  | a copy of the dragged data is made, keep the original data.                    |
+| move  | the dragged data is moved to the drop target, the drag source losses the data. |
+| link  | a link to the dragged data is established / created at the drop target.        |
+| none  | the item may not be dropped. (drop event will not be fired)                    |
+
+#### 3.9.7.2 effectAllowed
+
+| value         | description                                                 |
+| ------------- | ----------------------------------------------------------- |
+| none          | the item may not be dropped (drop event will not be fired). |
+| copy          | permit copy                                                 |
+| copyLink      | permit copy and link.                                       |
+| copyMove      | permit copy and move.                                       |
+| link          | permit link.                                                |
+| linkMove      | permit link and move.                                       |
+| move          | permit move                                                 |
+| all           | all operations are permitted.                               |
+| uninitialized | default, similar to all.                                    |

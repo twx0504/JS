@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Drag</title>
+    <style>
+      .parent {
+        width: 200px;
+        height: 200px;
+        background-color: #ddd;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .draggable {
+        width: 100px;
+        height: 100px;
+        background-color: khaki;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="parent">
+      <div class="draggable" draggable="true"></div>
+    </div>
+    <script>
+      var dragsource = document.querySelector(".draggable");
+      var nondraggableParent = document.querySelector(".parent");
+
+      // drag related event supports event bubbling.
+      // if the non-draggable element has a child that is draggable, the drag-related event handler attached to the non-draggable parent can still be invoked.
+      // drag event bubbles from child -> parent -> document
+      
+      document.addEventListener("dragstart", function (e) {
+        console.log("dragstart document");
+      });
+
+      document.addEventListener("drag", function (e) {
+        console.log("drag document");
+      });
+
+      document.addEventListener("dragend", function (e) {
+        console.log("dragend document");
+      });
+
+      nondraggableParent.addEventListener("dragstart", function (e) {
+        console.log("dragstart parent");
+      });
+
+      nondraggableParent.addEventListener("drag", function (e) {
+        console.log("drag parent");
+      });
+
+      nondraggableParent.addEventListener("dragend", function (e) {
+        console.log("dragend parent");
+      });
+
+      dragsource.addEventListener("dragstart", function (e) {
+        console.log("dragstart child");
+      });
+
+      dragsource.addEventListener("drag", function (e) {
+        console.log("drag child");
+      });
+
+      dragsource.addEventListener("dragend", function (e) {
+        console.log("dragend child");
+      });
+    </script>
+  </body>
+</html>

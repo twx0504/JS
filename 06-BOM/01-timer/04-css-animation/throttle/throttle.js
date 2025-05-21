@@ -6,15 +6,11 @@ function throttle(callback, duration = 20) {
   // return a throttled event handler.
   return function () {
     if (timer) return;
-    var args = [];
-    var len = arguments.length;
-    for (var i = 0; i < len; i++) {
-      args.push(arguments[i]);
-    }
+    var args = arguments;
     var context = args[0] instanceof Event ? args[0].target : this;
     timer = setTimeout(function () {
       // execute callback first.
-      typeof callback === "function" && callback.apply(context, args);
+      typeof callback === "function" && callback.apply(context, args); // apply second argument can receive array-like object.
       // unlock.
       timer = null;
     }, duration);
@@ -27,11 +23,7 @@ function throttleLeading(callback, duration = 1000) {
   // return a throttled event handler.
   return function () {
     if (timer) return;
-    var args = [];
-    var len = arguments.length;
-    for (var i = 0; i < len; i++) {
-      args.push(arguments[i]);
-    }
+    var args = arguments;
     var context = args[0] instanceof Event ? args[0].target : this;
     // typeof callback === "function" && callback.apply(context, args);
     timer = setTimeout(function () {

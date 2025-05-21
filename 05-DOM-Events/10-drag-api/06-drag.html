@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>06-Drag - drop event and prevent default</title>
+    <style>
+      .draggable {
+        position: absolute;
+        left: 10px;
+        top: 50px;
+        width: 100px;
+        height: 100px;
+        background-color: green;
+      }
+      .drop-target {
+        position: absolute;
+        left: 200px;
+        top: 10px;
+        width: 200px;
+        height: 200px;
+        border: 1px dashed;
+        /* background-color: #ddd; */
+      }
+      input {
+        position: absolute;
+        top: 200px;
+        left: 10px;
+      }
+
+      textarea {
+        position: absolute;
+        top: 250px;
+        left: 10px;
+      }
+
+      img {
+        position: absolute;
+        top: 300px;
+        left: 10px;
+        width: 100px;
+        height: 100px;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    Lorem ipsum dolor sit amet.
+    <div draggable="true" class="draggable"></div>
+    <div class="drop-target"></div>
+    <img src="./min1.jpg" alt="" />
+    <br />
+    <a href="https://www.google.com">Google</a>
+    <!-- input field / textarea is the only drop target that can trigger drop event by default. -->
+    <input type="text" />
+    <textarea name="" id=""></textarea>
+    <script>
+      var input = document.querySelector("input");
+      var textarea = document.querySelector("textarea");
+      var dropTarget = document.querySelector(".drop-target");
+
+      // Usually, we invoke preventDefault in both dragenter and dragover event handlers.
+      // what happens when we only prevent default in dragenter, the moment when dragenter trigger, the pointer changes, but it is not lasted for long.
+      dropTarget.addEventListener("dragenter", function (e) {
+        e.preventDefault();
+        console.log(e.dataTransfer);
+      });
+
+      // this ensures the drop is allowed, even after enter the drop target.
+      // note: though if you only invoke e.preventDefault() in dragover event is also working.
+      dropTarget.addEventListener("dragover", function (e) {
+        e.preventDefault();
+      });
+
+      dropTarget.addEventListener("drop", function (e) {
+        /* Though in my FireFox doesn't have this issue. */
+        e.preventDefault(); /* prevent redirection occurs in Firefox. */
+        e.stopPropagation(); /* stop this event from bubbling to document that causes the redirection. */
+        console.log("drop");
+      });
+
+      input.addEventListener("drop", function (e) {
+        console.log("drop input");
+        console.log(e);
+      });
+      textarea.addEventListener("drop", function (e) {
+        console.log("drop textarea");
+        console.log(e);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08-Drag - effectAllowed</title>
+    <style>
+      .draggable {
+        position: absolute;
+        left: 10px;
+        top: 50px;
+        width: 100px;
+        height: 100px;
+        background-color: green;
+      }
+      .drop-target {
+        position: absolute;
+        left: 200px;
+        top: 10px;
+        width: 200px;
+        height: 200px;
+        border: 1px dashed;
+        /* background-color: #ddd; */
+      }
+    </style>
+  </head>
+  <body>
+    Lorem ipsum dolor sit amet.
+    <div draggable="true" class="draggable"></div>
+    <div class="drop-target"></div>
+    <script>
+      var dragSource = document.querySelector(".draggable");
+      var dropTarget = document.querySelector(".drop-target");
+
+      document.addEventListener("dragover", function (e) {
+        // By default, dropping is not allowed in document.
+        // Disable the default, you will be able to see the effect.
+        e.preventDefault();
+      });
+      dragSource.addEventListener("dragstart", function (e) {
+        // specify what the drop target can do
+        e.dataTransfer.effectAllowed = "copy";
+      });
+
+      dropTarget.addEventListener("dragenter", function (e) {
+        e.preventDefault();
+      });
+
+      dropTarget.addEventListener("dragover", function (e) {
+        e.preventDefault();
+
+        /* Do not explicitly set dropEffect. */
+        /* It will be based on what you set on the effectAllowed. */
+        /* But when I try to log, the e.dataTransfer.dropEffect returns none, but the behavior is related to what is permitted in effectAllowed. */
+        /* Better explicitly set dropEffect. */
+        
+        // e.dataTransfer.dropEffect = "link";
+        // e.dataTransfer.dropEffect = "move"; // since move is not aligned with effectAllowed (link), the drop is disabled.
+      });
+
+      dropTarget.addEventListener("drop", function (e) {
+        /* Though in my FireFox doesn't have this issue. */
+        e.preventDefault(); /* prevent redirection occurs in Firefox. */
+        e.stopPropagation(); /* stop this event from bubbling to document that causes the redirection. */
+        console.log("drop");
+      });
+    </script>
+  </body>
+</html>

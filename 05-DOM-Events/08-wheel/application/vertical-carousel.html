@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vertical Carousel Layout With Wheel Event</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        overflow-y: hidden;
+      }
+      .banner {
+        height: 500%;
+        text-align: center;
+        /* GPU Acceleration */
+        transform: translate3d(0, 0%, 0);
+        transition: transform 1s ease;
+      }
+      .banner .slide {
+        height: 20%;
+        font-size: 80px;
+        font-weight: bold;
+        color: #fff;
+      }
+      .banner .slide:nth-child(1) {
+        background-color: rgb(248, 224, 179);
+      }
+      .banner .slide:nth-child(2) {
+        background-color: rgb(179, 248, 191);
+      }
+      .banner .slide:nth-child(3) {
+        background-color: rgb(243, 189, 201);
+      }
+      .banner .slide:nth-child(4) {
+        background-color: rgb(208, 207, 248);
+      }
+      .banner .slide:nth-child(5) {
+        background-color: rgb(247, 207, 204);
+      }
+
+      .pagination {
+        position: fixed;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 120px;
+      }
+
+      .pagination span {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #fff;
+        cursor: pointer;
+      }
+      .pagination span.active {
+        background-color: tomato;
+        box-shadow: 0 0 2px 3px tomato;
+      }
+      .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .space-evenly-col {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="banner">
+      <div class="slide center">1</div>
+      <div class="slide center">2</div>
+      <div class="slide center">3</div>
+      <div class="slide center">4</div>
+      <div class="slide center">5</div>
+    </div>
+    <div class="pagination space-evenly-col">
+      <span class="active"></span><span></span><span></span><span></span
+      ><span></span>
+    </div>
+    <script src="../wheel.js"></script>
+    <script>
+      // i h
+      // 0 0
+      // 1 -1vh
+      // 2 -2vh
+      if (history.scrollRestoration) {
+        history.scrollRestoration = "manual";
+      } else {
+        setTimeout(function () {
+          window.scrollTo(0, 0);
+          switchTo(
+            0
+          ); /* You can keep this. If you want to manually scroll to a certain slide. */
+        }, 20);
+      }
+      var banner = document.querySelector(".banner");
+      var pagination = document.querySelector(".pagination");
+      var dots = document.querySelectorAll(".pagination span");
+      var viewportHeight = document.documentElement.clientHeight;
+      var previousIndex = 0;
+      var currentIndex = 0;
+
+      dots.forEach(function (dot, index) {
+        dot.dataset.index = index;
+      });
+
+      var throttledPageHandler = throttle(function (e) {
+        var target = e.target;
+        if (target.tagName !== "SPAN") return;
+        var i = Number(target.dataset.index);
+        switchTo(i);
+      }, 1000);
+
+      pagination.addEventListener("click", throttledPageHandler);
+
+      function switchTo(index) {
+        // remove previous dot class name
+        dots[previousIndex].classList.remove("active");
+        // add class name to current target
+        currentIndex = index;
+        previousIndex = currentIndex;
+        dots[currentIndex].classList.add("active");
+
+        // calculate _scrollY (how much to scroll).
+        var _scrollY = currentIndex * viewportHeight * -1 + "px";
+        // var _scrollY = currentIndex * 20 * -1 + "%";
+        banner.style.transform = "translate3d(0," + _scrollY + ",0)";
+      }
+
+      var throttledWheelHandler = throttle(handleWheel, 1000);
+
+      window._addWheelListener(banner, throttledWheelHandler);
+
+      function handleWheel(e) {
+        var deltaY = e.deltaY;
+        if (deltaY > 0) {
+          currentIndex++;
+          if (currentIndex === dots.length) {
+            currentIndex = dots.length - 1;
+            return;
+          }
+          switchTo(currentIndex);
+        } else {
+          currentIndex--;
+          if (currentIndex < 0) {
+            currentIndex = 0;
+            return;
+          }
+          switchTo(currentIndex);
+        }
+      }
+
+      function throttle(fn, delay) {
+        var timerId = null;
+        return function () {
+          if (timerId) return;
+          var args = arguments;
+          var that = this;
+          timerId = setTimeout(function () {
+            timerId = null;
+          }, delay);
+          fn.apply(that, args);
+        };
+      }
+
+      var throttledResizeHandler = throttle(function (e) {
+        // recalculate the viewport height when resizing.
+        viewportHeight = document.documentElement.clientHeight;
+        var _scrollY = currentIndex * viewportHeight * -1 + "px";
+        banner.style.transform = "translate3d(0," + _scrollY + ",0)";
+      }, 20);
+
+      window.addEventListener("resize", throttledResizeHandler);
+    </script>
+  </body>
+</html>

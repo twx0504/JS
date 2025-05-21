@@ -63,7 +63,6 @@
     </ul>
     <script src="./drag3.js"></script>
     <script>
-      
       // Convert float layout to position layout using JS.
       var ul = document.querySelector(".list");
       var liLists = document.querySelectorAll(".list li");
@@ -123,7 +122,6 @@
         document.addEventListener("mousemove", throttledMouseMove);
 
         function handleMouseMove(e) {
-          console.log("a");
           var clientX = e.clientX;
           var clientY = e.clientY;
           var newLeft = clientX - _clientX + _offsetLeft;

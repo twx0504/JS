@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-Drag</title>
+    <style>
+      .draggable {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        width: 100px;
+        height: 100px;
+        background-color: green;
+      }
+      .drop-target {
+        position: absolute;
+        left: 200px;
+        top: 10px;
+        width: 200px;
+        height: 200px;
+        border: 1px dashed;
+        /* background-color: #ddd; */
+      }
+    </style>
+  </head>
+  <body>
+    <div draggable="true" class="draggable"></div>
+    <div class="drop-target"></div>
+    <script>
+      var dropTarget = document.querySelector(".drop-target");
+
+      // similar to mouseenter / mouseover
+      // trigger once
+      // doesn't trigger immediately, only when the draggable element moves enough inside the drop target.
+      dropTarget.addEventListener("dragenter", function (e) {
+        console.log("dragenter");
+      });
+
+      dropTarget.addEventListener("dragover", function (e) {
+        console.log("dragover");
+      });
+
+      // similar to mouseleave / mouseout
+      dropTarget.addEventListener("dragleave", function (e) {
+        console.log("dragleave");
+      });
+
+      //   dropTarget.addEventListener("drop", function (e) {
+      //     console.log("drop");
+      //   });
+
+      document.addEventListener("dragenter", function (e) {
+        console.log("dragenter document");
+      });
+
+      document.addEventListener("dragover", function (e) {
+        console.log("dragover document");
+      });
+
+      // similar to mouseleave / mouseout
+      document.addEventListener("dragleave", function (e) {
+        console.log("dragleave document");
+      });
+    </script>
+  </body>
+</html>
