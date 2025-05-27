@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-404 Redirection</title>
+    <style>
+      span {
+        font-size: 50px;
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    After <span></span> seconds, you will be redirected to
+    <a href="./03-404-demo.html" target="_blank">03-404-demo.html</a> page.
+    <script>
+      var span = document.querySelector("span");
+      var count = 5;
+      span.textContent = count;
+
+      var intervalId = setInterval(function () {
+        count--;
+        span.textContent = count;
+        if (count === 0) {
+          clearInterval(intervalId);
+          window.location.href = "./03-404-demo.html";
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>

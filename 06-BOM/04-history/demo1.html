@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo1</title>
+    <style>
+      body {
+        margin: 0;
+        height: 3000px;
+        background-color: khaki;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      document.addEventListener("dblclick", function () {
+        location.assign("./demo2.html");
+      });
+      document.addEventListener("click", function () {
+        console.log(history.length);
+        if (history.length === 3) {
+          // when the last page is reached, then we can go back.
+          // Expectation: when the history.length reaches 3, then I would expect the subsequent click here on demo1.html will only go back to the first page.
+          // But it actually goes forward to demo2.html.
+          // It seems like the previous page, location.assign has cleared the forward history, and reinsert new entry.
+          // So, the history.length here log 2 when moving forward.
+          history.back();
+        }
+      });
+    </script>
+  </body>
+</html>

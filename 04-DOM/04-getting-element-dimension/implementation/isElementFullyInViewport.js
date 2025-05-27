@@ -14,9 +14,6 @@ function isElementFullyInViewport(elem) {
   );
 }
 
-function isFullyContained(elem, parent){
-
-}
 
 
 // function isElementFullyInViewport(elem) {

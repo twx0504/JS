@@ -551,3 +551,26 @@ dropTarget.addEventListener("drop", function (e) {
 | move          | permit move                                                 |
 | all           | all operations are permitted.                               |
 | uninitialized | default, similar to all.                                    |
+
+## 3.10 Window Events
+
+| <event>            | Description                                                                                                                                                                                                            |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `load`             | fires when the whole page has loaded, including all dependent resources , except those are lazily loaded.                                                                                                              |
+| `DOMContentLoaded` | fires when the whole HTML document has been completely parsed, and all deferred scripts have downloaded and executed. <br/> do not wait for other resources (images, async scripts, subframes, etc.) to finish loading |
+| `resize`           |                                                                                                                                                                                                                        |
+| `scroll`           |                                                                                                                                                                                                                        |
+
+### 3.10.1 DOMContentLoaded event
+### 3.10.2 load event
+
+
+**Other elements have `load` event.**
+
+
+| element  | Description                                                                                                                                                                                                            |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `img`    | fire when the img is loaded. <br/> inserting into page is not necesssary, as long as img has src attribute, it can send out HTTP request, and load event is fired when the resource is downloaded. |
+| `script` | fire when the script is loaded. <br/> script must be inserted into the page. <br/> it must have src attribute, and once the get request sent out and the resource is downloaded, it triggers the event.                |
+| `link`   | fire when the stylesheets have loaded. <br/> link must be inserted into the page. <br/> requires `href` attribute to send out HTTP request, and fire when CSS stylesheets have been loaded.                            |
+ 

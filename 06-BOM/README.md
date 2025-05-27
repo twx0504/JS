@@ -1,6 +1,11 @@
-# Browser Object Model (BOM )
+# Browser Object Model (BOM)
+
+> - allow JS to interact with the browser window.
+> - window object.
+
 
 ## 01 Timer
+> a method of window.
 
 > note:
 > - the delay specified the minimum time after which the callback can be enqueued into the task queue.
@@ -288,3 +293,240 @@ window.requestAnimFrame = (function () {
 > **Applications**
 > - debounce: search, input validation (form), etc, resize event (waiting for the resize to finish before recalculating the layout)
 > - throttle: scroll event (check if the bottom of the page has been reached and load more content), mousemove (e.g., drag), repeated clicks (e.g., to prevent multiple submissions)
+
+## 02 Window
+
+> - `window` is the global object in browser environments, representing the window / tab in which your script is running.
+> - In browser, each tab runs in its own isolated environment, and has its own window object, even if they are in the same browser window.
+> - in ECMAScript, the term `global object` refers to the environment top-level object, which is `window` object in browsers.
+> - in nodejs, there's no `window` object, the global object is called `global`.
+
+
+### 2.1 Global Variables
+
+> - global variables declared with var becomes properties of the window object.
+> - multiple js files shares the global contex, there's no concept of scope isolation.
+
+### 2.2 Built-in Functions are Methods of Window.
+
+> - e.g., setInterval, setTimeout, Array, alert, console.log.
+
+### 2.3 Viewport Sizes
+
+![size](size.png)
+
+| property             | description                           |
+| -------------------- | ------------------------------------- |
+| `window.innerWidth`  | viewport width, including scrollbar.  |
+| `window.innerHeight` | viewport height, including scrollbar. |
+| `window.outerWidth`  | browser window width                  |
+| `window.outerHeight` | browser window height                 |
+
+> - scrollbar width: `scrollbarWidth = window.innerWidth - document.documentElement.clientWidth` ~ 15px 
+> - note: when your html file forgot to include doctype declaration, 
+
+```js
+/**
+ * Notes:
+ * 1. document.body vs document.documentElement: clientWidth and clientHeight values differ 
+ *    and can flip depending on the rendering mode (standard vs quirks).
+ * 2. This method standardizes the viewport size retrieval, ensuring the returned width and height
+ *    correspond to the viewport, regardless of mode.
+ * 3. Example: If body height is set to 3000px,
+ *    - In standards mode, document.documentElement.clientHeight will be close to the viewport height (e.g., ~900),
+ *      while document.body.clientHeight reflects the full content height (3000).
+ * 4. Example: In quirks mode (no doctype),
+ *    - document.documentElement.clientHeight reflects the full height (3000),
+ *      while document.body.clientHeight behaves like viewport height (~900).
+ */
+function getViewportSize() {
+  if (document.compatMode === "BackCompat") { // quirks mode (no doctype or improper doctype)
+    return {
+      w: document.body.clientWidth,
+      h: document.body.clientHeight,
+    };
+  }
+  // standards mode (with proper doctype)
+  return {
+    w: document.documentElement.clientWidth,
+    h: document.documentElement.clientHeight,
+  };
+}
+```
+### 2.4 Scroll
+
+> - different interpretation:
+> - track how much the scrollbar has been scrolled.
+> - track how much width of the content has passed to the left or top of the viewport.
+
+| property                                |
+| --------------------------------------- |
+| `window.scrollX` / `window.pageXOffset` |
+| `window.scrollY` / `window.pageYOffset` |
+| `document.documentElement.scrollLeft`   |
+| `document.documentElement.scrollTop`    |
+
+
+| method                                          | description                                          |
+| ----------------------------------------------- | ---------------------------------------------------- |
+| `window.scroll(x, y)` / `window.scrollTo(x, y)` | scroll element to a particular set of coordinates    |
+| `window.scrollBy(x, y)`                         | scroll the document in the window by a given amount. |
+
+> - recommend using `document.documentElement.scrollLeft` & `document.documentElement.scrollTop` 
+> > - it is readable and writable.
+> > - reduce the reliance on the environment (browser).
+> > - these methods are not dependent on the environment. It is DOM related.
+
+```js
+
+function getScrollOffset() {
+  if ( // Support IE8 and below
+    typeof window.scrollX === "number" && 
+    typeof window.scrollY === "number"
+  ) {
+      return {
+        x: window.scrollX,
+        y: window.scrollY,
+      };
+    }
+  return { // in standard mode, document.documentElement.scrollLeft / scrollTop will have value, while document.body.scrollLeft / scrollTop will be 0. It is vice versa in the case of quirks mode.
+    x: document.documentElement.scrollLeft || document.body.scrollLeft,
+    y: document.documentElement.scrollTop || document.body.scrollTop,
+  };
+}
+```
+
+> https://javascript.info/size-and-scroll-window#window-scroll
+
+### 2.5 Other Properties of Window Object
+
+> - since all the window properties are available globally, a lot of Web APIs and related constructors function are exposed to JavaScript in the form of window properties.
+> - Not all the properties and methods of the window object is related to BOM.
+
+
+| Property    | Description                                                         |
+| ----------- | ------------------------------------------------------------------- |
+| `location`  | represent the URL of the current document or window in the browser. |
+| `history`   | allows manipulation of the browser session history.                 |
+| `navigator` | represents the state and the identity of the user agent.            |
+
+
+
+## 03 Location
+
+> the location object is linked to window or document.
+> `window.location` / `document.location`.
+> `window.location === document.location` returns true. 
+> although `window.location` is a read-only property, we can still assign value to it, and it redirects to the new url.
+> > - it is equivalent to `window.location.href`
+
+
+### 3.1 The Components of URL
+
+> - URL (Uniform Resource Locator): a reference (address on the web) to the resource that specifies its location on a computer network.
+> - an effective URL points to a unique resource.
+> - resources can be a HTML page, a CSS stylesheets, an image, a video, an audio, etc.
+
+```js 
+// protocol://host[:port]/path/[?query]#fragment
+// https://www.example.com:443/blog/article/test.html?targetId=12&preview=0#top
+```
+
+| component | Description |
+| --------- | ----------- |
+| protocol  |             |
+| host      |             |
+| port      |             |
+| path      |             |
+| query     |             |
+| fragment  |             |
+
+### 3.2 Properties of Location
+
+| property                   | Description                                                                                                     |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `window.location.href`     | returns the complete URL string of the current page. <br/> reassign this property causes redirection.           |
+| `window.location.protocol` | returns the protocol scheme of the URL. <br/> include the `:` after the protocol `http:`                        |
+| `window.location.host`     | returns the host, including both hostname and port. <br/> `hostname:port`                                       |
+| `window.location.hostname` | returns the domain of the URL.                                                                                  |
+| `window.location.port`     | returns the port number of the URL.                                                                             |
+| `window.location.pathname` | returns the path of the URL. <br/> include initial `/` <br/> exclude query string and fragment.                 |
+| `window.location.search`   | returns the query string of the URL. <br/> `?param1=val1&param2=val2`                                           |
+| `window.location.hash`     | returns the fragment identifier <br/> `#fragment`                                                               |
+| `window.location.origin`   | returns the origin (protocol + hostname + port number) of the location's URL. <br/> `http://www.example.com:80` |
+
+### 3.3 Methods of Location
+
+| method                              | Description                                                                                        |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `window.location.assign(url)`       | - similar to `location.href` <br/> - the current page is saved in the session history.             |
+| `window.location.reload(forcedGet)` | reload / refresh the current page <br/> forceGet param is non-standard, only supported in Firefox. |
+| `window.location.replace(url)`      | - similar to `location.href` <br/> - the current page is not saved in the session history.         |
+
+## 04 History
+
+| Property                           | Description                                                                                                                                                                    |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `window.history.length`            | returns the number of entries in the session history.                                                                                                                          |
+| `window.history.scrollRestoration` | set the scroll restoration behaviour. <br/> default: `auto` <br/> `manual`: the scroll position of the body element will not restore to the last scroll position after reload. |
+| `window.history.state`             | returns the state object associated with the current entry (top of the history stack) without waiting for the `popstate` event.                                                |
+
+
+| Method                                              | Description                                                                                                                                                                                                                                                                                                           |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `window.history.back()`                             | goes to the previous page in session history.                                                                                                                                                                                                                                                                         |
+| `window.history.forward()`                          | goes to the next page in session history.                                                                                                                                                                                                                                                                             |
+| `window.history.go(delta)`                          | - loads a specific page from the session history. <br/> - `delta` refers to the position in the history to which you want to move, relative to the current page.  <br/> - delta = 0: similar to calling location.reload() <br/> - delta = positive: move forward <br/> - delta = negative: move backwards             |
+|                                                     |
+| `window.history.pushState(state, unused, [url] )`   | - add an entry to the browser's session history stack. <br/> - The page does **not reload**, but the URL in the address bar **updates** to the specified `url`. After calling this method, the browser is now positioned at the **new history entry** (the forward entry), and the **Back** button becomes available. |
+| `window.history.replaceState(state, unused, [url])` | update the session history entry for the current page. <br/> example: store initial states / update state object or url based on user action.                                                                                                                                                                         |
+
+> - `state`: an object which is associated with the history entry passed to the method. / or null.
+> - `unused`: an unused parameter exists for the historical reason, and cannot be omitted. passing an empty string would do.
+> - `url`: the url of the history entry, must be same origin with the current URL. otherwise, throw exception.
+
+> - browser will fire the `popstate` event when it navigates to the new session history entry, which contains the state object associated with that entry.
+> - application: Single-page Application (SPA)
+
+
+## 05 Navigator
+
+> - https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Browser_detection_using_the_user_agent
+
+| property                     | Description                                           |
+| ---------------------------- | ----------------------------------------------------- |
+| `window.navigator.userAgent` | return the user agent string for the current browser. |
+
+![chrome](chrome.png)
+![firefox](firefox.png)
+![edge](edge.png)
+
+
+### 5.1 Navigator.userAgent
+
+**Check if it is built-in browser in WeChat?**
+```js
+// Wechat
+// Mozilla/5.0 (Linux; Android 14; Infinix X6871 Build/UP1A.231005.007;wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36 XWEB/1160117 MMWEBSDK/20250201 MMWEBID/7386 MicroMessenger/8.0.57.2800(0x28003940) WeChat/arm64 Weixin GPVersion/1 NetType/WIFI Language/en ABI/arm64 
+
+var isWechat = function () {
+  var userAgent = window.navigator.userAgent.toLowerCase();
+  if (userAgent.indexOf("micromessenger") !== -1) return true;
+  return false;
+};
+```
+
+**Check Devices (Android, IOS, Web)**
+
+```js
+function isDevice() {
+  // i: case insensitive
+  // (): only one match
+  if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+    return "iOS";
+  } else if (/(Android)/i.test(navigator.userAgent)) {
+    return "Android";
+  }
+  return "Web";
+}
+```
