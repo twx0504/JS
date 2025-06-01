@@ -421,3 +421,14 @@ function longestRepeatingSequenceDP(str) {
 > further optimisation: implement getMedianOfThree & doing quickSort on smallest subarray.
 
 ## 09 Queues
+
+> - First In First Out (FIFO)
+> - head: the rear of queue
+> - tail: the front of queue
+> - operation:
+> > - `enqueue`: adding element to the rear of queue.
+> > - `dequeue`: removing element from the front of queue.
+
+## 9.1 Optimisation: Circular Queue
+> - implement usingn double pointer pattern.
+![circular queue](queue.png)

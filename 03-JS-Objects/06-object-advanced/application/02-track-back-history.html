@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Track History</title>
+  </head>
+  <body>
+    <script>
+      var obj = {
+        _num: 0,
+        // historyValues: [],
+        _historyValues: [],
+      };
+
+      Object.defineProperty(obj, "num", {
+        get() {
+          return this._num;
+        },
+        set(value) {
+          this._num = value;
+          this._historyValues.push(value);
+        },
+      });
+      obj.getHistory = function () {
+        return this._historyValues;
+      };
+      obj.go = function (index) {
+        if (index >= this._historyValues.length) {
+          throw RangeError(
+            "Valid index is ranged from 0 to " +
+              String(this._historyValues.length - 1)
+          );
+        }
+        return this._historyValues[index];
+      };
+
+      obj.num = "a";
+      obj.num = "b";
+      obj.num = "c";
+      obj.num = "d";
+      console.log(obj.historyValues);
+    </script>
+  </body>
+</html>

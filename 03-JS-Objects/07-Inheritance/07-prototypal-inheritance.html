@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>07-Prototypal Inheritance</title>
+  </head>
+  <body>
+    <script>
+      Object.prototype.toString = function () {
+        console.log("I am toString");
+      };
+      var obj1 = {
+        a: 1,
+        sum: function () {
+          console.log("sum");
+        },
+      };
+
+      function createObject(o) {
+        function Fn() {}
+        Fn.prototype = o; // o = prototype
+        return new Fn();
+      }
+
+      var obj2 = createObject(obj1);
+      console.log(obj2.a);
+      obj2.toString();
+      obj2.sum();
+
+      function createObjectVer2(o) {
+        var newObj = new Object();
+        newObj.__proto__ = o; // since o has Object.prototype, so it still has access to methods on Object.prototype
+        return newObj;
+      }
+
+      var obj3 = createObjectVer2(obj1);
+      console.log(obj3.a);
+      obj3.toString(); // toString is still accessible
+    </script>
+  </body>
+</html>

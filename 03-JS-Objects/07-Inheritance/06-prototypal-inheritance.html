@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>06-Prototypal Inheritance</title>
+  </head>
+  <body>
+    <script>
+      var obj1 = {
+        a: 1,
+        b: ["A", "B", "C"], // this is shared.
+        sum: function () {
+          console.log(this.a + this.b);
+        },
+      };
+
+      //   var obj2 = {
+      //     a: 1,
+      //     b: ["A", "B", "C"],
+      //     sum: function () {
+      //       console.log(this.a + this.b);
+      //     },
+
+      //     // additional
+      //     c: 2,
+      //     sleep: function () {},
+      //   };
+
+      // summary:
+      // obj2 is an object
+      // obj2 is an instance of a constructor
+      // constructor.prototype.obj1
+
+      function Fn() {}
+
+      Fn.prototype = obj1;
+      var obj2 = new Fn();
+      console.log(obj2);
+      console.log(obj2.a, obj2.b);
+
+      function createObject(o) {
+        function Fn() {}
+        Fn.prototype = o; // o = prototype
+        return new Fn();
+      }
+
+      var obj3 = createObject(obj1);
+      var obj4 = createObject(obj1);
+
+      // add own properties and methods.
+      obj4.sum = function () {
+        console.log(sum);
+      };
+      obj4.x = 100;
+
+
+      // Problem: note: the reference data is shared.
+      obj4.b.push(100);
+      console.log(obj3.b); // ['A', 'B', 'C', 100]
+
+      console.log(obj3, obj4, obj3 === obj4);
+      console.log(obj3.__proto__ === obj1);
+    </script>
+  </body>
+</html>

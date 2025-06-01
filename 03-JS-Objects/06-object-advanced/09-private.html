@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>09-Private Property, Method, and Privileged Method</title>
+  </head>
+  <body>
+    <script>
+      function Price() {
+        // private property: we do not want people to directly access this property.
+        var _price = 0;
+        // private method
+        function _computed() {
+          return _price > 0 ? "$" + _price : "FREE";
+        }
+        // privileged method: we do not want to expose the private property, and we may need additional handling.
+        this.getPrice = function () {
+          return _computed(); // access to the private method
+        };
+        this.setPrice = function (value) {
+          // additional handling.
+          if (typeof value !== "number")
+            throw new Error("Please provide a number.");
+          _price = value; // access to private property
+        };
+      }
+
+      var p = new Price();
+      //   console.log(p._price); // undefined -> note: private property is not accessible from an instance.
+      console.log(p.getPrice());
+      p.setPrice(21);
+      console.log(p.getPrice());
+      //   p.setPrice("21");
+      p.setPrice(-33);
+      console.log(p.getPrice());
+
+      // When do we set a property as private?
+      // 1. this property can only be accessible inside the constructor, and we cannot modify it from outside.
+      // 2. we cannot directly modify the property, we need additional handling especially during reading or setting its values. We might expose related getter and setter for people to use outside.
+    </script>
+  </body>
+</html>

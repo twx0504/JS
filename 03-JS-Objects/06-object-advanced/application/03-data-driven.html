@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Data Driven Page Update</title>
+    <style>
+      body,
+      p,
+      h3 {
+        margin: 0;
+      }
+
+      h3 {
+        font-size: 32px;
+        color: red;
+      }
+
+      p {
+        width: 400px;
+        font-size: 24px;
+        color: royalblue;
+      }
+
+      img {
+        border-radius: 5px;
+      }
+
+      .container {
+        margin: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h3></h3>
+      <img
+        src="https://picsum.photos/200"
+        alt="random image"
+        width="400"
+        height="400"
+      />
+      <p></p>
+    </div>
+    <script>
+      function defineData() {
+        // Use of closure to achieve the private variable.
+        var _obj = {
+          // Method 1: these properties are still accessible outside.
+          //   _title: "Lorem ipsum dolor sit amet.",
+          //   _img: "https://picsum.photos/200",
+          //   _text: "A random description.",
+        };
+
+        // Method2 : use of closure to make these values inaccessible outside.
+        var title = "Lorem ipsum dolor sit amet.";
+        var img = "https://picsum.photos/200";
+        var text = "A random description.";
+
+        var dom = {
+          title: document.querySelector(".container h3"),
+          img: document.querySelector(".container img"),
+          p: document.querySelector(".container p"),
+        };
+
+        // init
+        dom.title.textContent = title;
+        dom.img.src = img;
+        dom.p.textContent = text;
+
+        // modify
+        var data = Object.defineProperties(_obj, {
+          title: {
+            get() {
+              return title;
+            },
+            set(value) {
+              title = value;
+              dom.title.textContent = value;
+            },
+          },
+          img: {
+            get() {
+              return img;
+            },
+            set(value) {
+              img = value;
+              dom.img.src = value;
+            },
+          },
+          text: {
+            get() {
+              return text;
+            },
+            set(value) {
+              text = value;
+              dom.p.textContent = value;
+            },
+          },
+        });
+        return data;
+      }
+
+      var data = defineData();
+      console.log(data);
+
+      data.title = "I have changed the title";
+      data.text = "I have changed the content";
+      console.log(data.title);
+      console.log(data.text);
+      console.log(data.img);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08-Object.create</title>
+  </head>
+  <body>
+    <script>
+      var obj1 = {
+        a: 1,
+        b: [1, 2, 3], // reference data is shared.
+        c: function () {
+          console.log("c");
+        },
+      };
+
+      var obj2 = Object.create(obj1);
+      var obj3 = Object.create(obj1);
+      console.log(obj2);
+      obj2.c();
+      obj2.b.push(100);
+      console.log(obj3.b); // [1, 2, 3, 100] - the reference data is shared.
+
+      var person = {
+        name: "twx",
+        age: 25,
+      };
+
+      var student = Object.create(person, {
+        school: {
+          value: "smktp",
+          writable: true,
+        },
+        id: {
+          get() {
+            console.log("id");
+            return "0001";
+          },
+        },
+      });
+
+      console.log(student);
+      student.id;
+
+      // Null
+
+      // Problem with Wrapper Object:
+      var num1 = Object.create(new Object(2.33));
+      console.log(num1);
+      console.log(num1.__proto__.__proto__); // There's methods of Number type!
+
+      // But it is not useful here.
+      //   console.log(num1.toFixed(2)); // Uncaught TypeError: Number.prototype.toFixed requires that 'this' be a Number at Number.toFixed
+      // Reason: num1 here is an object, not a number!!!
+
+      //   Object.create(undefined); // Uncaught TypeError: Object prototype may only be an Object or null: undefined at Object.create (note: undefined is not object)
+      var test = Object.create(null); // ok
+      var fnObj = Object.create(function () {}); // ok. function is a type of object
+      console.log(test, fnObj);
+
+      //   var num2 = Object.create(1); // Uncaught TypeError: Object prototype may only be an Object or null
+      //   console.log(num2);
+    </script>
+  </body>
+</html>

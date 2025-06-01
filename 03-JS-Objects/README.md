@@ -365,7 +365,7 @@ var wilson = createPerson("Wilson", 25, "male");
 function Person(name, age, sex) {
   // Internal Mechanism:
   // 1. var obj = {}
-  // 2. obj.__proto__ = Person.prototype
+  // 2. obj.__proto__ = Person.prototype （when Person.prototype is an object, otherwise, it is default to Object.prototype.
   // 3. this = obj;
   // 4. execute codes in function body, resembles adding new property to obj.
   // 5. return obj 
@@ -726,3 +726,391 @@ important points:
 >     - return instance 
 > - otherwise, return fn.apply(context, finalArgs)
 > return boundingFn
+
+## 08 Object Advanced
+
+### 8.1 `Object.defineProperty(obj, prop, descriptor)`
+
+
+
+> - defines a new property directly on an object, or modifies an existing property on an object, and returns the object.
+> - two main types of descriptor: data descriptor & accessor descriptor (getter-setter pair).
+
+**Keys Shared between Data Descriptor and Accessor Descriptor:**
+| key            | description                                                                                                                                                                                                                                                                                                                                                                                  | default |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `enumerable`   | Determines whether the property shows up during enumeration (e.g. `for...in`, `Object.keys`).                                                                                                                                                                                                                                                                                                | `false` |
+| `configurable` | - If `false`:<br>   1. The property **cannot be deleted** using `delete`.<br>   2. You **cannot redefine the property descriptor** (like changing `enumerable`, `configurable`, switching between data/accessor property, etc.).<br>   3. **Exception**: If it’s a **data property** with `writable: true`, its **value can still be changed**, and you can still set `writable` to `false`. | `false` |
+
+> - When you try to change the descritor of a non-configurable property, it throws error.
+> - Uncaught TypeError: Cannot redefine property: name at Object.defineProperty (<anonymous>)
+
+**Data Descriptor**
+
+> - data property: a property defined by Object.defineProperty where the descriptor is a data descriptor.
+> - or the one defined by the traditional method `obj.x = y`
+
+| key        | description                                                 |             |
+| ---------- | ----------------------------------------------------------- | ----------- |
+| `value`    | value associated with the property.                         | `undefined` |
+| `writable` | whether the value can be changed by an assignment operator. | `false`     |
+
+> - use case: define a constant value.
+
+**Accessor Descriptor**
+
+> - accessor property: a property defined by Object.defineProperty where the descriptor is a accessor descriptor.
+> - when accessing or setting a property value, 
+> > - we may want to do additional complex computation before getting the value.
+> > - we may want some other property value to change too.
+
+
+| key   | description                                                                                             | default     |
+| ----- | ------------------------------------------------------------------------------------------------------- | ----------- |
+| `get` | a function invoked when accessing a property value.                                                     | `undefined` |
+| `set` | a function invoked when setting a property value. <br/> It has a parameter receiving the value you set. | `undefined` |
+
+> - note: the default values mentioned here only works for the property defined by this method. 
+> - if you use the var obj = {key1: value1, key2: value2} the default will be the opposite. 
+
+
+```js
+var obj = {
+  a: 1,
+  b: 2,
+};
+
+obj.c;
+
+Object.defineProperty(obj, "name", {
+  value: "twx",
+});
+console.log(Object.getOwnPropertyDescriptor(obj, "a"));
+console.log(Object.getOwnPropertyDescriptor(obj, "name"));  
+console.log(Object.getOwnPropertyDescriptor(obj, "c"));
+// {value: 1, writable: true, enumerable: true, configurable: true}
+// {value: 'twx', writable: false, enumerable: false, configurable: false}
+// undefined
+
+```
+
+### 8.2 Object.getOwnPropertyDescriptor(obj, prop)
+
+> - return the descriptor of a specific property of an object.
+
+### 8.3 Object.defineProperties(obj, props)
+
+> - plural form of Object.defineProperties.
+
+```js
+Object.defineProperties(obj, {
+  name: {
+    value: "twx",
+    writable: true,
+    configurable: true,
+  },
+  age: {
+    value: 25,
+    writable: true,
+    configurable: true,
+  },
+  sex: {
+    get: function () {
+      console.log("get");
+    },
+    set: function () {
+      console.log("set");
+    },
+  },
+});
+
+```
+
+### 8.4 Object.getOwnPropertyDescriptors(obj)
+
+> - returns an object containing all own property descriptors of a given object.
+
+### 8.5 Application: Data-driven Page Update
+
+> - Vue2: Object.defineProperty
+> - Vue3: Proxy
+
+
+### 8.6 Public & Private Property
+
+> - from the perspective of constructor or class.
+
+#### 8.6.1 Public Properties and Public Methods
+
+> - public property / method is also known as instance property / instance method.
+> - accessible by all the instances of the constructor / class.
+> - usually, public methods is written on the prototype of the constructor.
+
+#### 8.6.2 Private Properties and Private Methods
+
+> - private properties / methods are only accessible inside the constructor function.
+> - privileged method: a public method that has access to the internal private properties and private methods.
+> - in JavaScript, there's no concept of private property and private method. 
+> - To make property or method private, we need to use the concept of closure.
+> - naming convention: `_name`
+
+```js
+function Price() {
+  // private property: we do not want people to directly access this property.
+  var _price = 0;
+  // private method
+  function _computed() {
+    return _price > 0 ? "$" + _price : "FREE";
+  }
+  // privileged method: we do not want to expose the private property, and we may need additional handling.
+  this.getPrice = function () {
+    return _computed(); // access to the private method
+  };
+  this.setPrice = function (value) {
+    // additional handling.
+    if (typeof value !== "number")
+      throw new Error("Please provide a number.");
+    _price = value; // access to private property
+  };
+}
+
+```
+
+> **When do we use private property?**
+> - 1. this property can only be accessible inside the constructor, and we cannot modify it from outside.
+> - 2. we cannot directly modify the property, we need additional handling especially during reading or setting its values. We might expose related getter and setter for people to use outside.
+
+## 09 Inheritance
+
+> - inheritance: passing down properties and methods from Parent Class to Child Class, so that Child Class can reuse the existing code in Parent Class, and build upon the features (start with existing features and add more).
+> reusable, maintainable, allow code sharing.
+> key: Child class inherits all the public / instance properties and methods, and beyond that, Child class can also add its own properties and methods.
+
+> analogy: parent and children, teacher and replacer teacher.
+
+### 9.1 Method 1: Prototype Chain Inheritance / Prototype Inheritance
+
+> we set the prototype of Child constructor to be an instance of the Parent Constructor.
+> `Child.prototype = new Parent()`
+> - drawback 1: you cannot pass arguments to the instance properties of Parent Constructor.
+> - solution: Overriding property in Child Constructor.
+> - drawback 2: If there's a reference data type in Parent Class, it is shared among instances (Not ideal).
+
+```js
+function People(name, age, sex) {
+  this.name = name;
+  this.age = age;
+  this.sex = sex;
+}
+People.prototype.sayHello = function () {
+  console.log("Hello, I am", this.name);
+};
+People.prototype.sleep = function () {
+  console.log("Hello, I like sleeping");
+};
+
+function Student(name, age, sex, studentId, school) {
+  this.studentId = studentId;
+  this.school = school;
+
+  // Overriding
+  this.name = name;
+  this.age = age;
+  this.sex = sex;
+}
+
+// Modify the Student.prototype
+// Important to note the order here.
+// To ensure the instance method on Student.prototype works.
+// console.log(Student.prototype.constructor);
+Student.prototype = new People(); // instance of People
+Student.prototype.study = function () {
+  console.log("study");
+};
+Student.prototype.exam = function () {
+  console.log("exam");
+};
+```
+
+
+### 9.2 Method 2: Classical Inheritance / Object Masquerading / Constructor Borrowing
+
+> - calling the Parent constructor inside Child constructor with `Parent.call(this, param1, param2, ...)` or `Parent.apply(this,[param1, param2,...])`
+> - solve the drawback faced in Method 1.
+> - drawback: the instance method on the prototype of the Parent Consturctor is not inherited.
+
+```js
+function People(name, age, sex) {
+  this.name = name;
+  this.age = age;
+  this.sex = sex;
+}
+
+People.prototype.sayHello = function () {
+  console.log("hello");
+};
+
+function Student(name, age, sex, id, school) {
+  // this.name = name;
+  // this.age = age;
+  // this.sex = sex;
+  People.call(this, name, age, sex); // this is calling constructor as regular function.
+  this.id = id;
+  this.school = school;
+}
+
+var student = new Student("twx", 25, "male", "0001", "smktp");
+console.log(student);
+```
+
+### 9.3 Method 3： Combination Inheritance / Pseudo-Classical Inheritance
+
+> - combination of method 1 (inherit instance methods on the Parent constructor's prototype) & method 2 (inherit instance property).
+> - drawback 1: calling Parent constructor twice.  
+> - drawback 2: the lost of Child.prototype.constructor (been replaced by Parent constructor).
+
+```js
+function People(name, age, sex) {
+  this.name = name;
+  this.age = age;
+  this.sex = sex;
+  this.arr = [1, 2, 3];
+}
+
+People.prototype.sayHello = function () {
+  console.log("hello " + this.name);
+};
+
+function Student(name, age, sex, id, school) {
+  // this.name = name;
+  // this.age = age;
+  // this.sex = sex;
+  People.call(this, name, age, sex); // this is calling constructor as regular function. (Method 2)
+  this.id = id;
+  this.school = school;
+}
+
+Student.prototype = new People(); // (Method 2)
+Student.prototype.exam = function () {
+  console.log("exam", this.school);
+};
+```
+
+### 9.4 Prototypal Inheritance
+
+> - create an new object built upon an existing object.
+> - focus on object.
+> - have nothing to do with constructor / class.
+> - use case: when there's no need to create objects via a constructor, but we need objects to share properties or methods.
+> > - e.g., objB wants to have some things from objA.
+> - caveat: beware of working with reference data type from the prototype, it is shared.
+```js
+// Recommended.
+// Before Object.create came out
+function createObject(o) {
+  function Fn(){}
+  Fn.prototype= o;
+  return new Fn();
+}
+
+function createObjectVer2(o) {
+  var newObj = new Object();
+  // break the link to Object.prototype
+  newObj.__proto__ = o; // but since o has Object.prototype, so it still has access to methods on Object.prototype
+  return newObj;
+}
+
+var obj1 = {
+  a: 1,
+  b: [1, 2, 3],
+  sum: function () {
+    console.log("sum");
+  },
+};
+
+var newObj = createObject(obj1);
+
+// note: the reference data of obj1 is shared.
+newObj.b = []; // if you want to avoid this, you need to override it by defining a new reference data to that property.
+```
+
+#### 9.4.1 `Object.create(prototype, [propertiesObject])`
+
+> - prototype: an object type / null
+> - propertiesObject is an object of properties and their property descriptor.
+> problem with wrapper object:
+
+```js
+// Problem with Wrapper Object:
+var num1 = Object.create(new Object(2.33));
+console.log(num1);
+console.log(num1.__proto__.__proto__); // There's methods of Number type!
+
+// But it is not useful here.
+//   console.log(num1.toFixed(2)); // Uncaught TypeError: Number.prototype.toFixed requires that 'this' be a Number at Number.toFixed
+// Reason: num1 here is an object, not a number!!!
+```
+
+### 9.5 Parasitic Inheritance
+
+> - a pattern where we create a new object based on an existing object, and enhance it with new features.
+> - kind of similar to Object.create(obj, propertiesObject), but with more flexibility.
+> - e.g., add preset methods, add conditionals, etc.
+> - use case: when creating a new object without thinking of class / constructor (type).
+> - caveat: the added methods are not sharable. each obj has its own copies.
+```js
+
+function enhanceObject(o) {
+  // enhance
+  var newObj = Object.create(o);
+  newObj.sum = function () {
+    console.log("sum");
+  }
+  return newObj;
+}
+
+```
+
+
+### 9.6 Parasitic Combination Inheritance Pattern (Important)
+
+> - an inheritance pattern that combine both constructor borrowing and prototype chaining.
+> - problem to be solved:
+> > - avoid double calling of Parent constructor.
+> > - prevent Child.prototype.constructor being overwritten.
+> - Step 1: inherits property via constructor borrowing.
+> > - calling Parent constructor in Child constructor.
+> - Step 2: set up prototype chain.
+> > - create an object based on Parent.prototype.
+> > - assign it to Child.prototype.
+> - fix the Child.prototype.constructor to Child.
+
+```js
+function Parent(surname){
+  this.surname = surname;
+}
+function Child(name, surname){
+  this.name = name;
+  // Step 1: constructor borrowing
+  Parent.call(this, surname);
+}
+// Step 2: Set up prototype chain
+inherit(Parent, Child);
+
+function inherit(parent, child){
+  child.prototype = Object.create(parent.prototype);
+  child.prototype.constructor = child;
+}
+```
+
+
+## 10 Type of Objects
+
+| Type             | Description                                                                                                                                                                                                                                                              |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| built-in objects | - provided by JavaScript itself. <br/> e.g., `Object`, `Array`, `Function`, `String`, `Math`, `Date`, `RegExp`, `Error`, `Global` etc. <br/> - some built-in objects have constructor (Array, Date, RegExp, Error, etc.), some don't (Math, JSON).                       |
+| host objects     | - defined by environments. <br/> e.g., in browser, host object includes `Window`, `Document`, `Element`, `Form`, `Image`, etc. <br/> - different browsers can provide same objects, but their implementation may be different, and thus are having compatibility issues. |
+| custom objects   | - defined by developers.                                                                                                                                                                                                                                                 |
+## 11 Relationship of JS Objects
+
+![Relationship](relationship.png)

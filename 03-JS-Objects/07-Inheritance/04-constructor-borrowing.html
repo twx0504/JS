@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Constructor Borrowing</title>
+  </head>
+  <body>
+    <script>
+      function People(name, age, sex) {
+        this.name = name;
+        this.age = age;
+        this.sex = sex;
+      }
+
+      People.prototype.sayHello = function () {
+        console.log("hello");
+      };
+
+      function Student(name, age, sex, id, school) {
+        // this.name = name;
+        // this.age = age;
+        // this.sex = sex;
+        People.call(this, name, age, sex); // this is calling constructor as regular function.
+        this.id = id;
+        this.school = school;
+      }
+
+      var student = new Student("twx", 25, "male", "0001", "smktp");
+      console.log(student);
+
+      // Drawback: the instance property or methods on the prototype of the People class is not inherited.
+      // student.sayHello();
+    </script>
+  </body>
+</html>

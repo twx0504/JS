@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>06-Queue</title>
+  </head>
+  <body>
+    <script>
+      var Queue = (function () {
+        var _queue = Symbol("_queue");
+        function Queue(size) {
+          this[_queue] = [];
+          var _size = size;
+
+          Object.defineProperty(this, "size", {
+            get() {
+              return _size;
+            },
+          });
+        }
+        Queue.prototype.enqueue = function (value) {
+          if (this.isFull()) {
+            throw new RangeError("The queue is full.");
+          }
+          this[_queue].push(value);
+          return true;
+        };
+        Queue.prototype.dequeue = function () {
+          if (this.isEmpty()) {
+            throw new RangeError("The queue is empty.");
+          }
+          return this[_queue].shift(); // O(n) - require optimisation.
+        };
+        Queue.prototype.peekFront = function () {
+          return this[_queue][0];
+        };
+        Queue.prototype.isFull = function () {
+          return this[_queue].length === this.size;
+        };
+        Queue.prototype.isEmpty = function () {
+          return this[_queue].length === 0;
+        };
+        Queue.prototype.clear = function () {
+          this[_queue].length = 0;
+        };
+        Queue.prototype.view = function () {
+          return this[_queue].slice();
+        };
+
+        return Queue;
+      })();
+
+      var queue = new Queue(6);
+      console.log(queue);
+
+      queue.enqueue(1);
+      queue.enqueue(2);
+      queue.enqueue(3);
+      queue.enqueue(4);
+      queue.enqueue(5);
+      queue.enqueue(6);
+      console.log(queue.view());
+      queue.dequeue();
+      queue.dequeue();
+      queue.dequeue();
+      queue.dequeue();
+      queue.dequeue();
+      queue.dequeue();
+
+      console.log(queue.view());
+      queue.enqueue(123);
+      queue.enqueue(456);
+      console.log(queue.peekFront());
+      queue.clear();
+      console.log(queue.view());
+      //   var queue = [];
+      //   console.log("enqueueing");
+      //   queue.push("1");
+      //   queue.push("12");
+      //   queue.push("123");
+      //   console.log(queue);
+      //   console.log("dequeueing");
+      //   console.log(queue.shift());
+      //   console.log(queue.shift());
+      //   console.log(queue.shift());
+      //   console.log(queue);
+    </script>
+  </body>
+</html>
