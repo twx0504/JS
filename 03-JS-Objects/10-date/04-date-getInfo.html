@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Date Get Info</title>
+  </head>
+  <body>
+    <script>
+      var date = new Date();
+      console.log(date);
+      console.dir(date); // to check the date object structure
+      var year = date.getFullYear();
+      var month = date.getMonth(); // zero-based
+      var calendarDay = date.getDate();
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      // use in testing performance (this is usually done in timestamp instead of this milliseconds), ranking that require precision in millisecond
+      var miliSeconds = date.getMilliseconds();
+      var seconds = date.getSeconds();
+      var weekday = date.getDay(); // zero-based
+      console.log(
+        year,
+        month,
+        calendarDay,
+        hours,
+        minutes,
+        seconds,
+        miliSeconds
+      ); // 2025 5 4 12 49 23 692
+      console.log(weekday); // 3
+
+      var timestamp = date.getTime();
+      console.log(timestamp); // 1749012960712 - since epoch
+    </script>
+  </body>
+</html>

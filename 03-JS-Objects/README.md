@@ -1114,3 +1114,386 @@ function inherit(parent, child){
 ## 11 Relationship of JS Objects
 
 ![Relationship](relationship.png)
+
+## 12 Wrapper Objects
+
+> primitive is not an object, but how can we call methods on primitive? e.g., `str.toUpperCase()`.
+
+> - purpose: to provide methods for primitive data types.
+> - JS will wrap the primitive in a temporary wrapper object of the corresponding type when attempting to access property and method from a primitive.
+
+```js
+var str = "twx";
+// 1. create a temporary wrapper object of String type. new String("twx")
+// 2. call the method on the wrapper object.
+// 3. destroy the wrapper object.
+var str2 = str.charAt(1); // similar to new String(str).charAt(1)
+```
+> **Life Cycle of Wrapper Object**
+> cases:
+> - 1. create with `new`, it is destroyed when the current execution context is destroyed.
+> - 2. create at runtime by JS, it is destroyed once the line of code is executed.
+
+> note: 
+> - add a property to the primitive doesn't throw error, but it is not added to the primitive, but to a temporary wrapper object, which is destroyed. this is why you would get undefined when trying to access the property you add.
+> - call wrapper class:
+> > - with new: convert a primitive to an object of the corresponding type.
+> > - without new: type conversion.
+
+### 12.1 Number
+
+> **Static Properties**
+> - 
+
+| Property                   | Description                                                                                                                                                                                                                                                    |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Number.EPSILON`           | The difference between 1 and the smallest floating point number greater than 1 (≈ 2.220446049250313e-16).                                                                                                                                                      |
+| `Number.MAX_SAFE_INTEGER`  | The maximum safe integer in JavaScript (`2^53 - 1`). <br/> • 53 bits of precision = 52 fraction bits + 1 implicit leading bit. <br/> • We subtract 1 because counting starts from 0. <br/> • For example, with 3 bits: `111` = 7, since `2^3 - 1 = 7` (not 8). |
+| `Number.MAX_VALUE`         | The largest positive numeric value representable in JavaScript (1.7976931348623157e+308).                                                                                                                                                                      |
+| `Number.MIN_SAFE_INTEGER`  | The minimum safe integer in JavaScript (`-2^53 + 1`).                                                                                                                                                                                                          |
+| `Number.MIN_VALUE`         | The smallest positive numeric value representable in JavaScript (~5e-324).                                                                                                                                                                                     |
+| `Number.NaN`               | Special value representing "Not-a-Number".                                                                                                                                                                                                                     |
+| `Number.NEGATIVE_INFINITY` | Special value representing negative infinity.                                                                                                                                                                                                                  |
+| `Number.POSITIVE_INFINITY` | Special value representing positive infinity.                                                                                                                                                                                                                  |
+
+```js
+// Safety and Range:
+// - Safe integers are those that can be represented exactly and compared correctly.
+
+console.log(Number.MIN_SAFE_INTEGER); // -9007199254740991  (-(2^53 - 1))
+console.log(Number.MAX_SAFE_INTEGER); //  9007199254740991  (2^53 - 1)
+
+console.log(Number.isSafeInteger(9007199254740991)); // true
+console.log(Number.isSafeInteger(9007199254740992)); // false - exceed 2^53 - 1 range.
+
+// Large numbers and adding 1:
+// Math.MAX_VALUE is approximately 1.79e+308 (very large)
+
+console.log(Math.MAX_VALUE + 1 === Math.MAX_VALUE); // true
+
+// Adding 1 to such a huge number doesn't change it because 1 is too small to affect it.
+
+// Recommendation:
+// Always perform calculations within the safe integer range to avoid precision loss.
+
+
+```
+
+**Static Methods**
+| Method                           | Description                                                                    |
+| -------------------------------- | ------------------------------------------------------------------------------ |
+| `Number.isFinite(value)`         | Determines whether the passed value is a finite number.                        |
+| `Number.isInteger(value)`        | Determines whether the passed value is an integer.                             |
+| `Number.isNaN(value)`            | Determines whether the passed value is NaN (Not-a-Number).                     |
+| `Number.isSafeInteger(value)`    | Determines whether the passed value is a safe integer (within ±(2^53 -1)).     |
+| `Number.parseFloat(string)`      | Parses a string argument and returns a floating point number.                  |
+| `Number.parseInt(string, radix)` | Parses a string argument and returns an integer of the specified radix (base). |
+
+**Instance Methods**
+| Method                                              | Description                                                                                                                                                                                                |
+| --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Number.prototype.toExponential(fractionDigits)`    | Returns a string representing the number in exponential notation with specified digits.                                                                                                                    |
+| `Number.prototype.toFixed(digits)`                  | - Returns a string representing the number with fixed-point notation, rounded to digits decimals. <br/> - The result of toFixed is not always precise e.g., 2.45.toFixed(1) = 2.5 & 2.55.toFixed(1) = 2.5. |
+| `Number.prototype.toLocaleString(locales, options)` | Returns a string with a language-sensitive representation of the number.                                                                                                                                   |
+| `Number.prototype.toPrecision(precision)`           | Returns a string representing the number to the specified precision.                                                                                                                                       |
+| `Number.prototype.toString([radix])`                | Returns a string representing the number in the specified base (radix). <br/> Override Object.prototype.toString                                                                                           |
+| `Number.prototype.valueOf()`                        | Returns the primitive numeric value of the Number object.                                                                                                                                                  |
+
+
+
+### 12.2 Boolean
+
+| Method                         | Description                                                   |
+| ------------------------------ | ------------------------------------------------------------- |
+| `Boolean.prototype.toString()` | Converts the Boolean value to a string `"true"` or `"false"`. |
+| `Boolean.prototype.valueOf()`  | Returns the primitive Boolean value `true` or `false`.        |
+
+
+### 12.3 String
+
+**Static Methods**
+
+| Method                   | Description                                              |
+| ------------------------ | -------------------------------------------------------- |
+| `String.fromCharCode()`  | Creates a string from a sequence of UTF-16 code units.   |
+| `String.fromCodePoint()` | Creates a string from a sequence of Unicode code points. |
+| `String.raw()`           | Creates a raw string from a template literal.            |
+
+
+**Instance Methods**
+
+| Method                                 | Description                                                              |
+| -------------------------------------- | ------------------------------------------------------------------------ |
+| `String.prototype.at()`                | Returns the character at a specified index, supporting negative indices. |
+| `String.prototype.charAt()`            | Returns the character at a specified index.                              |
+| `String.prototype.charCodeAt()`        | Returns the UTF-16 code unit at a specified index.                       |
+| `String.prototype.codePointAt()`       | Returns the Unicode code point at a specified position.                  |
+| `String.prototype.concat()`            | Combines the string with one or more strings and returns a new string.   |
+| `String.prototype.endsWith()`          | Checks if the string ends with the given substring.                      |
+| `String.prototype.includes()`          | Checks if the string contains the given substring.                       |
+| `String.prototype.indexOf()`           | Returns the index of the first occurrence of a substring.                |
+| `String.prototype.isWellFormed()`      | Checks if the string contains well-formed UTF-16 sequences.              |
+| `String.prototype.lastIndexOf()`       | Returns the index of the last occurrence of a substring.                 |
+| `String.prototype.localeCompare()`     | Compares two strings according to locale-specific order.                 |
+| `String.prototype.normalize()`         | Returns the Unicode Normalization Form of the string.                    |
+| `String.prototype.padEnd()`            | Pads the current string at the end with a given string.                  |
+| `String.prototype.padStart()`          | Pads the current string at the start with a given string.                |
+| `String.prototype.repeat()`            | Returns a new string with a specified number of copies of the string.    |
+| `String.prototype.slice()`             | Extracts a section of a string and returns it as a new string.           |
+| `String.prototype.split()`             | Splits the string into an array of substrings.                           |
+| `String.prototype.startsWith()`        | Checks if the string starts with the given substring.                    |
+| `String.prototype.substring()`         | Returns the substring between two indices.                               |
+| `String.prototype.toLocaleLowerCase()` | Converts the string to lowercase according to locale.                    |
+| `String.prototype.toLocaleUpperCase()` | Converts the string to uppercase according to locale.                    |
+| `String.prototype.toLowerCase()`       | Converts the string to lowercase.                                        |
+| `String.prototype.toString()`          | Returns the string representation of the String object.                  |
+| `String.prototype.toUpperCase()`       | Converts the string to uppercase.                                        |
+| `String.prototype.toWellFormed()`      | Returns a well-formed UTF-16 string.                                     |
+| `String.prototype.trim()`              | Removes whitespace from both ends of the string.                         |
+| `String.prototype.trimEnd()`           | Removes whitespace from the end of the string.                           |
+| `String.prototype.trimStart()`         | Removes whitespace from the start of the string.                         |
+| `String.prototype.valueOf()`           | Returns the primitive value of the String object.                        |
+| `String.prototype[Symbol.iterator]()`  | Returns an iterator for the string’s characters.                         |
+
+**REGEX-related Instance Methods**
+
+| Method                          | Description                                                          |
+| ------------------------------- | -------------------------------------------------------------------- |
+| `String.prototype.match()`      | Retrieves the matches of a string against a regular expression.      |
+| `String.prototype.matchAll()`   | Returns an iterator of all matched substrings against a regex.       |
+| `String.prototype.replace()`    | Returns a new string with some or all matches of a pattern replaced. |
+| `String.prototype.replaceAll()` | Returns a new string with all matches of a pattern replaced.         |
+| `String.prototype.search()`     | Executes a search for a match between the string and a regex.        |
+
+
+**Instance Property**
+
+| Property | Description                                                     |
+| -------- | --------------------------------------------------------------- |
+| `length` | Returns the length of the string (number of UTF-16 code units). |
+
+
+## 13 Math
+**Static Methods**
+
+| Property      | Description                                                   |
+| ------------- | ------------------------------------------------------------- |
+| Math.E        | Euler's number, base of natural logarithms (\~2.718)          |
+| Math.LN10     | Natural logarithm of 10 (\~2.303)                             |
+| Math.LN2      | Natural logarithm of 2 (\~0.693)                              |
+| Math.LOG10E   | Base-10 logarithm of E (\~0.434)                              |
+| Math.LOG2E    | Base-2 logarithm of E (\~1.443)                               |
+| Math.PI       | Ratio of a circle's circumference to its diameter (\~3.14159) |
+| Math.SQRT1\_2 | Square root of 1/2 (\~0.707)                                  |
+| Math.SQRT2    | Square root of 2 (\~1.414)                                    |
+
+**Static Methods**
+
+**Randomness**
+
+| Method        | Description                                                                     |
+| ------------- | ------------------------------------------------------------------------------- |
+| Math.random() | Returns a random floating-point number between 0 (inclusive) and 1 (exclusive). |
+
+
+**Common Arithmetic**
+| Method                   | Description                                                |
+| ------------------------ | ---------------------------------------------------------- |
+| Math.abs(x)              | Returns the absolute value of x                            |
+| Math.cbrt(x)             | Returns the cube root of x                                 |
+| Math.exp(x)              | Returns e^x, where e is Euler's number                     |
+| Math.expm1(x)            | Returns e^x - 1, optimized for small x                     |
+| Math.hypot(...args)      | Returns the square root of the sum of squares of arguments |
+| Math.pow(base, exponent) | Returns base raised to the power of exponent               |
+| Math.sqrt(x)             | Returns the square root of x                               |
+
+**Rounding**
+
+| Method         | Description                                               |
+| -------------- | --------------------------------------------------------- |
+| Math.ceil(x)   | Rounds x up to the nearest integer                        |
+| Math.floor(x)  | Rounds x down to the nearest integer                      |
+| Math.fround(x) | Rounds x to the nearest 32-bit single-precision float     |
+| Math.round(x)  | Rounds x to the nearest integer                           |
+| Math.trunc(x)  | Returns the integer part of x, removing fractional digits |
+
+```js
+/* 
+  -6 -5 -4 -3 -2 -1 0 1 2 3 4 5
+        
+  if fraction:
+  1. > 0.5 round to the integer with higher absolute value
+  2. === 0.5 round to the direction of +Infinity
+  3. < 0.5 round to the integer with lower absolute value
+
+  e.g., -5.49
+  - fraction part is < 0.5
+  - round to the next lower absolute value
+  - -5
+
+
+  e.g., -5.5
+  - fraction part is exactly 0.6
+  - round to the direction of +Infinity
+  - so it is -5.
+
+
+  e.g., -5.51
+  - fraction part is > 0.5
+  - round to the next higher absolute value
+  - -6
+*/
+console.log(Math.round(PI)); // 3
+console.log(Math.round(-5.49)); // -5
+console.log(Math.round(-5.5)); // -5
+console.log(Math.round(-5.51)); // -6
+
+```
+
+
+**Range**
+
+| Method            | Description                               |
+| ----------------- | ----------------------------------------- |
+| Math.max(...args) | Returns the largest of the given numbers  |
+| Math.min(...args) | Returns the smallest of the given numbers |
+
+**Trigonometry**
+
+| Method           | Description                                |
+| ---------------- | ------------------------------------------ |
+| Math.acos(x)     | Returns the arccosine of x (in radians)    |
+| Math.acosh(x)    | Returns the hyperbolic arccosine of x      |
+| Math.asin(x)     | Returns the arcsine of x (in radians)      |
+| Math.asinh(x)    | Returns the hyperbolic arcsine of x        |
+| Math.atan(x)     | Returns the arctangent of x (in radians)   |
+| Math.atan2(y, x) | Returns the arctangent of y/x (in radians) |
+| Math.atanh(x)    | Returns the hyperbolic arctangent of x     |
+| Math.cos(x)      | Returns the cosine of x (in radians)       |
+| Math.cosh(x)     | Returns the hyperbolic cosine of x         |
+| Math.sin(x)      | Returns the sine of x (in radians)         |
+| Math.sinh(x)     | Returns the hyperbolic sine of x           |
+| Math.tan(x)      | Returns the tangent of x (in radians)      |
+| Math.tanh(x)     | Returns the hyperbolic tangent of x        |
+
+
+> Math.atan2(y, x) is useful to get the angle in radian. 
+> Application: box rotates following the cursor.
+
+**Logarithm**
+
+| Method        | Description                                                   |
+| ------------- | ------------------------------------------------------------- |
+| Math.log(x)   | Returns the natural logarithm (base e) of x                   |
+| Math.log10(x) | Returns the base-10 logarithm of x                            |
+| Math.log1p(x) | Returns the natural logarithm of 1 + x, optimized for small x |
+| Math.log2(x)  | Returns the base-2 logarithm of x                             |
+
+**Bitwise**
+
+| Method          | Description                                                                      |
+| --------------- | -------------------------------------------------------------------------------- |
+| Math.clz32(x)   | Returns the number of leading zero bits in the 32-bit binary representation of x |
+| Math.imul(x, y) | Returns the result of a 32-bit integer multiplication of x and y                 |
+
+## 14 Date
+
+> Generally, we use local timezone for development.
+> Unless we are dealing with app development involving multiple countries and timezone, then we would consider UTC timezone.
+
+
+### 14.1 Date Constructor
+
+```js
+
+// 1. Without param: return the current date and time the moment this code runs.
+new Date(); 
+
+// 2. first param as timestamp in millisecond since the midnight of 1st Jan 1970 UTC
+new Date(integer);
+
+// 3. first param as datestring in YYYY-MM-DDTHH:mm:ss.sssZ format 
+// - T is required when specifying time part
+// - e.g., "2011-10-10T14:48:00"
+// - Z represents time zone offset. Z can also be z, or sign like + / - followed by HH:mm
+// - e.g., "2011-10-10T14:48:00.000+09:00"
+// - other forms:
+// - YYYY-MM
+// - YYYY-MM-DD
+// - YYYY-MM-DDTHH:mm YYYY-MM-DDTHH:mm
+// - YYYY-MM-DDTHH:mm:ss
+// - YYYY-MM-DDTHH:mm:ss.sss
+// note: passing datestring in the form like YYYY/MM/DD will return the local time (UTC + Offset)
+new Date(datestring):
+
+// 4. passing each components as param.
+// - year & month is mandatory.
+// - year 0 - 99 maps to 1900 - 1999, other value represents the year literally.
+// - month is zero-indexed.
+// - day defaults to 1 if not passed.
+// - time components defautls to 0 if not passed.
+new Date(year, monthIndex, [day, hours, minutes, seconds, milliseconds]);
+
+```
+
+> new Date() will help us adjusting the date by carrying over or borrowing values.
+> - this can help us to get the total days of any month, and it also takes into account of Leap year.
+
+```js
+// note: month is zero-indexed.
+// 5 means June
+// since we specify the day as 0, it will be adjusting by borrowing 31 days from the month.
+// month - 1 = 4, which is May
+new Date(2025, 5, 0); // Sat May 31 2025 00:00:00 GMT+0800 (Malaysia Time)
+
+```
+
+### 14.2 Converting Date to String
+
+| Method           | Description                                                                                   |
+| ---------------- | --------------------------------------------------------------------------------------------- |
+| `toString()`     | return string representation of the date in local timezone (UTC + time offset)                |
+| `toUTCString()`  | return string representation of the date in UTC timezone, do not add the time offset.         |
+| `toISOString()`  | return UTC string representation of the date in ISO 8601 format `±YYYYYY-MM-DDTHH:mm:ss.sssZ` |
+| `toDateString()` | return the date portion string.                                                               |
+| `toTimeString()` | return the time portion string.                                                               |
+
+**Based on region setting of the computer:**
+> - these methods are similar to the aforementioned methods, but it is based on the user computer region setting, and returns the string representation of date in local timezone.
+
+| Method                                   |
+| ---------------------------------------- |
+| `toLocaleString(locales, [options])`     |
+| `toLocaleDateString(locales, [options])` |
+| `toLocaleTimeString(locales, [options])` |
+
+### 14.3 Date Operations on Date Object
+
+| Method            | Description                                                     |
+| ----------------- | --------------------------------------------------------------- |
+| getFullYear()     | Gets the full year (4 digits), e.g., 2025                       |
+| getMonth()        | Gets the month (0–11), where 0 = January                        |
+| getDate()         | Gets the day of the month (1–31)                                |
+| getHours()        | Gets the hour (0–23)                                            |
+| getMinutes()      | Gets the minutes (0–59)                                         |
+| getSeconds()      | Gets the seconds (0–59)                                         |
+| getMilliseconds() | Gets the milliseconds (0–999)                                   |
+| getDay()          | Gets the weekday (0 = Sunday, 6 = Saturday)                     |
+| getTime()         | Gets the timestamp (ms since Jan 1, 1970 UTC – Unix Epoch time) |
+
+> note: there's a lot of method with UTC such as `getUTCFullYear`, it returns the same result but according to the universal time (UTC timezone).
+
+
+### 14.4 Timestamp
+
+> - timestamp: the number of milliseconds elapsed from the beginning of the Unix Epoch time.
+
+| Method                   |                                                                                                                                                    |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `date.getTime()`         | Returns the timestamp in milliseconds since Jan 1, 1970 (UTC) from a `Date` object                                                                 |
+| `date.valueOf()`         | Same as `getTime()` — returns the primitive value (timestamp) of the `Date` object                                                                 |
+| `Date.now()`             | Static method that returns the current timestamp without creating a `Date` object                                                                  |
+| `Date.parse(datestring)` | Parses a date string and returns the timestamp (format can affect time zone handling) <br/> Examples: `"2025-06-04"` (UTC), `"2025/06/04"` (Local) |
+
+
+> note: use of unary operator on date object `+date` can also returns timestamp, internally calling valueOf.

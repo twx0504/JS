@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Min Max</title>
+  </head>
+  <body>
+    <script>
+      var left = -100; // 0 - 500
+      left = left < 0 ? 0 : left;
+      left = left > 500 ? 500 : left;
+
+      // use case 1: set a min max range
+      left = Math.max(0, Math.min(left, 500));
+      console.log(left);
+
+      // use case 2: find min values
+      var arr = [2, 1, 5, 0.1, 40, 4];
+      console.log(Math.min.apply(null, arr)); // 0.1
+      console.log(Math.max.apply(null, arr)); // 40
+    </script>
+  </body>
+</html>

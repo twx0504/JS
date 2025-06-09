@@ -1,0 +1,37 @@
+{
+  "id": "4940372",
+  "name": "calender",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "29306532",
+      "name": "icon-arrow-left",
+      "font_class": "icon-arrow-left",
+      "unicode": "e664",
+      "unicode_decimal": 58980
+    },
+    {
+      "icon_id": "29306545",
+      "name": "icon-arrow-right",
+      "font_class": "icon-arrow-right",
+      "unicode": "e666",
+      "unicode_decimal": 58982
+    },
+    {
+      "icon_id": "42172064",
+      "name": "icon-d-arrow-left",
+      "font_class": "icon-d-arrow-left",
+      "unicode": "e670",
+      "unicode_decimal": 58992
+    },
+    {
+      "icon_id": "42172067",
+      "name": "icon-d-arrow-right",
+      "font_class": "icon-d-arrow-right",
+      "unicode": "e671",
+      "unicode_decimal": 58993
+    }
+  ]
+}

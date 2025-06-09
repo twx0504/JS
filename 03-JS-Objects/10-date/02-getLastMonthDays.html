@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-getLastMonthDays</title>
+  </head>
+  <body>
+    <script>
+      // Date constructor will handle the arguments we pass.
+      // If the arguments are not reasonable, it can help adjusts the date by carrying over or borrowing values.
+      // This helps us not validate the leap year.
+      console.log(getLastMonthDays(2025, 4)); // 30 // you give current month, you get last month day
+
+      // Zero-based month
+      function getLastMonthDays(year, month) {
+        return new Date(year, month, 0).getDate();
+      }
+
+      // Zero-based month
+      function getCurrentMonthDays(year, month) {
+        return new Date(year, month + 1, 0).getDate();
+      }
+      console.log(getCurrentMonthDays(2025, 1)); // 28
+    </script>
+  </body>
+</html>
