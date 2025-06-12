@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Regex</title>
+  </head>
+  <body>
+    <script>
+      var val1 = /a/; // ES6+
+      var val2 = "a"; // ES5
+      var val3 = "\\d"; // remember to use double \\
+      var reg1 = new RegExp(val1);
+      var reg2 = new RegExp(val2);
+      var reg3 = new RegExp(val3);
+      console.log(reg1, reg2); // /a/ /a/
+      console.log(reg2.test("abc")); // true
+      console.log(reg3.test("1a")); // true
+    </script>
+  </body>
+</html>

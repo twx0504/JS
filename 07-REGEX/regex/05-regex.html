@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-regex: exercise</title>
+  </head>
+  <body>
+    <script>
+      // 1. test if a string matches fully 123-4567-789 format
+      var reg = /^\d{3}-\d{4}-\d{3}$/;
+      console.log(
+        reg.test("123-4567-789"),
+        reg.test("a123-4567-789"),
+        reg.test("123-434-123"),
+        reg.test("123-4343-123safsdfs")
+      ); // true false false false
+
+      // 2. test if a string matches fully xxx-xxxx-xxx where x represents any digit, letter and underscore.
+      var reg2 = /^\w{3}-\w{4}-\w{3}$/;
+      console.log(reg2.test("a1a-fs91-s_1")); // true
+
+      // 3. test if a string contains white space / line terminator character.
+      var str1 = "aa bc";
+      var str2 = "  sada";
+      var str3 = "fs  ";
+      var reg3 = /\s/; // white space at any position
+      console.log(reg3.test(str1), reg3.test(str2), reg3.test(str3)); // true
+
+      // 4. test if a string match a.b
+      var reg5 = /./; // \ means wildcard
+      var reg6 = /\./; // \. means dot
+      console.log(reg5.test("abc.com")); // true
+      console.log(reg6.test("abc.com")); // true
+      console.log(reg5.test("abcscom")); // true
+      console.log(reg6.test("abcscom")); // false
+
+      // Note:
+
+      var str = "@.^/";
+      var reg = /^@\.\^\//;
+      // remember ^ in the beginning means start with, but in the middle it is not,
+      // however, at the end of the day it is still a special character, you need to escape it to mean ^ literally.
+      // if you are not sure whether a symbol has a special meaning, you can add \ in front of it to ensure it is the symbol literally, not special character.
+      console.log(reg.test(str)); // true
+
+      var str = "1ab#";
+      var reg = /^1ab\#/; // var reg = /^1ab#/; although without \ # still means # literally.
+      console.log(reg.test(str)); // true
+
+      // \ in string is an escape character.
+      // use \ to make it literal \.
+      var str = "a\\b";
+      var str1 = "a\b";
+      console.log(str); // a\b
+      console.log(str1); // a  - note: this happens because \ in string means escape character!
+    </script>
+  </body>
+</html>

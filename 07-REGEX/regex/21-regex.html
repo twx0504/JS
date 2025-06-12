@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>21-regex</title>
+  </head>
+  <body>
+    <script>
+      // Understand x(?=.*y)(?=.*z)
+      // x must be followed by y and z.
+
+      // case 1: x(?=.*y) -> y must be appeared after x, at any position.
+      // xabsy
+      // xy
+      // x2wy
+      // xwwyssww
+
+      var reg = /a(?=.*b)/g;
+      console.log("a".match(reg)); // null
+      console.log("ajadsdasbad".match(reg)); // ['a', 'a', 'a']
+      console.log("ab".match(reg)); // ['a']
+      console.log("aehfuwhfeib".match(reg)); // ['a']
+
+      // case 2: x(?=.*y)(?=.*z)
+      var reg = /a(?=.*b)(?=.*c)/g;
+      console.log("acbsadl".match(reg)); // ['a']
+      console.log("abc".match(reg)); // ['a']
+      console.log("cab".match(reg)); // null - there's no a in front of b and c.
+      console.log("acb".match(reg)); // ['a']
+      console.log("ajadbbbasdasc".match(reg)); // ['a', 'a']
+
+      // example:
+      // a. the match must contains frontend and backend
+      var reg = /(?=.*frontend)(?=.*backend)/g; // note: there's no x in front of the lookahead assertion.
+
+      // 15 positions => 15 empty strings.
+      console.log("I am learning frontend and backend.".match(reg)); // ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
+      // at first position => 1 empty strings.
+      console.log("frontend and backend is good.".match(reg)); // ['']
+      console.log("oh my god.".match(reg)); // null
+      console.log(
+        "oh my god. frontend is so much more stuffs to learn than backend.".match(
+          reg
+        )
+      ); // ['', '', '', '', '', '', '', '', '', '', '', '']
+      console.log("oh my god. frontend is so much more stuffs.".match(reg)); // null - because backend is absent.
+
+      // case: string with 27 character length, it must contain frontend and backend.
+      // note: frontend + backend = 15 characters
+      var reg = /^(?=.*frontend)(?=.*backend).{27}$/g; // note: frontend and backend is already containing inside 27 characters.
+      var str1 = "I like frontend and backend";
+      var str2 = "I like frontend & backend";
+      var str3 = "I like frontend and sleep!!";
+      //   console.log(reg.test(str1)); // true
+      //   console.log(reg.test(str2)); // false
+      //   console.log(reg.test(str3)); // false
+      console.log(str1.match(reg)); // ['I like frontend and backend']
+      console.log(str2.match(reg)); // null - it is not 27 characters.
+      console.log(str3.match(reg)); // null - it doesn't have backend.
+
+      // Application:
+      // match username, password etc.
+      // length 6 - 8, excluding white spaces.
+      // at least one capital letter
+      // at least one lowercase letter
+      // at least one digit
+      // at least one symbol (~!?@#$%*.^)
+      var reg =
+        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\~\!\?\@\#\$\%\*\.\^])\S{6,8}$/;
+      console.log("Aa56348@".match(reg)); // ['Aa56348@', index: 0, input: 'Aa56348@', groups: undefined]
+      console.log("Bb5638@".match(reg)); // ['Bb5638@', index: 0, input: 'Bb5638@', groups: undefined]
+      console.log("Cc528@".match(reg)); // ['Cc528@', index: 0, input: 'Cc528@', groups: undefined]
+      console.log("a256!9d".match(reg)); // null
+      console.log("Aa256.9d".match(reg)); // ['Aa256.9d', index: 0, input: 'Aa256.9d', groups: undefined]
+      console.log("A532ww".match(reg)); // null
+    </script>
+  </body>
+</html>

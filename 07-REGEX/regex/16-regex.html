@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>16-regex - non-greedy quantifier ?</title>
+  </head>
+  <body>
+    <script>
+      // Greedy - match as many as possible
+      var str = "abcddddcddd";
+      var reg = /cd+/g;
+      console.log(str.match(reg)); // ['cdddd', 'cddd']
+      //  Non-greedy - match as few as possible
+      var str = "abcddddcddd";
+      var reg = /cd+?/g;
+      console.log(str.match(reg)); // ['cd', 'cd']
+
+      // Greedy
+      var str = "abdacd";
+      var reg = /\w+d/g;
+      console.log(str.match(reg)); // ['abdacd']
+      //  Non-greedy
+      var str = "abdacd";
+      var reg = /\w+?d/g;
+      console.log(str.match(reg)); // ['abd', 'acd']
+    </script>
+  </body>
+</html>

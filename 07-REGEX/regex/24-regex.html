@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>24-regex - split complex regex</title>
+  </head>
+  <body>
+    <script>
+      // split complex regex into simpler one
+      // check if a string contains 6 to 8 characters (non-whitespace character)
+      // must have a capital letter, lowercase letter, and a digit
+
+      //   var reg1 = /^\S{6,8}$/; // non-whitespace character 6-8
+      //   var reg2 = /[A-Z]/; // capital letter
+      //   var reg3 = /\d/;
+      //   var str = "aAbcsda1";
+      //   console.log(reg1.test(str)); // true
+      //   console.log(reg2.test(str)); // true
+      //   console.log(reg3.test(str)); // true
+      var str = "aAbcsda1";
+      var regs = [/^\S{6,8}$/, /[A-Z]/, /\d/];
+      var state = true; // true if a string passes through all tests.
+
+      // forEach doesn't work, as it can't be break inside.
+      for (var i = 0; i < regs.length; i++) {
+        state = regs[i].test(str);
+        if (!state) {
+          break;
+        }
+      }
+      if (state) {
+        console.log("passed");
+      } else {
+        console.log("failed");
+      }
+
+      // Array.prototype.every
+      var state = regs.every(function (reg) {
+        return reg.test(str);
+      });
+      if (state) {
+        console.log("passed");
+      } else {
+        console.log("failed");
+      }
+    </script>
+  </body>
+</html>

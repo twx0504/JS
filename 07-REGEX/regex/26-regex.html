@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>26-regex - word boundary assertions \b</title>
+  </head>
+  <body>
+    <script>
+      // \b - a word boundary: the position between a word character (\w) and a non-word character (\W), or vice versa.
+      // Note: \b is a zero-width assertion — it matches a position, not a character (it doesn't consume characters).
+      // Example: \bI\b \blove\b \bfrontend\b
+      // Where ^ shows word boundaries:  ^I^ ^love^ ^frontend^
+      // Important: non-word characters are NOT just spaces — they include punctuation, symbols, etc.
+
+      // case 1: match cat (definitely "cat") and add * in front of it.
+      var str = "hcat cat    cats";
+      var reg = /\bcat\b/g;
+      var reg2 = /^cat$/g;
+      console.log(str.match(reg)); // ['cat']
+      console.log(str.match(reg2)); // null
+      console.log(str.replace(reg, "*$&")); // hcat *cat    cats
+
+      // case 2: find word starts with icon but do not include "icon" alone.
+      var str = "iconfont icons abc icon iconic iron";
+      var reg = /\bicon[a-z]+\b/gi; // make it case insensitive with i flag.
+      console.log(str.match(reg));
+
+      // case 3: _ is a word character as it is included inside \w.
+      // other symbols like $ $ % . are not word characters.
+      var str = "cat. _cat #cat $cat %cat .cat _cat5 _cata";
+      var reg = /\bcat\b/g;
+      console.log(str.match(reg));
+      console.log(str.replace(reg, "*$&*")); // *cat*. _cat #*cat* $*cat* %*cat* .*cat* _cat5 _cata
+      // _cat : underscore (_) and c are both word character. => failed.
+      // cat. : t (word character) and . (non-word character) => passed. but since \b doesn't consume / match character then only "cat" not "cat."
+    </script>
+  </body>
+</html>

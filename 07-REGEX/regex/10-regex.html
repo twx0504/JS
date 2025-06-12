@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>10-regex: flags</title>
+  </head>
+  <body>
+    <script>
+      // i flag: case insensitive search
+      var reg = /^a$/;
+      console.log(reg.test("A")); // false - default it is case sensitive.
+      console.log(reg.test("a")); // true
+      var regi = /^a$/i;
+      console.log(regi.test("A")); // true
+      console.log(regi.test("a")); // true
+
+      // g flag: global search, find all matches.
+      // String.prototype.match() returns an array of all matches found in the string.
+      var str = "a123ba456ca56dae";
+      var reg = /a\d+/;
+      console.log(str.match(reg)); // ['a123', index: 0, input: 'a123ba456ca56dae', groups: undefined]
+      var regg = /a\d+/g; //
+      console.log(str.match(regg)); // ['a123', 'a456', 'a56']
+
+      // m flag: multiline
+      // ES6 template string supports multiline strings.
+      var multiStr = `
+        #a1bs#
+        #s@wf#
+        #c09swwf#
+      `;
+      // (): capture group, what we want to retrieve.
+      // +?: non-greedy.
+
+      var regm = /^\s*#([\w\W]+?)#\s*$/gm;
+      var res = [];
+      var newStr = multiStr.replace(regm, function (match, p1) {
+        // p1, p2, ..., pN: string found by capturing groups
+        res.push(p1); // retrieve the captured group.
+
+        return "s"; // replacement.
+      });
+      console.log(newStr);
+      console.log(res);
+    </script>
+  </body>
+</html>

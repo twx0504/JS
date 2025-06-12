@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>27-regex - non-word boundary \B</title>
+  </head>
+  <body>
+    <script>
+      // \B non-word boundary assertion
+
+      // case 1: replace icon with *. Note: the icon cannot appear as the beginning or end of the word. (// both must be word character.)
+
+      var reg = /\Bicon\B/g; // note: \B will match when icon appears in the middle of a word, so there's no word boundary.
+      var str = "content iconfont favicons iconic good-icon-approved";
+      console.log(
+        str.replace(reg, function (match) {
+          return "*" + match + "*";
+        })
+      );
+
+      // case 2: // both must be non-word character.
+      var reg = /\B-\B/g;
+      var str = "icon---font good-bad arrow--icon";
+      console.log(
+        str.replace(reg, function (match) {
+          return "*" + match + "*";
+        })
+      ); // icon-*-*-font good-bad arrow--icon
+      // note:
+      // 1. good-bad : at dash (-) the left and right is word character, so there's word boundary.
+      // 2. arrow--icon : w- the left of first dash is w (word character) && the right of the second dash is i (word character), so there's word boundary.
+      // 3. icon---font : to the left and right of the second dash, there's non-word character (-), so there's no word boundary. (matched!!!)
+    </script>
+  </body>
+</html>

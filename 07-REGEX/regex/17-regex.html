@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>17-regex - non-greedy</title>
+  </head>
+  <body>
+    <div class="box">
+      <span>Too Wei Xin</span>
+      <span>Biotech Graduate</span>
+      <span>Frontend Developer</span>
+    </div>
+    <script>
+      var box = document.querySelector(".box");
+      var content = box.innerHTML;
+      console.log(content);
+      // match the content inside <span></span>
+      // ? stops the + quantifier from being greedy.
+      var reg1 = /<span>([\w\W]+)<\/span>/g;
+      console.log(content.match(reg1)); // ['<span>Too Wei Xin</span>\n      <span>Biotech Graduate</span>\n      <span>Frontend Developer</span>']
+
+      var reg2 = /<span>([\w\W]+?)<\/span>/g;
+      console.log(content.match(reg2)); // ['<span>Too Wei Xin</span>', '<span>Biotech Graduate</span>', '<span>Frontend Developer</span>']
+      var res = [];
+      // usually, we dont use replace to retrieve info.
+      //   content.replace(reg2, function (match, p1) {
+      //     console.log(p1);
+      //     res.push(p1);
+      //     return undefined;
+      //   });
+      //   console.log(res);
+      //   var matches = content.matchAll(reg2);
+      //   for (var match of matches) {
+      //     res.push(match[0]);
+      //   }
+      //   console.log(res); // ['<span>Too Wei Xin</span>', '<span>Biotech Graduate</span>', '<span>Frontend Developer</span>']
+
+      var arr = reg2.exec(content);
+      while (arr) {
+        res.push(arr[0]);
+        arr = reg2.exec(content);
+      }
+      console.log(res);
+    </script>
+  </body>
+</html>

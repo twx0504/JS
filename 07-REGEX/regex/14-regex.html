@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>14-regex: named capturing group</title>
+  </head>
+  <body>
+    <script>
+      var str = "abc123abcdef576abc123abc123abc123def";
+      // note: \n is still working here, but it requires you to count.
+      // var reg = /((?<letter>[a-z]+)(?<number>\d+))\2/gi;
+      var reg = /((?<letter>[a-z]+)(?<number>\d+))\k<letter>/gi; // \k<name> to backreference named capturing group.
+
+      // case 1: retrieve number
+      // match - cannot get what we want.
+      var result = str.match(reg);
+      console.log(result); // ['abc123abc', 'abc123abc']
+
+      // matchAll - it can.
+      var res = str.matchAll(reg);
+      var numbers = [];
+      for (var i of res) {
+        numbers.push(i.groups.number);
+      }
+      console.log(numbers); // ['123', '123']
+
+      // replace - it can.
+      // but if the group is also a non-capturing group then this method doesn't work.
+      numbers = [];
+      var res = str.replace(reg, function (match, p1, p2, p3) {
+        numbers.push(p3);
+      });
+      console.log(numbers); // ['123', '123']
+
+      // exec - it can.
+      var arr = reg.exec(str);
+      console.log(arr); // ['abc123abc', 'abc123', 'abc', '123', index: 0, input: 'abc123abcdef576abc123abc123abc123def', groups: {…}]
+      numbers = [];
+      while (arr) {
+        numbers.push(arr.groups.number);
+        arr = reg.exec(str);
+      }
+      console.log(numbers); // ['123', '123']
+
+      // why do we use named capturing group?
+      // - if there's so many groups, hard to count.
+      // - named capturing group help you retrieve the group more conveniently.
+
+      var str = "a111222";
+      var reg = /[a-z](?<number>1)\k<number>\1/g; // match "a111"
+      console.log(str.replace(reg, "*$<number>*")); // *1*222 -> replace "a111" with "*1*"
+    </script>
+  </body>
+</html>

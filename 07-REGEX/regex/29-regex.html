@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>29-regex - y flag (sticky)</title>
+  </head>
+  <body>
+    <script>
+      //   var str = "123b345ca";
+      //   var reg = /\d{2}/g;
+      //   console.log(reg.exec(str));
+      //   console.log(reg.lastIndex);
+      //   console.log(reg.exec(str));
+      //   console.log(reg.lastIndex);
+      //   console.log(reg.exec(str));
+      //   console.log(reg.lastIndex);
+
+      // sticky y flag - it must match exactly at lastIndex position. Otherwise, it will not match.
+      var str = "123b345ca"; // only the first matches.
+      var str2 = "12345678"; // this meets the condition.
+      var reg = /\d{2}/y;
+      console.log(reg.exec(str2));
+      console.log(reg.lastIndex);
+      console.log(reg.exec(str2));
+      console.log(reg.lastIndex);
+      console.log(reg.exec(str2));
+      console.log(reg.lastIndex);
+
+      // case: retrieve zoom group numbers.
+      // note: to make y flag works, we need to manually set the lastIndex to where the first match should begin.
+      // note: y flag and g flag cannot co-exist.
+      var str =
+        "Related study Zoom groups: 234566, 90011933, 30211123. Join the corresponding group to receive related guidance. The following is the expert-level Zoom group: 34222222";
+      var reg = /\s*\d+,?/y;
+      reg.lastIndex = 26;
+      var res = reg.exec(str);
+      while (res) {
+        console.log(res);
+        console.log(reg.lastIndex);
+        res = reg.exec(str);
+      }
+    </script>
+  </body>
+</html>
