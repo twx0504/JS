@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Symbol Application 3: Remove Magic String</title>
+  </head>
+  <body>
+    <script>
+      // Replace hard coded string with a clear defined variable.
+
+      // Example of Magic String:
+      //   function getArea(shape, options) {
+      //     let area = 0;
+      //     switch (shape) {
+      //       case "rectangle": // magic string
+      //         area = options.width * options.height;
+      //         break;
+      //       case "circle": // magic string
+      //         area = Math.PI * options.radius * options.radius;
+      //         break;
+      //       case "triangle": // magic string
+      //         area = (options.width * options.height) / 2;
+      //         break;
+      //     }
+      //     return area;
+      //   }
+
+      //   console.log(getArea("rectangle", { width: 100, height: 100 })); // 10000
+
+      const shapeType = {
+        // Actually we don't care about what the exact value really is
+        // we can use symbol
+        // rectangle: "rectangle",
+        // triangle: "triangle",
+        // circle: "circle",
+        rectangle: Symbol(),
+        triangle: Symbol(),
+        circle: Symbol(),
+      };
+      function getArea(shape, options) {
+        let area = 0;
+        switch (shape) {
+          case shapeType.rectangle: // magic string
+            area = options.width * options.height;
+            break;
+          case shapeType.circle: // magic string
+            area = Math.PI * options.radius * options.radius;
+            break;
+          case shapeType.triangle: // magic string
+            area = (options.width * options.height) / 2;
+            break;
+        }
+        return area;
+      }
+
+      console.log(getArea(shapeType.triangle, { width: 100, height: 100 })); // 5000
+    </script>
+  </body>
+</html>

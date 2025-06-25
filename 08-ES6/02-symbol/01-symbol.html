@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Symbol</title>
+  </head>
+  <body>
+    <script>
+      // how to create a symbol?
+      const s = Symbol();
+      console.log(s); // Symbol() - a symbol primitive, guaranteed to be unique.
+      console.log(typeof s); // symbol
+
+      // Do not create symbol with new!
+      const m = new Symbol(); // Uncaught TypeError: Symbol is not a constructor
+    </script>
+  </body>
+</html>

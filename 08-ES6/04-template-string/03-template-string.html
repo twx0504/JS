@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Template String - injection of values</title>
+  </head>
+  <body>
+    <script>
+      const username = "twx";
+      const person = { age: 25, sex: "male" };
+      const getSex = function (sex) {
+        return sex === "male" ? "Male" : "Female";
+      };
+
+      const msg = `I am ${username}, I am ${person.age} years old, and my sex is ${getSex(person.sex)}.`;
+      console.log(msg); // I am twx, I am 25 years old, and my sex is Male.
+    </script>
+  </body>
+</html>

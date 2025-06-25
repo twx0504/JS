@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Symbol</title>
+  </head>
+  <body>
+    <script>
+      const s = Symbol();
+      const m = Symbol();
+      console.log(s); // Symbol()
+      console.log(m); // Symbol() - look similar but different thing
+      console.log(s === m); // false
+
+      // Symbol(description) where description is for debugging purpose only
+      const c = Symbol("color");
+      console.log(c); // Symbol(color)
+      const d = Symbol("color");
+      console.log(c === d); // false - even when the description is the same, it is still different symbol.
+
+      // the description will be converted to string form.
+      const s1 = Symbol("abc"); // Symbol(abc)
+      const s2 = Symbol(11); // Symbol(11)
+      const s3 = Symbol([1, 2, 3]); // Symbol(1,2,3)
+      const s4 = Symbol({}); // Symbol([object Object])
+      console.log(s1);
+      console.log(s2);
+      console.log(s3);
+      console.log(s4);
+    </script>
+  </body>
+</html>

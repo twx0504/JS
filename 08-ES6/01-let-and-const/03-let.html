@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-let & const</title>
+  </head>
+  <body>
+    <script>
+      // variable declared with var becomes a property in window object.
+      var a = 5;
+      console.log(window.a); // 5
+
+      // variable declared with let and const doesn't do this.
+      let b = 10;
+      const c = 20;
+      console.log(window.b, window.c); // undefined undefined
+    </script>
+  </body>
+</html>

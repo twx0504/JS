@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-Function Constructor</title>
+  </head>
+  <body>
+    <script>
+      /* UNDERSTANDING FUNCTION CONSTRUCTOR */
+      // 1. call with new
+      // 2. call without new
+      // both creates an fn instance
+      // note: the function constructor creates function runs in global scope only. So, it can only access variable from the global scope, as well as the variable inside it.
+
+      let fn1 = Function('console.log("123")');
+      fn1();
+
+      /**
+       * function (){
+       *  console.log("123");
+       * }
+       *
+       */
+
+      // let fn2 = Function('{console.log("123")}');
+      // fn2();
+
+      /**
+       * function (){
+       *  {
+       *      console.log("123");
+       *  }
+       * }
+       *
+       */
+
+      let fn3 = Function("a", "b", "console.log(a+b)");
+      fn3(1, 2);
+
+      /**
+       * function (a, b){
+       *  {
+       *      console.log(a+b);
+       *  }
+       * }
+       *
+       */
+
+      //   let a = 5; // note: in browser, this is working, in nodejs, this is not accessible, thus a is not defined.
+      //   // globalThis.a = 5; // note: in Nodejs, let and const is scoped to the module scope, not global scope.
+      //   function createFn() {
+      //     return new Function("let a = 2; console.log(a)"); // note: the function can only access variable from global scope, and its own scope.
+      //   }
+
+      //   createFn()();
+
+      let x = 5; // global
+      function createFn2() {
+        // createFn2 scope
+        let x = 3;
+        let y = "twx";
+        return new Function("z", "let y = 1; console.log(x+y+z)");
+      }
+
+      // note: the function created via Fn constructor can only access global scope and its own scope.
+      // regardless of where you create the fn instance.
+      const newFn = createFn2(); // 5 + 1 + 6 = 12
+      newFn(6);
+    </script>
+  </body>
+</html>

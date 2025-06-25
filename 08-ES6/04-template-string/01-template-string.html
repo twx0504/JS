@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Template String</title>
+  </head>
+  <body>
+    <script>
+      const company1 = "Google"; // regular string
+      const company2 = `Google`; // template string
+      console.log(company1 === company2); // true - they are same!
+
+      const person = {
+        username: "twx",
+        age: 25,
+        sex: "male",
+      };
+
+      const msg =
+        "I am " +
+        person.username +
+        ", I am " +
+        person.age +
+        " years old, and my sex is " +
+        person.sex;
+      console.log(msg);
+
+      // template string makes life easier.
+      const msg2 = `I am ${person.username}, I am ${person.age} years old, and my sex is ${person.sex}`;
+      console.log(msg2);
+    </script>
+  </body>
+</html>
