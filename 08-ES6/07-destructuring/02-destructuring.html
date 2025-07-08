@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Destructuring - Binding Pattern</title>
+  </head>
+  <body>
+    <script>
+      // Binding pattern: use var, let, or const declaration keyword to declare variables,
+      // and match the structure (pattern) on the left with the structure of the object/array on the right.
+      // to extract the values into those variables.
+      // The pattern must mirror the shape of the value you're destructuring.
+      //   let [a, b, c] = [1, 2, 3];
+      //   console.log(a,b, c); // 1 2 3
+
+      // The second value (2) is skipped.
+      let [a, , c] = [1, 2, 3];
+      console.log(a, c); // 1 3
+
+      // Object destructuring with renaming (binding pattern):
+      // `x` and `y` are the property keys in the object.
+      // `_x` and `_y` are the variables we're declaring to store the values.
+      // So: _x = 10, _y = 20
+      const { x: _x, y: _y } = { x: 10, y: 20 };
+      console.log(_x, _y); // 10 20
+      //   console.log(x, y); // Uncaught ReferenceError: x is not defined
+      // Because `x` and `y` are not declared as variables — only `_x` and `_y` are.
+
+      const arr2 = [30, 60, 90];
+
+      // what we want to achieve:
+      //   let i;
+      //   let k;
+      //   const j = arr2[2];
+
+      // Attempt 1: Failed
+      //   let [i, j, k] = arr2;
+      //   console.log(i, j, k); // 30 60 90
+      //   j = 10000;
+      //   console.log(j); // 10000 - but I want this to be constant so that it cannot be changed.
+
+      // Attempt 2: We do two destructuring on the same array.
+      // 1. variable
+      let [i, , k] = arr2;
+      // 2. constant variable
+      const [, j] = arr2;
+      console.log(i, j, k);
+      // now j is declared as constant variable.
+      //   j = 1000; // Uncaught TypeError: Assignment to constant variable.
+    </script>
+  </body>
+</html>

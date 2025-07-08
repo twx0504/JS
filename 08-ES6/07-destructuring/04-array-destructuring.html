@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Array Destructuring</title>
+  </head>
+  <body>
+    <script>
+      // Array destructuring
+      // 1. consider pattern (structure) matching
+      // 2. RHS must be an array / iterable.
+
+      // LHS = RHS where LHS & RHS must be array to be matched, otherwise, throw error.
+      let [a] = [1, 2, 3];
+      console.log(a); // 1
+
+      //   let [b] = 1; // Uncaught TypeError: 1 is not iterable
+      //   let [c] = {}; // Uncaught TypeError: {} is not iterable
+      //   let [d] = "ab";
+      //   console.log(d); // a
+
+      // Array destructuring works by index.
+
+      let [x, y] = [10, 20];
+      console.log(x, y); // 10 20
+
+      // skipping element with comma.
+      let [a1, , b1] = [1, 2, 3, 4, 5];
+      console.log(a1, b1); // 1 3
+
+      let [a2, , , , , b2, , , , c2] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+      console.log(a2, b2, c2); // 1 6 10
+
+      let [, , a3] = [1];
+      console.log(a3); // undefined  - similar to let [, , a3] = [1, undefined, undefined]
+
+      // nested destructuring
+      let [i, , [, j], k] = [1, [2, 3, 4], [5, 6]];
+      console.log(i, j, k); // 1 6 undefined
+
+      // let [i1,,, [, j1], k1] = [1, [2, 3, 4], [5, 6]];
+      // console.log(i1, j1, k1); // Uncaught TypeError: undefined is not iterable (cannot read property Symbol(Symbol.iterator))
+      // because the pattern is not matched.
+      // [, j1] = undefined => the pattern matching failed, so throw error.
+
+      // Default Value
+      // 1. it is used when the property is absent / or has value undefined (strictly equal === undefined). null is not counted.
+
+      let [p = 2, q = 3] = ["a"];
+      console.log(p, q); // "a" 3
+
+      let [p1 = 1, p2 = 10] = [undefined, undefined];
+      console.log(p1, p2); // 1 10 - since value is undefined, it uses default values.
+
+      // 2. default value as an expression
+      // lazy evaluation: when the assignment is not successful, the expression is executed. Otherwise, it is not executed.
+      const fn = () => {
+        console.log("run");
+        return 3;
+      };
+
+      let [test = fn()] = [];
+      console.log(test);
+      // run
+      // 3
+
+      // 3. default value can reference earlier variables in the destructuring pattern,
+      // but only if those variables have already been declared.
+      // note: from left to right.
+      // Destructuring works from left to right, not "declare all first, then assign."
+      let [a4 = 1, b4 = a4] = [2];
+      console.log(a4, b4); // 2 2
+
+      let [a5 = 1, b5 = a5] = [];
+      console.log(a5, b5); // 11
+
+      // let [a6 = b6, b6 = 1] = []; // Uncaught ReferenceError: Cannot access 'b6' before initialization
+      // console.log(a6, b6);
+    </script>
+  </body>
+</html>

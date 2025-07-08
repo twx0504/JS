@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Rest</title>
+  </head>
+  <body>
+    <script>
+      // Rest Parameter ...variable
+      // It is used to receive an indefintie number of arguments and store them into an array.
+      
+      const sum = (...args) => {
+        console.log(args);
+      };
+
+      sum(1, 2, 3, 4); // [1, 2, 3, 4]
+
+      const sum2 = (a, b, ...rest) => {
+        console.log(a, b, rest);
+        // console.log(arguments); // Uncaught ReferenceError: arguments is not defined
+      };
+
+      sum2(1, 2, 3, 4, 5); // 1  2  [3, 4, 5]
+
+      // ES5
+      //   function sum3() {
+      //     console.log(arguments);
+      //   }
+
+    //   sum3(1, 2, 3, 4, 5);
+    </script>
+  </body>
+</html>
