@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>06-Set - Traversal of Set Methods</title>
+  </head>
+  <body>
+    <script>
+      // for...of is used to traverse iterable.
+      // Set is iterable.
+      const s = new Set([2, 4, 6, 8]);
+
+      for (const item of s) {
+        console.log(item);
+      }
+
+      // values() / keys() - returns an iterator containing values for each element in this set in insertion order.
+      // note: keys are alias for values.
+      console.log(s.keys()); // SetIterator {1, 2, 3, 4}
+      const keys = s.keys();
+      for (const key of keys) {
+        console.log(key);
+      }
+      // this is not use. iterator can only be traversed once.
+      //   for (const key of keys) {
+      //     console.log("new");
+      //     console.log(key);
+      //   }
+      console.log(s.values()); // SetIterator {1, 2, 3, 4}
+      for (const val of s.values()) {
+        console.log(val);
+      }
+      // entries() - return a new iterator contains an array of [value, value] for each element in this set, in insertion order.
+      console.log(s.entries()); // SetIterator {2 => 2, 4 => 4, 6 => 6, 8 => 8}
+      for (const item of s.entries()) {
+        console.log(item);
+      }
+      // [2, 2]
+      // [4, 4]
+      // [6, 6]
+      // [8, 8]
+
+      // forEach(callback[, thisArg])
+
+      // Define an object, we would like to use the multiply method of this obj for each set value.
+      const obj = {
+        multiplier: 1000,
+        multiply(val) {
+          return val * this.multiplier;
+        },
+      };
+
+      // we pass obj as thisArg, inside the callback, this refers to the obj.
+      s.forEach(function (item) {
+        // console.log(item);
+        console.log(this.multiply(item));
+      }, obj);
+
+      // Note: arrow function doesn't have this thus it fails!
+      //   s.forEach((item) => {
+      //     // console.log(item);
+      //     console.log(this.multiply(item)); // Uncaught TypeError: this.multiply is not a function
+      //   }, obj);
+
+      // Instances of Set can be traversed by default.
+      // For Set, JS internally calls values method to get an iterator when using for...of loop
+      // While in Map, it is using entries method.
+      // just some example.
+      console.log(Set.prototype[Symbol.iterator] === Set.prototype.values); // true
+
+      for (const item of s) {
+        console.log(item);
+      }
+    </script>
+  </body>
+</html>

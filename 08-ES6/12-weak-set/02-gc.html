@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Garbage Collection</title>
+  </head>
+  <body>
+    <script>
+      // ========== Strong Reference Example ==========
+      // When no variables point to the object, it becomes unreachable and will be garbage collected.
+
+      // let obj = { a: 1 };    // Strong reference #1
+      // let obj2 = obj;        // Strong reference #2
+      // obj = null;            // Now only obj2 points to the object
+      // obj2 = null;           // No references remain → object is eligible for garbage collection
+
+      // ========== WeakSet Example ==========
+
+      // WeakSet holds a weak reference — it does NOT increase the reference count.
+      // Garbage collection depends only on whether strong references exist elsewhere.
+
+      let obj = { a: 1 }; // Strong reference (object is kept alive)
+      let ws = new WeakSet([obj]); // WeakSet stores a weak reference (doesn't prevent GC)
+
+      let obj2 = obj; // Another strong reference
+      obj2 = null; // One less strong reference
+      obj = null; // No strong references left → object can be garbage collected
+
+      // Cannot access or list contents of a WeakSet
+      console.log(ws); // Outputs: WeakSet {}, but contents are hidden (non-enumerable)
+      //   Sometimes you will see the obj still in the weak set after refreshing the page.
+      // This is because the garbage collection hasn't taken place yet.
+
+      // Difference of Set & WeakSet
+      // 1. Set member follows the insertion order, WeakSet member is not guaranteed.
+      // 2. Set member can be of any types, WeakSet can only be Object / non-registered Symbol
+      // 3. Set member are strong reference, WeakSet member are weak reference.
+
+      // Do not write this type of code. They are immediately garbage collected.
+      //   const ws2 = new WeakSet([{ a: 1 }, { b: 2 }]);
+      //   console.log(ws2);
+
+      let symbol = Symbol("test"); // non-registered symbol
+      let symbol2 = Symbol.for("test2"); // symbol
+      const ws2 = new WeakSet([symbol]);
+      //   const ws2 = new WeakSet([symbol2]); // 02-gc.html:47 Uncaught TypeError: Invalid value used in weak set
+    //   symbol = null;
+      console.log(ws2);
+    </script>
+  </body>
+</html>
