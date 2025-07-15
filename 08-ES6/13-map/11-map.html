@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>11-Map - Conversion of Map And Object</title>
+  </head>
+  <body>
+    <script>
+      // Map -> Object: We need to be ware of the non-string / non-symbol keys.
+
+      const map = new Map()
+        .set([1, 2, 3], true)
+        .set(Symbol("sym"), "symbol")
+        .set({ a: 1, b: 2 }, true)
+        .set("usrname", "twx0504");
+      const obj = {};
+      for (const [k, v] of map) {
+        obj[k] = v;
+      }
+      console.log(obj); // {1,2,3: true, [object Object]: true, usrname: 'twx0504', Symbol(sym): 'symbol'}
+
+      // Object -> Map
+      const obj2 = {
+        a: 1,
+        b: 2,
+        c: 3,
+      };
+      const map2 = new Map();
+
+      for (const key in obj2) {
+        map2.set(key, obj2[key]);
+      }
+      console.log(map2); // Map(3) {'a' => 1, 'b' => 2, 'c' => 3}
+
+      // Alternative:
+      const map3 = new Map();
+      for (const [k, v] of Object.entries(obj2)) {
+        map3.set(k, v);
+      }
+      console.log(map3); // Map(3) {'a' => 1, 'b' => 2, 'c' => 3}
+    </script>
+  </body>
+</html>

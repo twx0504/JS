@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>16-Map Application - Find Majority Elements in an Array</title>
+  </head>
+  <body>
+    <script>
+      // Majority Element: >= n / 2 where n is the length of an array.
+
+      const arr1 = [1, 2, 4, 4, 4, 4, 5];
+      const arr2 = [1, 2, 4, 4, 4, 5];
+
+      function findMajorityElement(arr) {
+        const map = new Map();
+
+        for (const k of arr) {
+          map.set(k, (map.get(k) || 0) + 1);
+          // thinking: can we check map.get(k) here and return early?
+          if (map.get(k) > arr.length / 2) {
+            return k;
+          }
+        }
+
+        // for (const [key, value] of map) {
+        //   if (value > arr.length / 2) {
+        //     return key;
+        //   }
+        // }
+        return -1; // Not found.
+      }
+
+      console.log(findMajorityElement(arr1));
+      console.log(findMajorityElement(arr2));
+      console.log(findMajorityElement([1, 2, 3, 3, 3, 5])); //-1
+      console.log(findMajorityElement([1, 2, 3, 3, 3, 5, 3])); // 3
+      console.log(findMajorityElement([])); // -1
+      console.log(findMajorityElement([1])); // 1
+      console.log(findMajorityElement([1, 2])); // -1
+
+      // Additional:
+      // https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_majority_vote_algorithm
+      // O(n) time & O(1) space
+    </script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-WeakMap - Instance Methods</title>
+  </head>
+  <body>
+    <script>
+      // Similar to Set, Map, WeakSet.
+      const obj1 = { a: 1 };
+      const arr = [1, 2, 3];
+      const wm = new WeakMap();
+      // 1. set(key, value) - support method chaining
+      wm.set(obj1, "object").set(arr, "array");
+      console.log(wm); // WeakMap {Array(3) => 'array', {…} => 'object'}
+      // 2. get(key)
+      console.log(wm.get(obj1)); // object
+      console.log(wm.get(arr)); // array
+
+      // 3. delete(key)
+      console.log(wm.delete(obj1)); // true - successfully deleted.
+      console.log(wm); // WeakMap {Array(3) => 'array'}
+      console.log(wm.delete(obj1)); // false - no obj1 key found.
+      // 4. has(key)
+      console.log(wm.has(arr)); // true
+      console.log(wm.has(obj1)); // false - because it has been deleted.
+    </script>
+  </body>
+</html>

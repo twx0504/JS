@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Map - Understand Why Map</title>
+  </head>
+  <body>
+    <div class="box"></div>
+    <script>
+      const box = document.querySelector(".box");
+      // Problem with object: The key must be a string or symbol type.
+
+      //   const obj = {
+      //     [box]: "width:100px;height:100px;background:red",
+      //   };
+
+      //   for (const key in obj) {
+      //     console.log(key); // [object HTMLDivElement] - the key is no longer a div element, but a string tag of that div element.
+      //     key.style.cssText = obj[key]; // Uncaught TypeError: Cannot set properties of undefined (setting 'cssText')
+      //   }
+
+      // ES5:
+      //   const arr = [[box, "width:100px;height:100px;background:red"]];
+
+      //   for (var i = 0; i < arr.length; i++) {
+      //     arr[i][0].style.cssText = arr[i][1];
+      //   }
+
+      // ES6
+      //   const map = new Map([[box, "width:100px;height:100px;background:red"]]);
+      const map = new Map();
+      map.set(box, "width:100px;height:100px;background:red");
+      for (const [el, css] of map) {
+        el.style.cssText = css;
+      }
+    </script>
+  </body>
+</html>

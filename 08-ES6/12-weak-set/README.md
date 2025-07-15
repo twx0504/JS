@@ -7,6 +7,7 @@
 3. non-enumerable - you cannot iterate through the items in the collection.
 4. Available methods: add delete has
 5. Non-available: size, keys, values, entries, clear
+6. Do not support destructuring.
 
 ## Applications
 

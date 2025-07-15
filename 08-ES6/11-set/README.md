@@ -27,7 +27,7 @@ new Set(iterable);
 3. has(value): check if a value exists in a set.
 4. clear(): clear / remove all the set items.
 
-## 1.3 Set Traversal
+## 1.3 Set Iteration Methods
 
 > - using `for...of` loop to iterate over a set.
 > > - for...of loop internally calls the `Symbol.iterator` method of the iterable

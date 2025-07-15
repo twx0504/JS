@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Map - Key Equality</title>
+  </head>
+  <body>
+    <script>
+      const map = new Map();
+
+      // Key equality.
+      // Based on SameValueZero
+      // - NaN is treated the same as NaN even though NaN !== NaN
+      // - 0, -0, +0 is treated as the same.
+      // anything else, it is like using ===.
+      map.set(NaN, 1);
+      map.set(NaN, 2);
+      
+      map.set(-0, 10);
+      map.set(0, 20);
+      map.set(0, 30);
+      console.log(map);
+    </script>
+  </body>
+</html>
