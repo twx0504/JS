@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Class</title>
+  </head>
+  <body>
+    <script>
+      //   class Person {}
+
+      class Person {
+        constructor(username, age) {
+          this.username = username;
+          this.age = age;
+
+          // We usually won't write method inside constructor as it will not be shared across instances.
+          // In this way, it is defined on the instance itself.
+          // Each instance has its own copy.
+          this.eat = () => {
+            console.log(`${this.username} like eating`);
+          };
+        }
+      }
+
+      // Instantiation of twx object
+      const twx = new Person("twx0504", 25);
+      console.log(twx); // Person {username: 'twx0504', age: 25, eat: ƒ}
+      console.log(twx.username, twx.age); // twx0504 25
+      twx.eat(); // twx0504 like eating
+
+      // Instantiation of eren object
+      const eren = new Person("eren1234", 20);
+      console.log(eren); // Person {username: 'eren1234', age: 20, eat: ƒ}
+      console.log(eren.username, eren.age); // eren1234 20
+      eren.eat(); // eren1234 like eating
+
+      // Note: eat method are different across each instance because of how we define it.
+      // It will waste memory space if there's a lot of instances being created.
+      // Causing performance issue.
+      console.log(twx.eat === eren.eat); // false
+    </script>
+  </body>
+</html>

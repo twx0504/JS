@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>test 2</title>
+  </head>
+  <body>
+    <script>
+      function A() {}
+
+      function B() {}
+      B.prototype.test = function () {};
+      Object.setPrototypeOf(B, A);
+      Object.setPrototypeOf(B.prototype, A.prototype);
+
+      const b = new B();
+      console.log(b);
+
+      function X() {}
+      function Y() {
+        X.call(this);
+      }
+
+      Y.prototype.test = function () {};
+      const prototype = Object.create(X.prototype);
+      Y.prototype = prototype;
+      Y.prototype.constructor = Y;
+
+      const y = new Y();
+      console.log(y);
+    </script>
+  </body>
+</html>

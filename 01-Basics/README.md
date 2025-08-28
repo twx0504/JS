@@ -3153,7 +3153,7 @@ function fn() {
 
 > static scoping (aka lexical scoping): the scope is determined and fixed before runtime, based on its location in the source code.
 > dynamic scoping: the scope is determined during runtime.
-> Js uses lexical scoping.
+> **Js uses lexical scoping.**
 > Tip: You must differentiate passing an argument to a function vs the variable lookup during function execution!
 
 ```js

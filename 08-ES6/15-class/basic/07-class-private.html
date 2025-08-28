@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>07-Class - Private Properties & Methods</title>
+  </head>
+  <body>
+    <script>
+      // ES6
+      class Person {
+        #money = 2000; // default with 2000
+        #count; // default undefined
+
+        constructor(username, age) {
+          this.username = username;
+          this.age = age;
+        }
+
+        getMoney(amount) {
+          this.#money -= amount;
+          console.log(
+            `Retrieve ${amount} of money from the bank. The remaining is ${
+              this.#money
+            }`
+          );
+        }
+
+        sayHello() {
+          // Accessing a non-existent private property throws error.
+          // This is different from the regular instance property / method, that returns undefined when not found.
+          //   console.log(this.#sex); // Uncaught SyntaxError: Private field '#sex' must be declared in an enclosing class
+        }
+
+        // Private Method
+        #getRemaining() {
+          return this.#money;
+        }
+
+        // Public Method that calls the private method to expose something.
+        viewRemaining() {
+          console.log(this.#getRemaining());
+        }
+      }
+
+      const p = new Person("twx", 25);
+      p.getMoney(1499); // Retrieve 1500 of money from the bank. The remaining is 500
+      console.log(p); // Person {username: 'twx', age: 25, #money: 500, #count: undefined}
+      p.viewRemaining(); // 501
+      // Accessing private property outside the class is throwing error.
+      //   console.log(p.#money); // Uncaught SyntaxError: Private field '#money' must be declared in an enclosing class
+
+      // Revisiting ES5 Implementation of Private Property & Private Method
+      // 1. add underscore (_) in front of a property / method
+
+      function Person1(username, age) {
+        this._money = 2000; // mimicking private property
+        this.username = username;
+        this.age = age;
+      }
+      Person1.prototype._remaining = function () {
+        return this._money;
+      };
+      Person1.prototype.viewRemaining = function () {
+        console.log(this._remaining());
+      };
+
+      const p1 = new Person1("twx", 25);
+      console.log(p1);
+      console.log(p1._money); // private property is still accessible outside.
+      p1.viewRemaining();
+
+      // 2. use closure
+      const Person2 = (function () {
+        let _money = 2000; // mimicking private property using closure - but this is shared among all instances.
+
+        function _remaining() {
+          return _money;
+        }
+
+        function Person2(username, age) {
+          this.username = username;
+          this.age = age;
+        }
+
+        Person2.prototype.viewRemaining = function () {
+          console.log(_remaining());
+        };
+        Person2.prototype.getMoney = function (amount) {
+          _money -= amount;
+          console.log(
+            `Retrieve ${amount} of money from the bank. The remaining is ${_money}`
+          );
+        };
+        return Person2;
+      })();
+
+      const p2 = new Person2("twx", 25);
+      const p5 = new Person2("ljy", 24);
+      p2.getMoney(500); // Retrieve 500 of money from the bank. The remaining is 1500
+      p5.getMoney(188); // Retrieve 188 of money from the bank. The remaining is 1312
+      p2.viewRemaining(); // 1312
+
+      // 3. use Symbol
+
+      const Person3 = (function () {
+        let _money = Symbol("bank");
+        const _remaining = Symbol("remaining");
+        function Person3(username, age) {
+          this[_money] = 2000; // mimicking private property with symbol
+          this.username = username;
+          this.age = age;
+        }
+
+        Person3.prototype.getMoney = function (amount) {
+          this[_money] -= amount;
+          console.log(
+            `Retrieve ${amount} of money from the bank. The remaining is ${this[_money]}`
+          );
+        };
+        Person3.prototype[_remaining] = function () {
+          return this[_money];
+        };
+        Person3.prototype.viewRemaining = function () {
+          console.log(this[_remaining]());
+        };
+        return Person3;
+      })();
+
+      const p3 = new Person3("twx", 25);
+      const bankSymbol = Object.getOwnPropertySymbols(p3)[0]; // we have a way to get symbol from an instance!
+      // You can also obtain symbols via Reflect.ownKeys(obj)
+      // console.log(Reflect.ownKeys(p3)); // ['username', 'age', Symbol(bank)]
+      console.log(p3[bankSymbol]); // 2000
+      // some malicious attack!
+      p3[bankSymbol] = -10000;
+      p3.getMoney(200); // Retrieve 200 of money from the bank. The remaining is -10200
+      p3.viewRemaining(); // -10200
+
+      // 4. use WeakMap
+      const Person4 = (function () {
+        // privates weakmap is like a cabinet, it is shared but each member has their own drawer to keep their private stuff.
+        const privates = new WeakMap(); // use to store private properties - it is shared but each instance we create, we will store it in this weakmap and associate that instance with a new object containing private properties.
+        function Person4(username, age) {
+          privates.set(this, {
+            _money: 2000,
+            _remaining: function () {
+              console.log(this);
+              return privates.get(this)._money;
+              // !!!!!IMPORTANT!!!!!!!
+            }.bind(this), // why bind this? because later when _remaining is called as a method of the {}, this is {} instead of instance. We need to bind the instance right now right here.
+          });
+          // public method
+          this.username = username;
+          this.age = age;
+        }
+        Person4.prototype.viewRemaining = function () {
+          console.log(privates.get(this)._remaining()); // _remaining as a method of the object -> this refers to the obj, not instance, so we need to bind this as instance.
+        };
+
+        Person4.prototype.getMoney = function (amount) {
+          if (privates.has(this)) {
+            privates.get(this)._money -= amount;
+          }
+          console.log(
+            `Retrieve ${amount} of money from the bank. The remaining is ${
+              privates.get(this)._money
+            }`
+          );
+        };
+        return Person4;
+      })();
+
+      const p4 = new Person4("twx", 25);
+      const p6 = new Person4("ljy", 25);
+      p4.getMoney(1800); // Retrieve 1800 of money from the bank. The remaining is 200
+      p6.getMoney(190); // Retrieve 190 of money from the bank. The remaining is 1810
+
+      p4.viewRemaining();
+      // without bind this.
+      // Uncaught TypeError: Cannot read properties of undefined (reading '_money')
+    </script>
+  </body>
+</html>

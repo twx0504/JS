@@ -5,7 +5,7 @@
 > - values can be any arbitrary data type.
 > - hold weak reference to its keys.
 > - hold strong reference to its values.
-
+> - WeakMap is not iterable -> do not support destructuring.
 
 ## 1.1 Creating WeakMap
 

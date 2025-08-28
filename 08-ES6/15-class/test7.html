@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test</title>
+  </head>
+  <body>
+    <script>
+      class NewArr extends Array {
+        constructor(...args) {
+          super(...args);
+        }
+
+        shuffle() {
+          // randomize
+
+          for (let i = this.length - 1; i >= 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this[i], this[j]] = [this[j], this[i]];
+          }
+        }
+      }
+
+      const arr = new NewArr(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+      console.log(arr);
+      arr.shuffle();
+      console.log(arr);
+    </script>
+  </body>
+</html>

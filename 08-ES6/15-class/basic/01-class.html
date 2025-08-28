@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Class</title>
+  </head>
+  <body>
+    <script>
+      // ES5
+      //   function Point(x, y) {
+      //     this.x = x;
+      //     this.y = y;
+      //   }
+
+      //   Point.prototype.toString = function () {
+      //     console.log(`(${this.x}, ${this.y})`);
+      //   };
+
+      //   let point = new Point(10, 20);
+      //   point.toString(); // (10, 20)
+
+      // ES6
+
+      class Point {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+        }
+
+        // Belong to instance itself
+        r = 10;
+
+        // Prototype Method
+        toString() {
+          console.log(`(${this.x}, ${this.y})`);
+        }
+      }
+
+      let point = new Point(10, 20);
+      point.toString(); // (10, 20)
+      console.log(point.__proto__.toString);
+      console.log(point.__proto__.r); // undefined
+      console.log(point.r); // 10
+    </script>
+  </body>
+</html>

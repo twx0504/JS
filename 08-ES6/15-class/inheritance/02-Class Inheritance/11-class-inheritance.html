@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>11 - Class Inheritance: ES5 vs ES6 Comparison</title>
+  </head>
+  <body>
+    <script>
+      // #1: Classes must be called with the "new" keyword.
+      // Unlike ES5 constructor functions (which can be called without "new"),
+      // calling a class without "new" throws an error.
+
+      // #2: Methods defined inside a class are not enumerable.
+      function Fn() {}
+      Fn.prototype.say = function () {};
+
+      class A {
+        // Instance methods defined in a class body are automatically non-enumerable.
+        // Therefore, for...in will not list them.
+        say() {}
+      }
+
+      // A.prototype.eat = function() {} // Example: still works in ES6, but remains non-enumerable.
+
+      for (let key in new Fn()) {
+        console.log(key);
+      }
+
+      for (let key2 in new A()) {
+        console.log(key2);
+      }
+
+      // #3: Classes are not hoisted.
+      // In ES5, function declarations are hoisted, so you can reference them before they are defined.
+      //
+      // Example (works in ES5):
+      // function Child() {
+      //   Parent.apply(this); // Works because Parent is hoisted.
+      // }
+      // function Parent() {}
+      // const child = new Child(); // Child {}
+      //
+      // In ES6, classes are hoisted but remain in the temporal dead zone,
+      // so you cannot access them before their declaration:
+      // class Child extends Parent {} // ReferenceError
+      // class Parent {}
+
+      // #4: Static methods/properties
+      // In ES6, a child class automatically inherits static methods/properties from the parent via "extends".
+      // In ES5, you need to manually link them using Object.setPrototypeOf(Child, Parent).
+      // Avoid using __proto__ in production — it's non-standard and only for development/debugging.
+
+      // #5: Class instance methods do not have their own "prototype" property.
+      function Test() {}
+      Test.prototype.say = function () {};
+      console.log(new Test().say.prototype); 
+      // Normal functions (including ES5 prototype methods) have a "prototype" property
+      // because they can be used as constructors.
+
+      class Test2 {
+        // Class methods are not constructors, so they have no "prototype" property.
+        say() {}
+      }
+      console.log(new Test2().say.prototype); // undefined
+
+      // #6: Inheriting built-in constructors
+      // In ES5, you cannot reliably inherit from built-in constructors (Array, Date, etc.)
+      // due to internal [[This]] binding issues — the instance created is just a plain object,
+      // not the internal object type expected by the built-in.
+      // In ES6, "class" handles this correctly:
+      // 1. The parent constructor runs first, creating a proper built-in instance.
+      // 2. The child constructor then customizes it.
+    </script>
+  </body>
+</html>
