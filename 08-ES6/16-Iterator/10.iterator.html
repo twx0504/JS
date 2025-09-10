@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>10-Iterator</title>
+  </head>
+  <body>
+    <script>
+      const arr = ["a", "b", "c", "d"];
+      // Note: this is actually my theory... I didnt find anything reliable to that.
+      // Overriding Array.prototype[Symbol.iterator] changes iteration for ALL arrays globally.
+      // If the implementation is incorrect, it can break built-in behavior or even DevTools.
+      Array.prototype[Symbol.iterator] = function () {
+        let index = 0;
+        const that = this;
+        return {
+          next() {
+            // This causes an infinite loop because iteration never ends.
+            // Any code (including the browser/DevTools) that tries to iterate arrays will hang.
+            // return {
+            //   value: that[index++],
+            //   done: false,
+            // };
+            // This makes iteration stop immediately, so no values are actually produced.
+            // return {
+            //   value: that[index++],
+            //   done: true,
+            // };
+            // Iterates through the array until the end, then signals completion
+            // if (index < that.length) {
+            //   return {
+            //     value: that[index++],
+            //     done: false,
+            //   };
+            // } else {
+            //   return {
+            //     value: undefined,
+            //     done: true,
+            //   };
+            // }
+
+            // Also good: use of ternary operator.
+            return index < that.length // this is the part that is different from our implementation (We do implement isDone method for checking.)
+              ? {
+                  value: that[index++],
+                  done: false,
+                }
+              : {
+                  value: undefined,
+                  done: true,
+                };
+          },
+        };
+      };
+
+      const iter = arr[Symbol.iterator]();
+      let obj = iter.next();
+
+      //   console.log(iter.next());
+      //   console.log(iter.next());
+      //   console.log(iter.next());
+      //   console.log(iter.next());
+      //   console.log(iter.next());
+
+      // But, do you find using an external iterator cumbersome?
+      while (!obj.done) {
+        if (obj.value === "b") {
+          obj = iter.next(); // When working with continue keyword, you must write this to prevent infinite loop.
+          // because continue will skip the following code.
+          continue;
+        }
+        console.log(obj.value);
+        obj = iter.next();
+      }
+      console.log(obj.value);
+    </script>
+  </body>
+</html>

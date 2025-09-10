@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Iterator: External Iterator V1</title>
+  </head>
+  <body>
+    <script>
+      // External Iterator
+      // We need to know the internal implementation.
+      // We need to explicitly iterate the next element.
+      // Flexible.
+      Array.prototype.getIterator = function () {
+        let index = 0;
+        const that = this;
+        return {
+          next() {
+            return that[index++];
+          },
+        };
+      };
+
+      const arr = ["a", "b", "c", "d", "e"];
+      const iterator = arr.getIterator();
+      //   console.log(iterator);
+      //   console.log(iterator.next()); // a
+      //   console.log(iterator.next()); // b
+      //   console.log(iterator.next()); // c
+      //   console.log(iterator.next()); // d
+      //   console.log(iterator.next()); // e
+      //   console.log(iterator.next()); // undefined
+
+      // Downside: We cannot iterate every elemenet of the collection.
+      // There's no way to validate whether the iteration has done.
+      while (iterator.next()) {
+        // Note: not all the member is logged.
+        console.log(iterator.next());
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>12-Iterator: Adding Iterator Interface to Objects</title>
+  </head>
+  <body>
+    <script>
+      // Adding iterator interface to an object
+      // to enable this object to be used with for ... of loop.
+      const obj = {
+        data: [2, 4, 6, 8],
+        [Symbol.iterator]() {
+          // Alternative 1:
+          //   console.log(this.data[Symbol.iterator]()); // Array Iterator {}
+          //   return this.data[Symbol.iterator](); // Since array has implemented its own iterator, we can use it.
+
+          //   Alternative 2: Manual implementation following the iterable and iterator protocols.
+          let index = 0;
+          const that = this;
+          return {
+            next() {
+              if (index < that.data.length) {
+                return {
+                  value: that.data[index++],
+                  done: false,
+                };
+              } else {
+                return {
+                  value: undefined,
+                  done: true,
+                };
+              }
+            },
+          };
+        },
+      };
+
+      for (let v of obj) {
+        console.log(v);
+      }
+    </script>
+  </body>
+</html>
