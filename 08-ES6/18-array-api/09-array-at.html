@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>09-Array - at</title>
+  </head>
+  <body>
+    <script>
+      // at(index)
+      // index can be negative, easy if you want to get last element
+      const arr = [1, 2, 3, 4];
+      console.log(arr.at(-1)); // 4
+      //   console.log(arr[-1]); // undefined - bracket notation cannot access negative index.
+      console.log(arr.at(1)); // 2
+      // when index >= arr.length, it returns undefined.
+      console.log(arr.at(5)); // undefined
+      // when index < -arr.length, it returns undefined.
+      console.log(arr.at(-5)); // undefined
+      // similar to
+      //   console.log(arr[arr.length - 1]); // 4
+
+      // Getting penultimate (the second to last element)
+      const colors = ["red", "green", "blue"];
+
+      console.log(colors.at(-2)); // green
+      // Other method to get the second to last element.
+      //   // slice method
+      //   console.log(colors.slice(1, 2)[0]); // green - note: an array is returned you need to use bracket notation to extract it.
+      //   // bracket notation with array length property
+      //   console.log(colors[colors.length - 2]); // green
+
+      // array like object
+      const arrayLike = {
+        length: 2,
+        0: "a",
+        1: "b",
+        2: "c",
+      };
+      console.log(Array.prototype.at.call(arrayLike, -1)); // b - but why is the last element is "b" instead of c?
+      // at method reads the length property which is 2, So the third element and beyond are ignored.
+
+    </script>
+  </body>
+</html>

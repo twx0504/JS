@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-String - startsWith & endsWith</title>
+  </head>
+  <body>
+    <script>
+      // startsWith
+      const str = "To be, or not to be, that is the question.";
+      console.log(str.startsWith("to")); // false - note: this method is case sensitive.
+      console.log(str.startsWith("To")); // true
+      console.log(str.startsWith("to", 14)); // true - as starting from index 14, it is "to"
+      
+      // endsWith
+      console.log(str.endsWith("question.")); // true
+      console.log(str.endsWith("is")); // false
+      console.log(str.endsWith("is", 28)); // true
+    </script>
+  </body>
+</html>

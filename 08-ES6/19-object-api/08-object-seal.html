@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08-Object - Object.seal</title>
+  </head>
+  <body>
+    <script>
+      // Object.seal makes an object non-configurable, but it is writable.
+      // - cant add new prop
+      // - cant remove existing prop
+      // - cant reassign its prototype
+      // - cant mchange their enumerability and configurability.
+      // - values can still be changed, as long as they are writable.
+      const obj = {
+        a: 1,
+        b: 2,
+      };
+
+      Object.defineProperty(obj, "e", {
+        value: 100,
+        // writable: false, // by default
+      });
+      Object.defineProperty(obj, "f", {
+        value: 100,
+        writable: true,
+      });
+
+      console.log(Object.isSealed(obj)); // false
+      Object.seal(obj);
+      console.log(Object.isSealed(obj)); // true
+
+      obj.a = 3; // this is working.
+      obj.e = 1000; // this doesn't change anything. (As writable by default set to false.)
+      obj.f = 1000; // this is working (writable is set to true during Object.defineProperty call.).
+      console.log(obj); // {a: 3, b: 2, e: 100, f: 1000}
+      obj.c = 10;
+      delete obj.b;
+      console.log(obj); // {a: 3, b: 2, e: 100, f: 1000}
+    </script>
+  </body>
+</html>

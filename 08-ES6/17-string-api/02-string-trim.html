@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-String - trim</title>
+  </head>
+  <body>
+    <input type="text" id="username" />
+    <script>
+      // Application: remove whitespace from both ends of the input string from user.
+      const inp = document.getElementById("username");
+      inp.addEventListener("blur", function (e) {
+        console.log(this.value.trim());
+      });
+
+      // trimStart
+      const str = "  lo  ve   ";
+      console.log(str.length);
+      const newStr = str.trimStart();
+      console.log(newStr);
+      console.log(newStr.length);
+
+      // trimEnd
+      const newStr2 = str.trimEnd();
+      console.log(newStr2);
+      console.log(newStr2.length);
+
+      // trim
+      const newStr3 = str.trim();
+      console.log(newStr3);
+      console.log(newStr3.length);
+    </script>
+  </body>
+</html>

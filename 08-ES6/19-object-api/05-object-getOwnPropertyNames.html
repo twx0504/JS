@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-Object - Object.getOwnPropertyNames</title>
+  </head>
+  <body>
+    <script>
+      // Object.getOwnPropertyNames(obj)
+      // return an array of all properies (including non-enumerable property)
+      // do not include Symbol.
+      // do not include props from prototype chain.
+      const obj = {
+        a: 1,
+        b: 2,
+        [Symbol()]: "Symbol",
+      };
+
+      // Get prototype of obj
+      // Add prop to the prototype.
+      const proto = Object.getPrototypeOf(obj);
+      proto.name = "twx";
+
+      Object.defineProperty(obj, "gender", {
+        value: "male",
+        // enumerable: false
+      });
+
+      const attr = Object.getOwnPropertyNames(obj);
+      console.log(attr); // ['a', 'b', 'gender']
+
+      // In ES6 (ES2015) non-object argument will be converted to object.
+      const num = Object.getOwnPropertyNames(1);
+      console.log(num); // []
+
+      const str = Object.getOwnPropertyNames("Hello");
+      console.log(str); // ['0', '1', '2', '3', '4', 'length']
+    </script>
+  </body>
+</html>

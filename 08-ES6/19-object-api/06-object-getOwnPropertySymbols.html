@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>06-Object - Object.getOwnPropertySymbols</title>
+  </head>
+  <body>
+    <script>
+      // Object.getOwnPropertySymbols(obj)
+      // returns an array of all symbol properties (including non-enumerable symbol)
+      // do not contains string property
+      // do not contains props from prototype chain.
+      const obj = {
+        a: 1,
+        b: 2,
+        [Symbol("key1")]: "Symbol",
+      };
+
+      // Get prototype of obj
+      // Add prop to the prototype.
+      const proto = Object.getPrototypeOf(obj);
+      proto.name = "twx";
+      proto[Symbol("key3")] = "Symbol"
+
+      Object.defineProperty(obj, "gender", {
+        value: "male",
+        // enumerable: false
+      });
+
+      Object.defineProperty(obj, Symbol("key2"), {
+        value: "male",
+        // enumerable: false
+      });
+      const symbolAttrs = Object.getOwnPropertySymbols(obj);
+      console.log(symbolAttrs); // [Symbol(key1), Symbol(key2)]
+    </script>
+  </body>
+</html>
