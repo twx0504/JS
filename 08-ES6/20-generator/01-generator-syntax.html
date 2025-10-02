@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Generator</title>
+  </head>
+  <body>
+    <script>
+      // A generator function creates a special kind of iterator called a generator.
+
+      // Note: the position of the asterisk `*` doesn’t matter:
+      //   function* gen() {}   // more common
+      //   function * gen() {}
+      //   function *gen() {}
+
+      function* gen() {
+        console.log("hello");
+        // yield keyword: pause and resume a generator function.
+        // Each `yield` pauses execution and produces a value.
+        // That value becomes the `value` property of the object returned by `next()`.
+        yield 1;
+
+        console.log("world");
+        yield 2;
+        yield 3;
+        // return: ends the generator immediately.
+        // The returned value becomes the value of the final object from next().
+        // (for...of and spread ignore this return value, but they still stop there)
+        // Note: without return statement, the value of the final object is undefined.
+        return 4;
+        // The follwoing yield will never run.
+        yield 5;
+        yield 6;
+      }
+
+      // Calling gen() does not execute its body immediately.
+      // Instead, it returns a generator object (an iterator).
+      // The function starts in a "suspended" state.
+      // Its code runs only when .next() is called, resuming until the next yield.
+      const it = gen();
+      console.log(it); // gen {<suspended>}
+      // call next method:
+
+      console.log(it.next());
+      // hello
+      // {value: 1, done: false}
+
+      console.log(it.next());
+      // world
+      // {value: 2, done: false}
+      console.log(it.next());
+      // {value: 3, done: false}
+
+      // / after the last yield (3), the next() call reaches the return 4.
+      console.log(it.next());
+      // {value: 4, done: true} - note: how the value becomes 4, instead of undefined.
+
+      // If we try to loop again over the same generator, nothing happens
+      // because the iterator is already exhausted (consumed).
+      //   for (const v of it) {
+      //     console.log(v);
+      //   }
+
+      // for...of
+      // To iterate again, create a new generator (iterator).
+      for (const v of gen()) {
+        console.log(v);
+      }
+      // hello
+      // 1
+      // world
+      // 2
+      // 3
+    </script>
+  </body>
+</html>

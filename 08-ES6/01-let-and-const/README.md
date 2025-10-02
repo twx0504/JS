@@ -6,6 +6,16 @@
 > - do not redeclare existing variable with let or const.
 
 > tip: declare before use due to Temporal Dead Zone (TDZ).
+> Note: Temporal refers to when a variable is accessed during execution, not where it appears in the code!
+>  Access before initialization -> ReferenceError
+>  Access after initialization -> Fine, even if the code was written earlier in the block.
+
+```js
+// Fn define here.
+const fn = () => console.log(a); 
+let a = 3; // TDZ ends.
+fn(); // Now safe. Execute fn after a is initialized. (No ReferenceError)
+```
 
 ```js
 if (true) {
