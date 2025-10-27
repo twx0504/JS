@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>14-Promise - Static Method -</title>
+  </head>
+  <body>
+    <script>
+      // #1: Without Argument
+      Promise.resolve().then((data) => {
+        console.log(data); // undefined
+      });
+
+      // #2: plain value as an argument.
+      //   const p = Promise.resolve("Hello");
+
+      //   // Equivalent to:
+      //   //   const p = new Promise((resolve, reject) => {
+      //   //     resolve("Hello");
+      //   //   });
+
+      //   console.log(p); // Promise {<fulfilled>: 'Hello'}
+
+      Promise.resolve("Hello").then((data) => {
+        console.log(data); // Hello
+      });
+
+      // #3: promise as argument - return that promise.
+      const p1 = new Promise((resolve, reject) => {
+        resolve("Success.");
+      });
+      const p2 = Promise.resolve(p1);
+      console.log(p1 === p2); // true
+
+      // Note: The behaviour of Promise.resolve is not always same as new Promise.
+      const p3 = new Promise((resolve, reject) => {
+        resolve(p1); // this is different.
+        // p3 is a new promise, but its PromiseState & PromiseResult is determined by p1.
+      });
+      console.log(p1, p3);
+      console.log(p1 === p3); // false
+
+      // #4: thenable as argument
+
+      const thenableObj = {
+        a: 1,
+        b: 2,
+        then(onFulfilled, onRejected) {
+          onFulfilled(this.a);
+          //   onRejected("Rejected.");
+        },
+      };
+
+      const p = Promise.resolve(thenableObj); // return a promise whose state and result is determined by the then() of thenableObj and what is being called (onFulfilled / onRejected) inside then().
+      console.log(p);
+
+      // Promise.resol ve doesn't always return the fulfilled promise.
+      // - without argument or plain value as argument -> fulfilled.
+      // - promise as argument -> depends on the promise.
+      // - thenable as argument -> depends on the thenable.
+
+      // Way to return promise.
+      // new Promise(val)
+      // p.then(()=>val)
+      // Promise.resolve(val)
+      // -> For Promise.resolve, it may be different when the val is promise & thenable.
+    </script>
+  </body>
+</html>

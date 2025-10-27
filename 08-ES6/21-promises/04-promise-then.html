@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Promise - then</title>
+  </head>
+  <body>
+    <script>
+      // The callback of then method will only be called when the PromiseState changes.
+      const promise1 = new Promise((resolve, reject) => {
+        resolve("Fulfilled");
+      });
+
+      // promise.then(onFulfilled, onRejected);
+      promise1.then(
+        (data) => {
+          // Call when the PromiseState is fulfilled.
+          console.log(data); // Fulfilled
+        },
+        (err) => {
+          // Call when the PromiseState is rejected.
+          console.log(err);
+        }
+      );
+
+      const promise2 = new Promise((resolve, reject) => {
+        reject("Rejected");
+      });
+
+      // promise.then(onFulfilled, onRejected);
+      promise2.then(
+        (data) => {
+          // Call when the PromiseState is fulfilled.
+          console.log(data);
+        },
+        (err) => {
+          // It is like error handling here - so the error is not shown on console as Uncaught Error.
+          // Call when the PromiseState is rejected.
+          console.log(err); // Rejected
+        }
+      );
+
+      const promise3 = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve("Success");
+        }, 2000);
+      });
+      promise3.then(
+        (data) => {
+          console.log(data); // log after 2 sec when the PromiseState changes.
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    </script>
+  </body>
+</html>

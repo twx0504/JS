@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-Promise</title>
+  </head>
+  <body>
+    <script>
+      const p = new Promise((resolve, reject) => {
+        reject(1000);
+      });
+
+      const p2 = p.finally(() => {
+        console.log("Finally, this operation is starting to work...");
+        // return {
+        //   then(onFulfilled, onRejected) {
+        //     // onFulfilled("Succeeded");
+        //     onRejected("Failed.")
+        //   },
+        // };
+
+        throw new Error("Failure!!");
+      });
+      console.log(p2);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>15-Promise - Static Method - reject</title>
+  </head>
+  <body>
+    <script>
+      //   const p = Promise.reject("Error");
+      //   console.log(p); // Promise {<rejected>: 'Error'}
+
+      // Equivalent to:
+      //   const p1 = new Promise((resolve, reject) => {
+      //     reject("Error");
+      //   });
+      //   console.log(p1);
+
+      // Promise.reject("Failed").then(
+      //   (data) => {
+      //     console.log(data); // Since it is a rejected Promise, then this onFulfilled callback is not executed.
+      //   },
+      //   (err) => {
+      //     console.log(err); // Failed - This callback is executed.
+
+      //   }
+      // );
+
+      // OR
+
+      //   Promise.reject("Failed").catch((err) => {
+      //     console.log(err); // Failed - This callback is executed.
+      //   });
+
+      //   // #1: Without argument
+      //   const pro1 = Promise.reject();
+      //   console.log(pro1);
+
+      //   // #2: plain value as argument
+      //   const pro2 = Promise.reject(123);
+      //   console.log(pro2);
+
+      //   // #3: promise as argument
+      //   const test = new Promise((resolve, reject) => {
+      //     reject("1");
+      //   });
+      //   const pro3 = Promise.reject(test);
+      //   console.log(pro3 === test); // false - Promise.reject always returns new Promise - unlike Promise.resolve that can reuse the existing promise..
+
+      //   // How to get Rejected Promise?
+      //   // 1. throw error
+      //   // 2. return rejected promise
+      //   // 3. return thenable.
+      //   // 4. return Promise.reject(reason)
+
+      //   Promise.reject(new Error("Failed."))
+      //     .catch((err) => {
+      //       console.log(err);
+      //       return 3;
+      //     })
+      //     .then((data) => {
+      //       console.log(data);
+      //       // return rejected promise instance.
+      //       return Promise.reject(new Error("Internal Error."));
+      //     })
+      //     .catch((err) => {
+      //       console.log(err);
+      //     });
+
+      const thenableObj = {
+        a: 1,
+        then(onFulfilled, onRejected) {
+          //   onRejected(this.a);
+          onFulfilled(this.a);
+        },
+      };
+
+      Promise.reject(thenableObj).catch((err) => {
+        console.log(err); // {a: 1, then: ƒ}
+        console.log(err === thenableObj); // true - thenableObj returned as is.
+      });
+    </script>
+  </body>
+</html>
