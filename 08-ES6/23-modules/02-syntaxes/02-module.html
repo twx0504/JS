@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Module - What Module Solves?</title>
+  </head>
+  <body>
+    <!-- type="module" tells the browser this script uses ES Module System -> allows the use of import and export and treats all imported files as modules too. -->
+    <script type="module">
+      // ES Modules:
+      // 1. Avoid naming conflicts — each file has its own scope.
+      // 2. Handle dependency loading automatically — no need to worry about script order.
+      import max from "./max.js";
+      import min from "./min.js";
+      //   console.log(data); // Uncaught ReferenceError: data is not defined - because it is not import here.
+      console.log(max()); // 10
+      console.log(min()); // 1
+    </script>
+
+    <!-- treat max.js as module - so it allows import / export syntax. -->
+    <!-- <script src="max.js" type="module"></script> -->
+  </body>
+</html>
