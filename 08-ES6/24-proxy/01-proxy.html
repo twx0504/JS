@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Proxy</title>
+  </head>
+  <body>
+    <script>
+      // const proxy = new Proxy(target, handler);
+      // - target: an object
+      // - handler: an handler object contains method to intercept certain actions on the target.
+      // - if the handler is empty, it is like directly working on the original target.
+      // - if the handler is not provided, it throws Error.
+      const obj = {
+        name: "tooweixin",
+        age: 25,
+      };
+
+      // With proxy, we can intercept this behavior, and make it throw an Error if accessing non-defined property.
+      const proxy = new Proxy(obj, {
+        // target: original object
+        // key: property
+        // receiver: proxy
+        get(target, key, receiver) {
+          console.log(target);
+          console.log(key);
+          console.log(receiver);
+          return target[key];
+        },
+      });
+
+      // If the get handler doesn't return a value, it returns undefined.
+      console.log(proxy.name); // tooweixin
+      // {name: 'tooweixin', age: 25}
+      // 'name'
+      // Proxy(Object){name: 'tooweixin', age: 25}
+    </script>
+  </body>
+</html>

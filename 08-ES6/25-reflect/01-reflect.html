@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Reflect</title>
+  </head>
+  <body>
+    <script>
+      // #1: Reflect contains static methods that mirrors internal object methods, and has corresponding Object.xxx methods and also Proxy traps.
+      // #2: Reflect improves the return value of some Object.xxx methods and make it more sensible.
+      //   const obj = {};
+      //   const res = Object.defineProperty(obj, "name", {
+      //     value: "twx",
+      //   });
+      //   console.log(obj); // {name: 'twx'}
+      //   console.log("res: ", res); // res:  {name: 'twx'}
+
+      //   const obj2 = {};
+      //   Object.preventExtensions(obj2);
+      //   const res2 = Object.defineProperty(obj2, "name", {
+      //     value: "twx",
+      //   });
+      //   // Uncaught TypeError: Cannot define property name, object is not extensible
+
+      //   const obj = {};
+      //   const res = Reflect.defineProperty(obj, "name", {
+      //     value: "twx",
+      //   });
+      //   console.log(obj); // {name: 'twx'}
+      //   console.log("res: ", res); // res:  true
+
+      //   const obj2 = {};
+      //   Object.preventExtensions(obj2);
+      //   const res2 = Reflect.defineProperty(obj2, "name", {
+      //     value: "twx",
+      //   }); // This no longer throws an exception.
+      //   console.log(obj2); // {}
+      //   console.log("res2: ", res2); // res:  false - this is a better result, instead of throwing error.
+
+      // #3: Reflect turns object operations into function calls.
+      //   const obj = {
+      //     a: 1,
+      //     b: 2,
+      //   };
+
+      //   console.log("c" in obj); // false - traditional syntax
+      //   console.log(Reflect.has(obj, "c")); // false - function call
+
+      //   console.log(delete obj.a); // true - indicates this property is successfully deleted.
+      //   console.log(delete obj.z); // true - note: delete non-existing property also return true.
+      //   console.log(Reflect.deleteProperty(obj, "b")); // true - indicates this property is successfully deleted.
+      //   console.log(Reflect.deleteProperty(obj, "x")); // true - note: delete non-existing property also return true.
+
+      // #4:
+      const obj = {
+        a: 1,
+        b: 2,
+      };
+
+      const proxy = new Proxy(obj, {
+        get(target, prop, receiver) {
+          //   return "hello"; // this will replace the default behavior of the object operation (get)
+          return Reflect.get(target, prop, receiver); // Reflect.get() refers to the object default behavior.
+          //   return target[prop]; // this is the replacement.
+        },
+      });
+      console.log(proxy.a); // 1
+      console.log(Reflect.get(obj, "b")); // 2
+    </script>
+  </body>
+</html>

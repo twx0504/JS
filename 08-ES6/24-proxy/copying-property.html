@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Copying Properties and Preserving Descriptors</title>
+  </head>
+  <body>
+    <script>
+      // This example shows the use of Object.getOwnPropertyDescriptor.
+      const obj = {
+        a: 1,
+        b: 2,
+        _x: 11,
+        get x() {
+          console.log("get");
+          return this._x;
+        },
+        set x(val) {
+          console.log("set");
+          this._x = val;
+        },
+      };
+
+      const obj2 = {};
+
+      for (const prop in obj) {
+        // This copies only the *value*. Accessor properties become normal data properties.
+        obj2[prop] = obj[prop];
+      }
+
+      console.log(obj, obj2);
+      // Accessor 'x' becomes a data property on obj2 (value copied, getter/setter lost).
+
+      // To correctly copy accessor properties, copy their property descriptors.
+      const obj3 = {};
+
+      for (const prop in obj) {
+        const desc = Object.getOwnPropertyDescriptor(obj, prop);
+        Object.defineProperty(obj3, prop, desc);
+      }
+      console.log(obj, obj3); // {a: 1, b: 2, _x: 11} {a: 1, b: 2, _x: 11}
+      // obj3 preserves getter, setter, and all descriptor attributes.
+
+      console.log(obj3.x);
+      // get
+      // 11
+      obj3.x = 10;
+      // set
+      console.log(obj3.x); // 10
+      console.log(obj3); // {a: 1, b: 2, _x: 10}
+    </script>
+  </body>
+</html>

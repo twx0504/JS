@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Garbage Collection of Proxy</title>
+  </head>
+  <body>
+    <script>
+      let obj = {
+        a: 1,
+        b: 2,
+      };
+
+      const wm = new WeakMap();
+      wm.set(obj, 1);
+
+      //   const proxy = new Proxy(obj, {}); // In proxy, thought not specified, hold obj as strong reference. So, when obj = null, the wm still hold the reference to the obj.
+      obj = null;
+      console.log(wm);
+    </script>
+  </body>
+</html>

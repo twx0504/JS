@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Proxy - Get: Accessing Array Item via Negative Indices</title>
+  </head>
+  <body>
+    <script>
+      const targetArr = ["a", "b", "c", "d", "e"];
+
+      const proxy = new Proxy(targetArr, {
+        get(target, key) {
+          key = Number(key); // Make sure the key is Numebr type to work with.
+          if (key < 0) {
+            // My thought of implementating the circular indexing doesn't make sense here.
+            // key = target.length + (key % targetArr.length);
+            key = target.length + key;
+          }
+          return target[key];
+        },
+      });
+
+      console.log(proxy[-1]);
+      console.log(proxy[-6]); // This is out of bound.
+    </script>
+  </body>
+</html>

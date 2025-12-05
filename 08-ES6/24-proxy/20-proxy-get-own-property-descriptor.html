@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>20-Proxy - GetOwnProperty</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        a: 1,
+        b: 2,
+      };
+
+      const proxy = new Proxy(obj, {
+        getOwnPropertyDescriptor(target, prop) {
+          if (prop === "a") {
+            return undefined;
+          }
+          return Object.getOwnPropertyDescriptor(target, prop);
+        },
+      });
+
+      console.log(Object.getOwnPropertyDescriptor(proxy, "a")); // undefined
+      console.log(Object.getOwnPropertyDescriptor(proxy, "b")); // {value: 2, writable: true, enumerable: true, configurable: true}
+
+
+      
+    </script>
+  </body>
+</html>

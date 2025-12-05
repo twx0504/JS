@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>15-Proxy - Construct</title>
+  </head>
+  <body>
+    <script>
+      class A {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+        }
+      }
+
+      const proxy = new Proxy(A, {
+        construct(target, argumentsList, newTarget) {
+          // target: the target constructor object
+          // argumentList: an array containing arguments passed to the constructor.
+          // newTarget: the constructor actually invoked with `new` — in this case, the proxy itself
+          console.log(target); // class A {}
+          console.log(argumentsList); // [10, 20]
+          console.log(newTarget, newTarget === proxy); // Proxy(Function) {length: 2, name: 'A', prototype: {…}} true
+
+          // Must return an object, otherwise throw 15-proxy-construct.html:31 Uncaught TypeError: 'construct' on proxy: trap returned non-object
+          return new target(...argumentsList);
+          //   return { val: 1 };
+          //   return 1;
+        },
+      });
+
+      console.log(new proxy(10, 20)); // A {x: 10, y: 20}
+
+
+      // Important Note: the target must be an constructor - which means it can work with new keyword.
+      // In the following case, the target is an object {}
+      // calling new proxy2() throws.
+      //   const proxy2 = new Proxy(
+      //     {},
+      //     {
+      //       construct() {},
+      //     }
+      //   );
+
+      //   new proxy2(); // Uncaught TypeError: proxy2 is not a constructor
+    </script>
+  </body>
+</html>

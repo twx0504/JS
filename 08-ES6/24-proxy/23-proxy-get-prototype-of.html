@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>23-Proxy - GetPrototypeOf</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        a: 1,
+        b: 2,
+      };
+
+      // Make obj non-extensible
+      Object.preventExtensions(obj);
+
+      const proxy = new Proxy(obj, {
+        getPrototypeOf(target) {
+          // Note:
+          // - for non-extensible object, you must return its actual prototype.
+          // - otherwise, error is thrown.
+          return Array.prototype;
+          // Uncaught TypeError: 'getPrototypeOf' on proxy: proxy target is non-extensible but the trap did not return its actual prototype
+
+          // return Object.prototype;
+        },
+      });
+
+
+      // When the proxy handler.getPrototypeOf return Object.prototype, the following is working.
+      // console.log(proxy.__proto__ === obj.__proto__); // true
+    </script>
+  </body>
+</html>

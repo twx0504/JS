@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>27-Proxy - OwnPropertyKeys</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        a: 1,
+        [Symbol.for("b")]: 1, // "b" is global registered symbol
+      };
+
+      Object.defineProperty(obj, "name", {
+        value: "twx",
+        configurable: false, // non-configurable
+        // enumerable: false, // this is the default value when we define property in this way.
+      });
+
+      Object.preventExtensions(obj);
+
+      const proxy = new Proxy(obj, {
+        ownKeys(target) {
+          console.log(target);
+          // must return array of property names which can only contains string or symbol.
+          //   return Object.getOwnPropertyNames(target);
+
+          // we have included symbol here, but if using Object.getOwnPropertyNames, the returned array will omit symbol keys.
+          // Same goes to using Object.getOwnPropertySymbols, the returned array will omit string keys.
+
+          return ["a", Symbol.for("b"), "name"];
+
+          // For non-extensive obj, you cannot return extrra keys!
+          //   return ["a", Symbol.for("b"), "name", "test"];
+
+          // note: "name" must be manually included as non-configurable keys must be returned.
+          // for configurable property, it can be omitted.
+          //   return ["a", Symbol("b")];
+          // If not included, it will throw Uncaught TypeError: 'ownKeys' on proxy: trap result did not include 'name'
+        },
+      });
+
+      // Note: this gives you all the string keys only whether it is enumerable or not.
+      console.log(Object.getOwnPropertyNames(proxy)); // This will filter out those symbols.
+      // {a: 1, name: 'twx', Symbol(b): 1}
+      // ['a', 'name'] - only string keys are included in the array.
+
+      // Note: this gives you all the symbol keys only whether it is enumerable or not.
+      console.log(Object.getOwnPropertySymbols(proxy));
+      // {a: 1, name: 'twx', Symbol(b): 1}
+      // [Symbol(b)] - only symbol is included in the array
+
+      // Note: Object.keys only gives you own enumerable string-keyed property names, omitting non-enumerable ones.
+      console.log(Object.keys(proxy));
+      // {a: 1, name: 'twx', Symbol(b): 1}
+      // ['a'] - note: name is not included because it is non-enumerable own string key.
+
+      // Note: this gives you all the string and symbol keys, whether or not it is enumerable or not.
+      console.log(Reflect.ownKeys(proxy));
+      // {a: 1, name: 'twx', Symbol(b): 1}
+      // ['a', Symbol(b), 'name']
+    </script>
+  </body>
+</html>

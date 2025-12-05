@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>19-Proxy - GetOwnProperty</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        a: 1,
+        b: 2,
+      };
+
+      const proxy = new Proxy(obj, {
+        getOwnPropertyDescriptor(target, prop) {
+          console.log(target); // {a: 1, b: 2}
+          console.log(prop); // "a"
+          // Must return undefined or property descriptor object, otherwise throws exception.
+
+          // This is the way to get the descriptor object.
+          return Object.getOwnPropertyDescriptor(target, prop);
+          // Note: we cannot manually create a descriptor object, it is still not acceptable.
+          //   return {
+          //     value: 1,
+          //     writable: false,
+          //     enumerable: true,
+          //     configurable: false,
+          //   };
+          // Uncaught TypeError: 'getOwnPropertyDescriptor' on proxy: trap reported non-configurability for property 'a' which is either non-existent or configurable in the proxy target
+        },
+      });
+
+      console.log(Object.getOwnPropertyDescriptor(proxy, "a")); // {value: 1, writable: true, enumerable: true, configurable: true}
+    </script>
+  </body>
+</html>
