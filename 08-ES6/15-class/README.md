@@ -60,8 +60,8 @@ class Ball {
     // Static Props / Methods
     static num = 0;
     static showNum(){
-        console.log(this); // this class
-        console.log(this.num);
+        console.log(this); // class Ball {}
+        console.log(this.num); // Ball.num
         
     }
 
@@ -75,29 +75,40 @@ class Ball {
     // - on instance
     shape;
     color = "red";
+    
     // - on prototype - shared among instances - it is on instance.__proto__
     showColor(){
         console.log(this.color);
     }
+
     showOriginPublic(){
         console.log(this); // instance
         return this.#showOrigin();
     }
-    
+
+    // Instance Methods (Arrow Function)
+    // - on instance
+    showNothing = () => {
+        console.log(this); // instance
+    };
+
     constructor(x, y, shape){
         this.x = x;
         this.y = y;
         this.shape = shape;
-        Ball.num++; // Every time you create an instance, the static prop num will be increased by 1.
+        
+        // Every time you create an instance, the static prop num will be increased by 1.
+        Ball.num++; 
     }
     
 }
+
 const a = new Ball(1, 2, "circle");
 const b = new Ball(1, 2, "circle");
 Ball.showNum(); // 2
 b.showOriginPublic(); // Malaysia
 console.log(b.__proto__); // {showColor: ƒ, showOriginPublic: ƒ} - note: the instance methods are on the instance.__proto__.
-
+a.showNothing(); // Ball {shape: 'circle', color: 'red', x: 1, #origin: 'Malaysia', showNothing: ƒ, …}
 ```
 
 
