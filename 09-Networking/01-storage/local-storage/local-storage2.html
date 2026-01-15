@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Local Storage 2</title>
+  </head>
+  <body>
+    <script>
+      // Key and value must be string, otherwise, it will cause type conversion to string.
+      localStorage.setItem({ a: 1, b: 2 }, { x: 1, y: 2 });
+
+      // - Problematic if storing object as value
+      localStorage.setItem("userInfo", { username: "twx0504", age: 25 });
+      console.log(localStorage.getItem("userInfo")); // [object Object] - Not what we want
+
+      // - Solution: JSON.stringify & JSON.parse
+      localStorage.setItem(
+        // Store key and value as stringified object
+        JSON.stringify({ a: 1, b: 2 }),
+        JSON.stringify({ x: 1, y: 2 })
+      );
+
+      localStorage.setItem(
+        "theme",
+        // Store value as stringified object
+        JSON.stringify({
+          fontSize: "20px",
+          color: "#666",
+          backgroundColor: "skyblue",
+        })
+      );
+
+      // Parse stringified object to the actual object
+      console.log(JSON.parse(localStorage.getItem("theme"))); // {fontSize: '20px', color: '#666', backgroundColor: 'skyblue'}
+    </script>
+  </body>
+</html>

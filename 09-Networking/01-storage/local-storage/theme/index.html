@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Theme</title>
+  </head>
+  <body>
+    <input class="js-color-picker" type="color" />
+    <script type="module">
+      import storage from "../storage.js";
+
+      const colorPicker = document.querySelector(".js-color-picker");
+      const theme = storage.get("theme");
+
+      let color = theme ? theme.backgroundColor : "#fff";
+      document.body.style.backgroundColor = color;
+
+      colorPicker.addEventListener("change", (e) => {
+        const pickedColor = e.target.value;
+        document.body.style.backgroundColor = pickedColor;
+        storage.set("theme", {
+          backgroundColor: pickedColor,
+        });
+      });
+    </script>
+  </body>
+</html>

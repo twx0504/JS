@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cookie 3: Expires / Max-Age of Cookies</title>
+  </head>
+  <body>
+    <script>
+      // If the expires / max-age is not set, the cookie becomes "session cookie".
+      // - Session cookies last for the current browser session.
+      // - The cookie is removed by the browser when the "browser window" is closed (Not browser tab!).
+
+      // expires: the expiry date (Date object)
+      // - must be in UTC/GMT format
+      // - toUTCString makes the date in UTC/GMT format
+      // - if expires uses date that is in the passed, it is immediately expired (Remove Cookies)
+      document.cookie = `account2=admin1234; expires=${new Date(
+        "2026-1-5 16:57:00"
+      ).toUTCString()}`;
+
+      // max-age (common): seconds (current time + x seconds to expire)
+
+      // This cookie expires after 5 seconds
+      document.cookie = "username=twx; max-age=5";
+
+      // Expire after 1 day
+      document.cookie = `age=25; max-age=${24 * 60 * 60}`;
+
+      // Let a cookie immediately expires (Remove Cookies)
+      // - max-age = 0 or max-age < 0 (negative value) e.g., -1
+      document.cookie = "gender=male; max-age=0";
+      document.cookie = "age=25; max-age=0";
+      document.cookie = "username=twx; max-age=-1";
+    </script>
+  </body>
+</html>

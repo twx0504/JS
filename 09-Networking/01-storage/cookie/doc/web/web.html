@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web</title>
+  </head>
+  <body>
+    <script>
+      document.cookie = `web=web123; max-age=${24 * 3600}`;
+
+      // Explicitly set path as current path
+      document.cookie = `web=web-a; path=/09-Networking/01-storage/cookie/doc/web`;
+
+      // Setting path as parent path
+      document.cookie = `web=web-c; path=/09-Networking/01-storage/cookie/doc`;
+
+      // This is not working - setting path as child path.
+      document.cookie = `web=web-b; path=/09-Networking/01-storage/cookie/doc/web/http`;
+    </script>
+  </body>
+</html>

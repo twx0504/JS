@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Application</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div class="search">
+      <div class="search-wrap">
+        <input
+          type="text"
+          placeholder="Enter Keyword..."
+          class="search-input"
+        />
+        <button class="search-button">Search</button>
+      </div>
+
+      <div class="keywords-wrap"></div>
+    </div>
+    <script type="module">
+      import storage from "../storage.js";
+
+      const searchInput = document.querySelector(".search-input");
+      const searchButton = document.querySelector(".search-button");
+      const keywordsWrap = document.querySelector(".keywords-wrap");
+
+      let keywordsArr = [];
+
+      searchButton.addEventListener("click", () => {
+        let val = searchInput.value.trim();
+
+        searchInput.value = "";
+
+        if (!val) return;
+
+        const id = new Date().getTime();
+
+        keywordsArr.push({
+          id,
+          keyword: val,
+        });
+
+        const span = document.createElement("span");
+        span.dataset.id = id;
+        span.innerHTML = `${val}<i>x</i>`;
+        keywordsWrap.appendChild(span);
+
+        if (keywordsArr.length > 6) {
+          keywordsArr.shift();
+          keywordsWrap.removeChild(keywordsWrap.children[0]);
+        }
+
+        storage.set("history", keywordsArr);
+      });
+
+      displayKeywords();
+
+      deleteKeyword();
+
+      function displayKeywords() {
+        const history = storage.get("history");
+
+        if (history !== null) {
+          keywordsArr = history;
+          for (let { id, keyword } of history) {
+            const span = document.createElement("span");
+            span.dataset.id = id;
+            span.innerHTML = `${keyword}<i>x</i>`;
+            keywordsWrap.appendChild(span);
+          }
+        }
+      }
+
+      function deleteKeyword() {
+        keywordsWrap.addEventListener("click", (e) => {
+          const tagName = e.target.tagName.toLowerCase();
+
+          if (tagName !== "i") return;
+
+          const span = e.target.parentNode;
+          span.remove();
+
+          const index = keywordsArr.findIndex((item) => {
+            return item.id === Number(span.dataset.id);
+          });
+
+          keywordsArr.splice(index, 1);
+          storage.set("history", keywordsArr);
+        });
+      }
+    </script>
+  </body>
+</html>

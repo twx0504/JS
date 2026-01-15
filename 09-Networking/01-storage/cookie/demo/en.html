@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>En</title>
+  </head>
+  <body>
+    <button id="cn">Chinese</button>
+    <button id="en">English</button>
+    Hello World
+    <script type="module">
+      import Cookie from "/Cookie";
+      const cn = document.getElementById("cn");
+      const en = document.getElementById("en");
+      en.addEventListener("click", () => {
+        Cookie.set("lang", "en", { maxAge: 365 * 24 * 3600 });
+        window.location = "/";
+      });
+
+      cn.addEventListener("click", () => {
+        Cookie.set("lang", "cn", { maxAge: 365 * 24 * 3600 });
+        window.location = "/";
+      });
+    </script>
+  </body>
+</html>

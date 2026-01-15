@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Local Storage</title>
+  </head>
+  <body>
+    <script>
+      // Permanent storage
+      // ~5 MB per origin, but there's no limitation on the size of an individual item.
+      // Note: Unlike localStorage / sessionStorage, cookies are limited both in size and quantity. Each cookie has a size of ~4 KB, and each domain can only store a limited number of cookie 
+
+      console.log(localStorage instanceof Storage); // true
+
+      // localStorage.setItem(key, val)
+      localStorage.setItem("font-size", "20px");
+      localStorage.setItem("color", "skyblue");
+      localStorage.setItem("background-color", "red");
+
+      // localStorage.length: returns the number of data items stored in this localStorage
+      console.log(localStorage.length); // 3
+
+      // localStorage.getItem(key)
+      console.log(localStorage.getItem("font-size")); // 20px
+
+      // localStorage.removeItem(key)
+      localStorage.removeItem("color");
+      console.log(localStorage.length); // 2
+
+      // localStorage.clear()
+      localStorage.clear();
+      console.log(localStorage.length); // 0
+    </script>
+  </body>
+</html>

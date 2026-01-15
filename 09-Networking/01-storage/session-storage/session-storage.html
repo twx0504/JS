@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session Storage</title>
+  </head>
+  <body>
+    <script>
+      // Similar to localStorage.
+      // The data is stored for the current page / tab session only
+      // - Closing tab / browser window removes the stored data (session storage)
+      // - Note: "Session cookies" are stored for the current browser session and expire when the browser is closed
+
+      console.log(sessionStorage instanceof Storage); // true
+
+      // sessionStorage.setItem(key, val)
+      sessionStorage.setItem("font-size", "20px");
+      sessionStorage.setItem("color", "skyblue");
+      sessionStorage.setItem("background-color", "red");
+
+      // sessionStorage.length: returns the number of data items stored in this sessionStorage
+      console.log(sessionStorage.length);
+
+      // sessionStorage.getItem(key)
+      console.log(sessionStorage.getItem("font-size")); // 20px
+
+      // sessionStorage.removeItem(key)
+      sessionStorage.removeItem("color");
+      console.log(sessionStorage.length);
+
+      // sessionStorage.clear()
+      //   sessionStorage.clear();
+      //   console.log(sessionStorage.length);
+    </script>
+  </body>
+</html>

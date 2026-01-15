@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cn</title>
+  </head>
+  <body>
+    <button id="cn">中文</button>
+    <button id="en">英文</button>
+    你好世界
+    <script type="module">
+      // Load module
+      // - We can omit .js file extension
+      // - It works like a path
+      import Cookie from "/Cookie";
+
+      const cn = document.getElementById("cn");
+      const en = document.getElementById("en");
+
+      en.addEventListener("click", () => {
+        Cookie.set("lang", "en", { maxAge: 365 * 24 * 3600 });
+        // document.cookie = `lang=en; max-age=${24 * 60 * 60}`;
+        window.location = "/";
+      });
+
+      cn.addEventListener("click", () => {
+        Cookie.set("lang", "cn", { maxAge: 365 * 24 * 3600 });
+        // document.cookie = `lang=cn; max-age=${24 * 60 * 60}`;
+        window.location = "/";
+      });
+    </script>
+  </body>
+</html>

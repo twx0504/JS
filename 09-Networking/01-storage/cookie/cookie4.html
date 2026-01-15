@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cookie 4: Domain</title>
+  </head>
+  <body>
+    <script>
+      // The cookie `Domain` attribute can be:
+      // 1. The current host (default behavior if Domain is not set)
+      //    e.g. www.mi.com or m.mi.com (host-only cookie) or localhost if using live-server
+      //
+      // 2. A parent domain (must start with a dot in legacy notation)
+      //    e.g. .mi.com → shared by www.mi.com and m.mi.com
+      //
+      // A cookie set for a parent domain can be accessed by:
+      // - the parent domain itself (mi.com)
+      // - all its subdomains (www.mi.com, m.mi.com)
+      //
+      // A cookie set for a specific host (host-only cookie):
+      // - can only be accessed by that exact host
+      // - cannot be accessed by sibling subdomains or child subdomains
+
+      // Cookie is inherited downward only.
+      // Simply put, .mi.com cannot access cookie from www.mi.com / m.mi.com
+      // But www.mi.com / m.mi.com can access cookie from .mi.com.
+
+      // Example 1:
+      // Add the following cookie on m.mi.com
+      // It is also accessible from www.mi.com because .mi.com is shared
+      document.cookie = "username=twx0504; domain=.mi.com";
+
+      // Example 2:
+      // Add the following cookie on m.mi.com
+      // It is not accessible from www.mi.com
+      document.cookie = "username=twx0504; domain=m.mi.com";
+    </script>
+  </body>
+</html>

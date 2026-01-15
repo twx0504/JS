@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cookie 1: Read and Write Cookies</title>
+  </head>
+  <body>
+    <script>
+      // Cookies are generally sent to server with HTTP requests.
+      // - Cookies' domain, path, secure must be fulfilled to be sent to server.
+      // - Also, the cookies must not be expired!
+
+
+      // Cookies can be set via Backend (common) or Frontend (with JavaScript)
+
+      // Write cookie
+      // - Each cookie must be set separately
+
+      document.cookie = "username=twx0504";
+      document.cookie = "age=25";
+      document.cookie = "gender=male";
+
+      // Read all cookie
+      console.log(document.cookie); // username=twx0504; age=25; gender=male
+    </script>
+  </body>
+</html>

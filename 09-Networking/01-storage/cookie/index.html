@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cookie</title>
+  </head>
+  <body>
+    <script type="module">
+      import Cookie from "./cookie.js";
+
+      /* SET */
+      Cookie.set("username", "ljy515", { maxAge: 10 });
+      Cookie.set("name", "杜韦萱", { maxAge: 10 });
+      Cookie.set("age", "25", { maxAge: 24 * 3600 });
+      Cookie.set("gender", "female", { domain: "127.0.0.1" });
+
+      /* GET */
+      console.log(Cookie.get("name"));
+      console.log(Cookie.get("username"));
+      console.log(Cookie.get("age"));
+      console.log(Cookie.get("gender"));
+
+      /* Remove */
+      Cookie.remove("age");
+    </script>
+  </body>
+</html>
