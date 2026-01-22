@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index</title>
+  </head>
+  <body>
+    Hello World. I am from 8882 galaxy.
+    <script>
+      // Initially, we want to request directly from http://localhost:8881 but failed due to CORS issue.
+      // Now, we send request to the same origin, it is like using a proxy
+      // CORS issue only exists between browser and server.
+      // Two servers can happily share resources with each other without issues.
+      const url = "http://127.0.0.1:8882/getInfo";
+      const xhr = new XMLHttpRequest();
+      
+      xhr.addEventListener("readystatechange", () => {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+          console.log(xhr.responseText);
+        }
+      });
+      xhr.open("GET", url);
+      xhr.send();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Axios 1</title>
+    <script src="https://unpkg.com/axios@1.13.2/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <script>
+      const url = "http://localhost:8881/api/users";
+
+      // axios(url) => send out GET request, using default config
+      axios(url)
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            console.log(res.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    </script>
+  </body>
+</html>

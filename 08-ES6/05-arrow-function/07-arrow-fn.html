@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>07-Arrow Function - When to use?</title>
+    <style>
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+    <script>
+      // 1. when we dont need this
+
+      // a. IIFE
+      const color = (() => {
+        // We don't need this here.
+        const arr = ["red", "yellow", "green", "blue"];
+        const n = Math.floor(Math.random() * arr.length);
+        return arr[n];
+      })();
+      console.log(color);
+
+      // b. Normal function call - fn() this usually refers to window
+      // If you want to change "this" - use call / apply / bind and change it to regualr function
+      const sum = (a, b) => a + b;
+      console.log(sum(1, 2));
+
+      // c. Most callbacks e.g., Array method
+      const arr = [1, 3, 2, 53, 23];
+      arr.sort((a, b) => a - b);
+      console.log(arr); // [1, 2, 3, 23, 53]
+
+      // 2. Use external "this"
+      const box = document.querySelector(".box");
+
+      box.addEventListener("click", function () {
+        // with arrow function we don't need to pass "this" here inside setInterval callback.
+        // const that = this; // we do not need to do this anymore.
+        setInterval(() => {
+          //   console.log(this); // this refers to the this of its external scope, the event handler where this is box element.
+          const arr = ["red", "yellow", "green", "blue"];
+          this.style.backgroundColor =
+            arr[Math.floor(Math.random() * arr.length)];
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>

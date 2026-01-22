@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XHR 10 - Event: progress event</title>
+    <style>
+      .progress {
+        margin: 0 auto;
+        width: 80%;
+        height: 50px;
+        border: 1px solid red;
+      }
+      .progress-bar {
+        width: 0%;
+        background-color: skyblue;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress">
+      <div class="progress-bar">10%</div>
+    </div>
+    <script>
+      let progressContainer = document.querySelector(".progress");
+      let progressBar = document.querySelector(".progress-bar");
+      
+      const url = "http://localhost:8881/api/image";
+
+      const xhr = new XMLHttpRequest();
+
+      /* ----------------- */
+      /*       Events      */
+      /* ----------------- */
+
+      xhr.addEventListener("load", () => {
+        if (xhr.status === 200) {
+          // Create a URL from blob (xhr.response)
+          const src = URL.createObjectURL(xhr.response);
+          const imgElement = new Image();
+          imgElement.src = src;
+          document.body.appendChild(imgElement);
+
+          // Remove progress bar
+          progressContainer.remove();
+          // Make sure the progressContainer and progressBar is garbage-collected.
+          progressContainer = null;
+          progressBar = null;
+        }
+      });
+
+      xhr.addEventListener("progress", (e) => {
+        // console.log(`Measurable: ${e.lengthComputable}`);
+        // console.log(`Total: ${e.total}`);
+        // console.log(`Loaded: ${e.loaded}`);
+        const progress = ((e.loaded / e.total) * 100).toFixed(0);
+        console.log(`progress: ${progress}%`);
+        progressBar.style.width = `${progress}%`;
+        progressBar.textContent = `${progress}%`;
+      });
+
+      /* ----------------- */
+
+      xhr.open("POST", url);
+
+      /* ----------------- */
+      /*       Setting     */
+      /* ----------------- */
+
+      // Specify the type of response - "blob" refers to image file binary data here.
+      xhr.responseType = "blob";
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      /* ----------------- */
+
+      xhr.send(JSON.stringify({ username: "admin", password: "123456" }));
+    </script>
+  </body>
+</html>

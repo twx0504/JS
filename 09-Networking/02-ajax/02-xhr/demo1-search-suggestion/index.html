@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Suggestions</title>
+    <style>
+      .search {
+        display: flex;
+        height: 200px;
+        flex-direction: column;
+        align-items: center;
+      }
+      .search-input {
+        width: 400px;
+        height: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="search">
+      <div>
+        <input
+          type="text"
+          name=""
+          class="search-input"
+          placeholder="Type your search"
+        />
+      </div>
+      <ul class="list"></ul>
+    </div>
+    <script type="module">
+      // import ajax from "../../../utils/ajax.js";
+      const searchInput = document.querySelector(".search-input");
+      const list = document.querySelector(".list");
+      let url = "http://localhost:8881/api/suggestions/search";
+
+      // TODO:
+      // 1. Write XMLHttpRequest instead of using ajax
+      // 2. Define a variable hasRequest = false
+      // 3. Sending request -> hasRequest = true
+      // 4. After receiving response -> hasRequest = false
+      // 5. To abort a request, we need to check is hasRequest = true, and call xhr.abort()
+
+      let xhr = null;
+      let hasRequest = false;
+
+      function inputHandler() {
+        let val = this.value.trim();
+
+        // Note:
+        // - This lines of code are only triggered in slow network
+        // - In actual network speed, this code never run.
+        // - The debounce effectively limits the amount of request sent.
+        if (hasRequest && xhr) {
+          xhr.abort();
+        }
+
+        if (val) {
+          let newUrl = `${url}?keyword=${val}`;
+
+          xhr = new XMLHttpRequest();
+          hasRequest = true;
+          xhr.addEventListener("load", () => {
+            if (xhr.status === 200) {
+              console.log(xhr.response);
+              render(xhr.response);
+              hasRequest = false;
+            }
+          });
+
+          xhr.addEventListener("abort", () => {
+            console.log("abort");
+          });
+
+          xhr.open("GET", newUrl);
+          xhr.responseType = "json";
+          xhr.send();
+        }
+      }
+      const debouncedHandler = debounce(inputHandler);
+
+      searchInput.addEventListener("input", debouncedHandler);
+
+      function render(data) {
+        let html = "";
+        for (let { keyword } of data) {
+          html += `<li>${keyword}</li>`;
+        }
+        list.innerHTML = html;
+      }
+
+      function debounce(fn, delay = 200) {
+        let timer = null;
+        return function (...args) {
+          if (timer) clearTimeout(timer);
+          timer = setTimeout(() => {
+            fn.apply(this, args);
+            timer = null;
+          }, delay);
+        };
+      }
+    </script>
+  </body>
+</html>

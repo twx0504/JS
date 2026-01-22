@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Accumulator: Sum & Multiplication</title>
+  </head>
+  <body>
+    <script>
+      // Leibniz formula for π
+      var n = Number(prompt("Enter a number: "));
+      var sum = 0; // Accumulator
+      var product = 1; // Multiplier
+      for (var i = 1; i <= n; i++) {
+        product *= i / (2 * i + 1);
+        sum += product;
+      }
+
+      var PI = (2 * (1 + sum)).toFixed(2);
+      console.log(PI);
+    </script>
+  </body>
+</html>

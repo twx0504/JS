@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JSON 1</title>
+  </head>
+  <body>
+    <script>
+      let jsonStr1 = '{"name":"admin"}'; // json
+      let jsonStr2 = `{"name":"admin", "age":26}`; // json
+      let jsonStr3 = "{'name':'admin', 'age':26}"; // not json
+      let jsonStr4 = `{'name':'admin', 'age':26}`; // not json
+      let jsonStr5 = `{'name':'admin', 'age':undefined}`; // not json
+      let jsonStr6 = "[1, 2, null, true]"; // json
+      let jsonStr7 = "[1, 2, null, undefined]"; // not json
+      let jsonStr8 = '[1, 2, null, "undefined"]'; // json
+      let jsonStr9 = `[1, 2, null, "undefined"]`; // json
+      let jsonStr10 = "[1, 2, 'abc']"; // not json
+      let jsonStr11 = '[{"name":"twx"}]'; // json
+      let jsonStr12 = "[{'name':'twx'}]"; // not json
+    </script>
+  </body>
+</html>

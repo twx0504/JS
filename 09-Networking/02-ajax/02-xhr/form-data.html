@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Data</title>
+  </head>
+  <body>
+    <script>
+      const formData = new FormData();
+      // append
+      formData.append("k1", "v1");
+      formData.append("k2", "v1");
+      formData.append("k3", "v1");
+
+      // set
+      formData.set("k4", "v4");
+
+      // entries, keys, values -> iterators
+      console.log(formData.entries());
+      console.log(formData.keys());
+      console.log(formData.values());
+
+      // has
+      console.log(formData.has("k2")); // true
+      console.log(formData.has("k10")); // false
+
+      // delete
+      formData.delete("k3");
+
+      // view
+      for (const [k, v] of formData) { // same as formData.entries()
+        console.log(`${k}: ${v}`);
+      }
+    </script>
+
+    <script>
+      /* Difference between append and set */
+      const formData2 = new FormData();
+      formData2.append("k", "v");
+      formData2.append("k", "v");
+      formData2.append("k", "v");
+      formData2.append("k", "v");
+
+      // getAll
+      console.log(formData2.getAll("k")); // ['v', 'v', 'v', 'v']
+
+      formData2.set("k", "v-new");
+
+      console.log(formData2.getAll("k")); // ['v-new']
+    </script>
+  </body>
+</html>

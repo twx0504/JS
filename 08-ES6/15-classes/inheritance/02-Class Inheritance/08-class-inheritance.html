@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08-Class Inheritance: extends</title>
+  </head>
+  <body>
+    <script>
+      // Child extends Parent {}
+      // Parent must be:
+      // 1. called with new.
+      // 2. has prototype.
+
+      class A {}
+      class B extends A {}
+
+      function fn() {}
+      fn.count = 3;
+
+      class C extends fn {}
+      console.log(new C());
+      console.log(C);
+      console.log(C.__proto__ === fn); // true
+      console.log(C.prototype.__proto__ === fn.prototype); // true
+
+      // Another form:
+      // seems weird but it is similar to class D extends AnnonymousClass {}
+      class D extends class {
+        constructor() {
+          console.log("annonymous...");
+        }
+      } {
+        constructor() {
+          super();
+          console.log("constructing class D instance...");
+        }
+      }
+
+      console.log(new D());
+
+      // Work with expression too.
+      let bool = false;
+
+      class F {}
+      class G {}
+      class E extends (bool ? F : G) {}
+      console.log(new E());
+    </script>
+  </body>
+</html>

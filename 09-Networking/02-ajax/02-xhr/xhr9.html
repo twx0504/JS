@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      XHR 9 - Events: loadstart, load, loadend, error, abort, timeout events
+    </title>
+  </head>
+  <body>
+    <script>
+      const url = "http://localhost:8881/";
+      //   const url = "http://localhost:8888/"; // Wrong url that triggers error event
+
+      const xhr = new XMLHttpRequest();
+
+      /* ----------------- */
+      /*       Events      */
+      /* ----------------- */
+
+      // loadstart -> happens when xhr.send() is called
+      xhr.addEventListener("loadstart", () => {
+        console.log("load start");
+      });
+
+      /**
+       * Note:
+       * - Not all events (load, error, abort, timeout) are fired, only one of them will be triggered
+       * - based on different scenario.
+       */
+
+      // load -> happens if the request is completed successfully (similar to xhr.readyState === 4)
+      xhr.addEventListener("load", () => {
+        console.log("load");
+        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+          console.log(xhr.response);
+        }
+      });
+
+      // error -> happens if the request faces an error e.g., wrong url
+      xhr.addEventListener("error", () => {
+        console.log("error");
+      });
+
+      // abort -> happens if xhr.abort() is called after xhr.send()
+      xhr.addEventListener("abort", () => {
+        console.log("abort");
+      });
+
+      // timeout -> happens if the request is terminated after timeout has reached.
+      xhr.addEventListener("timeout", () => {
+        console.log("timeout");
+      });
+
+      // loadend -> happens after load, regard
+      xhr.addEventListener("loadend", () => {
+        console.log("load end");
+      });
+
+      /* ----------------- */
+
+      xhr.open("POST", url);
+
+      /* ----------------- */
+      /*       Setting     */
+      /* ----------------- */
+
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      /* ----------------- */
+
+      //   xhr.timeout = 1;
+
+      xhr.send(JSON.stringify({ username: "admin", password: "123456" }));
+      //   xhr.abort();
+    </script>
+  </body>
+</html>

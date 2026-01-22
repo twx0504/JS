@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XHR 1</title>
+  </head>
+  <body>
+    <script>
+      // 1. Create a xhr object
+      const xhr = new XMLHttpRequest();
+
+      // 4. Listen for the readystatechange event
+      /**
+       * readyState:
+       * 0: UNSENT - xhr object has been created. open() not called yet.
+       * 1: OPENED - open() has been called.
+       * 2: HEADERS_RECEIVED - send() has been called, and HTTP response headers are available.
+       * 3: LOADING - Downloading; The response body is currently being downloaded.
+       * 4: DONE - Data transfer is complete.
+       */
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+          console.log(xhr.responseText);
+        }
+      };
+
+      // 2. Initialize a new request
+      /**
+       * method: request method, GET, POST, PUT, DELETE, etc.
+       * url: request url
+       * async: ensure the request is asynchronous (default is true)
+       */
+
+      // Note: For GET requests, we usually pass parameters in the URL query string.
+      // - Non-ASCII characters in the URL should be properly encoded using encodeURIComponent.
+
+      xhr.open(
+        "GET",
+        "https://apifastmock.com/mock/zlufsrZIDEmq_oFgBsLmblbp6r3Chmb5r2KGnx4rbSkpDXPnGXMrXIAu2IU9EESYq3JlL22F162gU5LB8LD5DjDzNFfZC-L18QSxYd4T7MMG48-rN8xSxlgOfZieYP54VNPoUw1lDR3sP3zu0j3yGK9mX_oOBqM"
+      );
+
+      // 3. Send the request
+      /**
+       * body: request body (optional e.g., POST request)
+       *
+       * Note: For GET requests, the body parameter is ignored even if we write.
+       */
+      xhr.send();
+    </script>
+  </body>
+</html>

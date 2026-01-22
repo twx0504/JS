@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Arrow Function - Test</title>
+  </head>
+  <body>
+    <script>
+      //   "use strict";
+      function sum() {
+        console.log(this);
+      }
+
+      const calc = {
+        add: sum,
+      };
+      calc.add(); // {add:sum}
+
+      const adder = calc.add;
+      adder(); // window (non-strict) undefined (strict)
+
+      // Arrow Function
+
+      const calc2 = {
+        // object has no scope.
+        sum: () => {
+          console.log(this); // arrow function has no this, it inherits this from outer scope.
+        },
+      };
+      calc2.sum(); // window
+
+      const calc3 = {
+        // object has no scope.
+        sum: function () {
+          // this here refers to calc3 obj.
+          const fn = () => {
+            console.log(this); // arrow function has no this, it inherits this from outer scope.
+          };
+          fn();
+        },
+      };
+      calc3.sum(); // {sum: ƒ}
+    </script>
+  </body>
+</html>

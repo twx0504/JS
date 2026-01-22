@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XHR 4 - Multipart/form-data</title>
+  </head>
+  <body>
+    <form
+      action="https://c5e3fb4b-619d-403b-b39a-b938ca54aebd.mock.pstmn.io/employeeDetails"
+      method="post"
+      id="xhr-form"
+      enctype="multipart/form-data"
+    >
+      <input
+        type="text"
+        name="username"
+        id="username"
+        autocomplete="username"
+      />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        autocomplete="current-password"
+      />
+      <input type="submit" value="Submit" id="js-submit-button" />
+      <input type="file" />
+    </form>
+    <script>
+      const xhrForm = document.getElementById("xhr-form");
+      const { username, password } = xhrForm;
+
+      const submitButton = document.getElementById("js-submit-button");
+
+      submitButton.addEventListener("click", (e) => {
+        // Prevent the default form submission behavior (page redirection)
+        e.preventDefault();
+
+        const xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+          if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+            console.log(xhr.responseText);
+          }
+        };
+
+        xhr.open(
+          "POST",
+          "https://apifastmock.com/mock/tilKfUdiPGsg1neglEm6jGcQCVweSqShZK18NaSOle4Qvw9-Ng1_z4lPufoZzvFt7cxOLRmTrYHrEfUbRShnOMqWqIuK0kTfbTtZD1T5ziwUJsJPslgbU92t4diDlfjT-AVjPMvOVV7in7F703msn1MJdS3HKrVEs0ws3RkeAffk9rrpPQY9hCUoqdhYtJ8Ki_VwwuA4Ogkk8ktA9PWsWArMeWTnmyvd74fUjkthBU3hPM9aiA"
+        );
+
+        xhr.setRequestHeader("Content-Type", "multipart/form-data");
+
+        // Prepare form data
+        const data = new FormData(xhrForm);
+
+        // Append additional data if needed
+        data.append("time", new Date().getTime());
+
+        xhr.send(data);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08-Class - Static Members</title>
+  </head>
+  <body>
+    <script>
+      // Static Member is accessed via Class.prop
+      class Person {
+        constructor(name, age) {
+          this.name = name;
+          this.age = age;
+          // increase Person.children by 1 in each instantiation.
+          Person.children++;
+        }
+
+        // with static keyword (new)
+        static children = 0;
+
+        static getMoney(amount) {
+          console.log(this); // class Person {} - this in static method refers to class itself, not its instance.
+          console.log(`I retrieve ${amount} from bank.`);
+        }
+      }
+      // Static Method (before)
+      //   Person.children = 0;
+
+      const p1 = new Person("twx", 25);
+      const p2 = new Person("ljy", 24);
+
+      console.log(Person.children); // 2
+
+      Person.getMoney(200); // I retrieve 200 from bank.
+    </script>
+  </body>
+</html>

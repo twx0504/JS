@@ -24,7 +24,7 @@ const server = http.createServer((req, res) => {
     res.end(html);
   } else if (req.url === "/Cookie") {
     // Load modules
-    const js = fs.readFileSync("../cookie.js");
+    const js = fs.readFileSync("../../../utils/cookie.js");
     
     res.writeHead(200, {
       "Content-Type": "application/javascript;charset=utf-8",

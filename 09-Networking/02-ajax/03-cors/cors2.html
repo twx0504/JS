@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CORS 2</title>
+  </head>
+  <body>
+    <script>
+      // Same Origin: protocol + host + port
+      // http://127.0.0.1:5500/cors1.html
+      // http://127.0.0.1:5502/data.json
+      const xhr = new XMLHttpRequest();
+      // We need to set up a node server to serve this file
+      // Note: 
+      // - Using http://127.0.0.1:5502/data.json, the Origin request header will omit port number
+      // - This makes the server cannot retrieve the correct origin to resolve CORS issue.
+      const url = "http://localhost:5502/data.json";
+      xhr.addEventListener("readystatechange", () => {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+          const res = xhr.responseText;
+          console.log(res);
+        }
+      });
+
+      xhr.open("get", url);
+
+      xhr.send();
+    </script>
+  </body>
+</html>

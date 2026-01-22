@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XHR 5 - XHR Instance Properties</title>
+  </head>
+  <body>
+    <script>
+      const url = "http://localhost:8881/";
+
+      const xhr = new XMLHttpRequest();
+
+      /* ----------------- */
+      /*       Events      */
+      /* ----------------- */
+      xhr.addEventListener("readystatechange", () => {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+          // xhr.responseText
+          // - Can only receive text when xhr.responseType is '' or 'text'
+          //   console.log(xhr.responseText);
+          console.log(xhr.responseType); // json
+
+          // xhr.response
+          // - Replacement of xhr.responseType
+          // - Can receive any type
+          // - xhr.response will parse the response based on xhr.responseType
+          // - e.g., xhr.responseType = "json" => xhr.response will parse the json string into a JavaScript object
+          console.log(xhr.response, typeof xhr.response); // {username: 'admin', password: '123456'} 'object' - The response has already been parsed (JSON.parse)
+          //   console.log(xhr.response, typeof xhr.response); // null 'object' - If the server responses something that is not the type specified by xhr.responseType, response will be null
+        }
+      });
+
+      xhr.addEventListener("timeout", () => {
+        // When timeout, print this
+        // The request has been cancelled
+        console.log("timeout");
+      });
+
+      /* ----------------- */
+
+      xhr.open("GET", url);
+
+      /* ----------------- */
+      /*       Setting     */
+      /* ----------------- */
+
+      // xhr.responseType
+      // - Specify the response type as json
+      xhr.responseType = "json";
+
+      // xhr.timeout
+      // - Specify the timeout in millisecond to cancel the request in the specified time
+      xhr.timeout = 1; // 1000ms / 1s
+
+      /* ----------------- */
+
+      xhr.send();
+    </script>
+  </body>
+</html>

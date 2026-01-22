@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Class - Understanding Constructor</title>
+  </head>
+  <body>
+    <script>
+      // constructor is the default method of the class.
+      // it is called automatically when we use new keyword.
+      class Point {}
+
+      // equivalent to
+      //   class Point {
+      //     // A empty constructor is added if you do not explicitly define it.
+      //     constructor() {
+      //        //  return this; // return this implicitly
+      //        //  Note: this behavior is also shown in ES5 constructor function!
+      //        //  Note: we can explicitly return this or return a new object.
+      //        //  Note: if the return value of the constructor is not a reference type, it will use the default this as the return value.
+      //     }
+      //   }
+
+      class Ball {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+          // Comment out to see what happens.
+          return [1, 2, 3]; // if the return value is a reference data type, it will return the data.
+          //   return 1; // return value is not reference data type, it will use the default this value.
+        }
+      }
+
+      const ball = new Ball(10, 20);
+      console.log(ball); // [1, 2, 3]
+    </script>
+  </body>
+</html>

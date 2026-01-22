@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetch 1</title>
+  </head>
+  <body>
+    <script>
+      // fetch(resource)
+      //   console.log(window.fetch);
+
+      const url = "http://localhost:8881/api/courses";
+
+      fetch(url)
+        .then((res) => {
+          if (res.status === 200) {
+            // Note: res.body is a readable stream.
+            // To get the data, call res.json()
+            // After calling res.json(), bodyUsed property value will become true, indicating the body has been read.
+            //   console.log(res.body); // ReadableStream {locked: false}
+
+            // res.json() returns a promise
+            // When we return a promise in then(), the next then can receive the resolved result from this promise.
+            return res.json();
+          } else {
+            // When the response status is not 200, we may want to throw error here
+            // The request is successful, but the response may not want we want.
+            throw new Error(`Request failed with status ${res.status}`);
+          }
+        })
+        .then((data) => {
+          for (const course of data) {
+            console.log(course.courseName);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    </script>
+  </body>
+</html>

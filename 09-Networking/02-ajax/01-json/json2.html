@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JSON 2</title>
+  </head>
+  <body>
+    <script>
+      // JSON.stringify & JSON.parse
+
+      const obj = {
+        username: "twx",
+        age: 26,
+      };
+      const json = JSON.stringify(obj);
+
+      console.log(json); // {"username":"twx","age":26} - json
+
+      console.log(JSON.parse(json)); // {username: 'twx', age: 26} - js object
+
+      console.log(JSON.parse(1)); // 1
+      console.log(JSON.parse("100")); // 100
+
+      // Note: when writing JSON inside a JavaScript string literal, we should use single quote as delimiter.
+      console.log(JSON.parse('"a"')); // a
+      console.log(JSON.parse(null)); // null
+      console.log(JSON.parse("null")); // null
+      console.log(JSON.parse(true)); // true
+      console.log(JSON.parse("false")); // false
+
+      const arr = [{ name: "ljy" }, 2, 3, 4];
+      const arrJSON = JSON.stringify(arr);
+      console.log(arrJSON); // [{"name":"ljy"},2,3,4]
+      console.log(JSON.parse(arrJSON)); // [{name: 'ljy'}, 2, 3, 4]
+
+      //   Error cases:
+      //   console.log(JSON.parse(undefined)); // Uncaught SyntaxError: "undefined" is not valid JSON
+      //   console.log(JSON.parse("hello")); // Uncaught SyntaxError: Unexpected token 'h', "hello" is not valid JSON
+
+      // Note: JSON.parse("xxx") we should try to think xxx is parsed as JSON.
+      // - JSON.parse("true") true is valid JSON
+      // - JSON.parse("null") null is valid JSON
+      // - JSON.parse("hello") hello is NOT valid JSON
+      // - JSON.parse('"hello"') "hello" IS not valid JSON
+    </script>
+  </body>
+</html>

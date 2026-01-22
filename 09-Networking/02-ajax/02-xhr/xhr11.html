@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XHR 11 - AJAX Implementation</title>
+  </head>
+  <body>
+    <button id="button">Send</button>
+    <script type="module">
+      import ajax from "../../utils/ajax.js";
+      const btn = document.querySelector("#button");
+      btn.addEventListener("click", () => {
+        ajax("POST", "http://localhost:8881/api/image", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: JSON.stringify({
+            id: "001",
+            user: "twx0504",
+          }),
+          withCredentials: true /* Bring cookie in CORS */,
+        })
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      });
+
+      ajax("GET", "http://localhost:8881/")
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+
+      ajax({
+        method: "GET",
+        url: `http://localhost:8881/api/users/a1b2c3d4-1a2b-3c4d-5e6f-1234567890ab`,
+      })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+
+      ajax({
+        method: "POST",
+        url: "http://localhost:8881/api/image",
+        data: JSON.stringify({ username: "twx0504", password: "123456" }),
+        responseType: "blob",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+
+      // ajax("http://localhost:8881/image", "GET");
+
+      ajax("POST", "http://localhost:8881/api/image", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          id: "001",
+          user: "twx0504",
+        }),
+      })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+
+      ajax("POST", "http://localhost:8881/api/image", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          id: "001",
+          user: "twx0504",
+        }),
+        timeout: 1,
+      })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+
+      ajax("POST", "http://localhost:8881/api/image", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          id: "001",
+          user: "twx0504",
+        }),
+        withCredentials: true /* Bring cookie in CORS */,
+      })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    </script>
+  </body>
+</html>

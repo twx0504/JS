@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CORS 1</title>
+  </head>
+  <body>
+    <script>
+      // Same Origin: protocol + host + port
+      // http://127.0.0.1:5500/cors1.html
+      // http://127.0.0.1:5500/data.json
+      const xhr = new XMLHttpRequest();
+      const url = "./data.json";
+      xhr.addEventListener("readystatechange", () => {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+          const res = xhr.responseText;
+          console.log(res);
+        }
+      });
+
+      xhr.open("get", url);
+
+      xhr.send();
+    </script>
+  </body>
+</html>

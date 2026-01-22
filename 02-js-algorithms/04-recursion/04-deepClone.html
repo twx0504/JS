@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Deep Clone</title>
+  </head>
+  <body>
+    <script>
+      /* Case 1: Array */
+      //   var arr = [1, 2, 3, 4];
+      //   var arr2 = arr;
+
+      //   var newArr = [];
+      //   // Shallow Copy
+      //   for (var i = 0; i < arr.length; i++) {
+      //     newArr.push(arr[i]);
+      //   }
+      //   arr2[0] = "A";
+      //   console.log(arr, arr2, newArr);
+
+      /* Case 2: Nested Array */
+      //   var arr = [1, 2, [3, 4, 9, ["A", "B"]]];
+      //   var arr2 = [];
+      //   // Shallow Copy
+      //   for (var i = 0; i < arr.length; i++) {
+      //     arr2.push(arr[i]);
+      //   }
+      //   arr2[0] = "B";
+      //   arr2[2][0] = "A";
+      //   console.log(arr, arr2);
+
+      // Deep clone an array recursively.
+      // Time: O(n), Space: O(n) — n is the total number of elements including nested ones.
+      function deepClone(arr) {
+        if (!Array.isArray(arr)) return;
+        var result = [];
+        var len = arr.length;
+        for (var i = 0; i < len; i++) {
+          if (Array.isArray(arr[i])) {
+            result.push(deepClone(arr[i]));
+          } else {
+            result.push(arr[i]);
+          }
+        }
+        return result;
+      }
+
+      var arr = [1, 2, [3, 4, 9, ["A", "B"]]];
+      console.time("Clone");
+      var arr2 = deepClone(arr);
+      console.timeEnd("Clone");
+      arr2[0] = "B";
+      arr2[2][0] = "A";
+      arr2[2][3][0] = "C";
+      console.log(arr, arr2);
+
+      // O(n) time: Although recursion may look like nested loops,
+      // each element is visited only once, including those in nested arrays.
+      // Therefore, the total time complexity is O(n), where n is the total number of elements.
+
+      // O(n) space: A new array is created for each nested level, and each element is copied once.
+      // The recursion depth depends on the nesting level, which is usually less than n.
+      // So the total space complexity is also O(n).
+    </script>
+  </body>
+</html>

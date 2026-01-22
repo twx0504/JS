@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test</title>
+  </head>
+  <body>
+    <script>
+      class Parent {
+        static prop1 = 10;
+        static prop3 = [1, 2, 3];
+        count2 = 0;
+        arr2 = ["X", "Y", ["1000"]];
+        static foo() {
+          console.log(this);
+        }
+
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+        }
+
+        bar() {
+          // console.log(
+          //   `bar: Parent instance method and the thisArg refers to ${this}`
+          // );
+          console.log(this);
+        }
+      }
+
+      Parent.prototype.count1 = 10;
+      Parent.prototype.arr = ["A", "B", "C"];
+
+      class Child extends Parent {
+        constructor(x, y, z) {
+          super(x, y);
+          this.z = z;
+        }
+
+        static test1() {
+          console.log(super.prop1, Child.prop1);
+          super.foo();
+          super.prop1 = 100000;
+          console.log(super.prop1, Child.prop1);
+          console.log(super.prop2, Child.prop2);
+          super.prop2 = 200000;
+          console.log(super.prop2, Child.prop2);
+
+          // Reference data types are shared.
+          console.log(super.prop3, Child.prop3);
+          console.log(super.prop3 === Child.prop3);
+          super.prop3.push(1000000);
+          console.log(super.prop3, Child.prop3);
+        }
+        test2() {
+          console.log(super.count1, this.count1);
+          super.bar();
+          super.count1 = 10000;
+          console.log(super.count1, this.count1);
+          console.log(super.count2);
+          super.count1 = 300;
+
+          // Reference data types on Parent.prototype are shared.
+          console.log(super.arr, this.arr);
+          super.arr.push("D");
+          console.log(super.arr, this.arr);
+
+          // Reference data types at the instance level are individual.
+          console.log(super.arr2, this.arr2);
+        }
+      }
+
+      const c1 = new Child(1, 2, 3);
+      const c2 = new Child(2, 3, 4);
+      console.log(c1);
+
+      c1.test2();
+      console.log("=".repeat(20));
+      Child.test1();
+
+      // Examine reference data types at the instance level.
+      // Each instance gets its own copy, even nested arrays get their own copy.
+      console.log(c1.arr2 === c2.arr2); // false
+      console.log(c1.arr2[2] === c2.arr2[2]); // false
+      c1.arr2[2].push("2000");
+      console.log(c1.arr2, c2.arr2);
+
+      // Conclusion:
+      // super in static method of Child:
+      // - writing: super refers to Child
+      // - accessing: super refers to Parent
+      // - this inside super.staticMethod() refers to Child class
+      // - reference data types are shared
+      
+      // super in instance method of Child:
+      // - writing: super refers to Child instance
+      // - accessing: super refers to Parent.prototype (where the instance method is defined)
+      // - instance properties are mainly on the instance itself, so you don't need to worry about reference data types here - each instance gets its own copy, and even nested reference data is individual
+      // - unless you define instance properties on Parent.prototype, then they are shared
+      // - so be careful when working with shared instance properties, especially reference data types
+      // - this inside super.instanceMethod() refers to the instance
+
+
+    </script>
+  </body>
+</html>

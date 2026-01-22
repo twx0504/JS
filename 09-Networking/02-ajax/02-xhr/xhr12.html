@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XHR 12 - AJAX Implementation - Sequential</title>
+  </head>
+  <body>
+    <button id="button">Send</button>
+    <script type="module">
+      import ajax from "../../utils/ajax.js";
+      const btn = document.querySelector("#button");
+      btn.addEventListener("click", () => {
+        ajax("POST", "http://localhost:8881/api/image", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: JSON.stringify({
+            id: "001",
+            user: "twx0504",
+          }),
+          withCredentials: true /* Bring cookie in CORS */,
+          responseType: "blob",
+        })
+          .then((res) => {
+            console.log(URL.createObjectURL(res.data));
+            return ajax("GET", "http://localhost:8881/");
+          })
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      });
+    </script>
+  </body>
+</html>

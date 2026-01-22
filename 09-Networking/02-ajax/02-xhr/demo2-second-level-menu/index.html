@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu</title>
+    <style>
+      html,
+      body,
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .menu {
+        width: 200px;
+        margin-left: 300px;
+        margin-top: 100px;
+        border: 1px solid #ddd;
+        position: relative;
+      }
+      .menu ul li {
+        padding-left: 20px;
+        height: 50px;
+        line-height: 50px;
+
+        cursor: pointer;
+      }
+      .menu ul li:hover {
+        background-color: tomato;
+        color: #fff;
+      }
+      .menu ul li:hover .content {
+        display: block;
+      }
+      .menu .content {
+        width: 300px;
+        min-height: 250px;
+        position: absolute;
+        left: 200px;
+        top: 0;
+        background-color: #ddd;
+        display: none;
+        padding: 0 10px;
+      }
+      .menu .content p {
+        display: flex;
+        align-items: center;
+      }
+      .menu .content p img {
+        width: 50px;
+        margin-right: 10px;
+      }
+      .menu .content p a {
+        text-decoration: none;
+        color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="menu"></div>
+
+    <script type="module">
+      const menu = document.querySelector(".menu");
+      const url = "http://localhost:8881/api/menu";
+      import ajax from "../../../utils/ajax.js";
+
+      ajax("GET", url)
+        .then((res) => {
+          let html = "<ul>";
+          res.data.forEach((item) => {
+            html += `
+            <li data-id="${item.category_id}">
+              ${item.title}
+              <div class="content">
+                <img src="../assets/loading-svg/loading-balls.svg" alt="" />
+              </div>
+            </li>
+          `;
+          });
+          html += "</ul>";
+          menu.innerHTML = html;
+        })
+        .then(() => {
+          menu.addEventListener("mouseover", (e) => {
+            const target = e.target;
+            if (target.tagName !== "LI") return;
+
+            const { id, done } = target.dataset;
+
+            // Do not request data if there's done data-attribute
+            if (done) return;
+
+            const newUrl = `${url}/${id}`;
+
+            ajax("GET", newUrl)
+              .then((res) => {
+                let html = "";
+                const data = res.data;
+                for (const { id, product_name, product_image } of data) {
+                  html += `
+                  <p>
+                    <img src="${product_image}" />
+                    <a href="">${product_name}</a>
+                  </p>
+                `;
+                }
+                const content = target.querySelector(".content");
+                content.innerHTML = html;
+              })
+              .catch((e) => {
+                console.log(e);
+              });
+
+            // Set done to be true so that it will not send further requests.
+            target.dataset.done = true;
+          });
+        });
+    </script>
+  </body>
+</html>

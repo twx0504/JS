@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XHR 13 - AJAX Implementation - Parallel</title>
+  </head>
+  <body>
+    <button id="button">Send</button>
+    <script type="module">
+      import ajax from "../../utils/ajax.js";
+      const btn = document.querySelector("#button");
+
+      btn.addEventListener("click", () => {
+        // p1 & p2 are run in parellel.
+        // p3 are run in sequential after p1 & p2 has completed.
+        const p1 = ajax("GET", "http://localhost:8881/");
+        const p2 = ajax({
+          method: "POST",
+          url: "http://localhost:8881/api/image",
+          data: JSON.stringify({ username: "twx0504", password: "123456" }),
+          responseType: "blob",
+        });
+        const p3 = ajax({
+          method: "GET",
+          url: "http://localhost:8881/api/users/1",
+        });
+
+        Promise.all([p1, p2])
+          .then((data) => {
+            console.log(data);
+            return p3;
+          })
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((e) => console.log(e));
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Axios 3</title>
+    <script src="https://unpkg.com/axios@1.13.2/dist/axios.min.js"></script>
+    <style>
+      .img-container img {
+        width: 300px;
+        height: 400px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="img-container"></div>
+    <script>
+      const url = "http://localhost:8881/api/image";
+      const imgContainer = document.querySelector(".img-container");
+      axios({
+        url,
+        method: "post",
+        responseType: "blob",
+        onDownloadProgress(e) {
+          //   console.log(e.loaded / e.total);
+          //   console.log(e.progress);
+          console.log(e.lengthComputable);
+          console.log(
+            `Loaded: ${e.loaded}, Total: ${e.total}, Progress: ${(e.progress * 100).toFixed(2)}%`,
+          );
+        },
+      }).then((res) => {
+        const img = new Image();
+        const src = URL.createObjectURL(res.data);
+        img.src = src;
+        imgContainer.appendChild(img);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetch 3</title>
+  </head>
+  <body>
+    <script type="module">
+      import { createFetchWithTimeout } from "./fetch-timeout.js";
+      const request = createFetchWithTimeout(1000);
+      const request2 = createFetchWithTimeout();
+
+      const h = new Headers();
+      h.append("Content-Type", "application/json");
+
+      const userAbortController = new AbortController();
+
+      const options = {
+        method: "POST",
+        body: "username=admin&password=1234",
+        headers: h,
+        mode: "cors",
+        credentials: "include",
+        signal: userAbortController.signal,
+      };
+
+      //   request("http://localhost:8881/api/image", options)
+      //     .then((res) => {
+      //       if ((res.status >= 200 && res.status < 300) || res.status === 304) {
+      //         return res.blob();
+      //       } else {
+      //         throw new DOMException(
+      //           `HTTP ${res.status}: ${res.statusText}`,
+      //           "HTTPError",
+      //         );
+      //       }
+      //     })
+      //     .then((data) => {
+      //       const img = new Image();
+      //       img.src = URL.createObjectURL(data);
+      //       document.body.appendChild(img);
+      //     })
+      //     .catch((err) => {
+      //       console.dir(err);
+      //     });
+
+      request2("http://localhost:8881/api/courses")
+        .then((res) => {
+          if ((res.status >= 200 && res.status < 300) || res.status === 304) {
+            return res.json();
+          } else {
+            throw new DOMException(
+              `HTTP ${res.status}: ${res.statusText}`,
+              "HTTPError",
+            );
+          }
+        })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
+
+      // User cancel the request himself before timeout
+      //   userAbortController.abort();
+    </script>
+  </body>
+</html>

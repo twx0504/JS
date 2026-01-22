@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CORS 3: JSONP</title>
+  </head>
+  <body>
+    <!-- img, link, video, script will not be affected by the browser's Same-Origin Policy -->
+    <!-- Example: We can display a image from other origin. -->
+    <img
+      src="https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1xw:0.74975xh;0,0.190xh"
+      alt="A cute dog sitting on the grass."
+      width="200"
+    />
+    <script>
+      /**
+       * Handle data from backend (Our code must have this data handler for JSONP to work!)
+       * @param {any} data - Data from backend
+       */
+      function handle(data) {
+        console.log(data);
+      }
+
+      // Note:
+      // - Script is always dynamically created and insert into the back of the body for execution.
+      // - Script will only send request when it is already in the dom.
+      //   const script = document.createElement("script");
+      //   script.src = "http://localhost:5503/?callback=handle";
+      //   // Insert the script into the page...
+
+      //   handle({ username: "admin", password: "123456" });
+    </script>
+
+    <!-- Demonstrate JSONP -->
+    <script src="http://localhost:5503/?callback=handle">
+      // We want backend to respond data as such:
+      // handle({ username: "admin", password: "123456" })
+    </script>
+  </body>
+</html>

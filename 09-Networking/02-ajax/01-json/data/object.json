@@ -1,0 +1,7 @@
+{
+  "username": "twx",
+  "gender": "male",
+  "age": 26,
+  "hobby": ["reading", "gaming", "jogging"],
+  "single": true
+}

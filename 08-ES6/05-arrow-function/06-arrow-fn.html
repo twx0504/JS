@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>06-Arrow Function - Cases Not to Use it.</title>
+  </head>
+  <body>
+    <div class="box">click</div>
+    <script>
+      // 1. When used as a Constructor
+      //   const Person = () => {};
+      //   console.log(new Person()); // Uncaught TypeError: Person is not a constructor
+
+      // 2. When you need this refers to the calling object
+      // Most of the time, it is not suitable to be the callback for event listener.
+      // Unless you want this to be other thing.
+
+      document.addEventListener("click", function () {
+        console.log(this);
+      });
+
+      const box = document.querySelector(".box");
+      //   box.addEventListener("click", function () {
+      //     this.style.color = "red";
+      //   });
+      // this here refers to window, not box.
+      box.addEventListener("click", () => (this.style.color = "red")); // Uncaught TypeError: Cannot set properties of undefined (setting 'color')
+
+      const obj = {
+        num: 1,
+        sayHello: () => {
+          console.log(this.num); // undefined - this here is not obj!!!
+        },
+      };
+
+      obj.sayHello();
+
+      
+      // 3. When you need to have access to arguments
+      // note: use rest parameter instead to receive arguments passed.
+
+      
+      //   function sum() {
+      //     console.log(arguments);
+      //   }
+      //   sum(1, 2, 3); // Arguments(3) [1, 2, 3, callee: ƒ, Symbol(Symbol.iterator): ƒ]
+
+      const sum = () => {
+        // arrow function does not have arguments object.
+        console.log(arguments); // Uncaught ReferenceError: arguments is not defined
+      };
+      sum(1, 2); 
+    </script>
+  </body>
+</html>

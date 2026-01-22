@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search</title>
+  </head>
+  <body>
+    <button class="js-btn">Go Back</button>
+    <div class="course-container"></div>
+    <script type="module">
+      import ajax from "../../../utils/ajax.js";
+
+      const searchString = window.location.search;
+      const keyword = encodeURIComponent(searchString.split("=")[1]);
+      console.log(keyword);
+      const btn = document.querySelector(".js-btn");
+      const couseContainer = document.querySelector(".course-container");
+
+      btn.addEventListener("click", () => {
+        window.location.href = "./index.html";
+      });
+
+      ajax("GET", `http://localhost:8881/api/courses/search?keyword=${keyword}`)
+        .then((res) => {
+          render(res.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+
+      function render(data) {
+        if (data.length === 0) {
+          couseContainer.innerHTML = "<p>No courses found.</p>";
+          return;
+        }
+        const fragment = document.createDocumentFragment();
+
+        for (const { courseName, desc, imageUrl } of data) {
+          const div = document.createElement("div");
+          div.classList.add("course-item");
+          const h3 = document.createElement("h3");
+          const p = document.createElement("p");
+          const img = document.createElement("img");
+
+          h3.innerText = courseName;
+          p.innerText = desc;
+          img.src = imageUrl;
+          div.appendChild(h3);
+          div.appendChild(p);
+          div.appendChild(img);
+          fragment.appendChild(div);
+        }
+        couseContainer.appendChild(fragment);
+      }
+    </script>
+  </body>
+</html>

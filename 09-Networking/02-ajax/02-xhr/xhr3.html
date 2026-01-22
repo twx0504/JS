@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XHR 3</title>
+  </head>
+  <body>
+    <!-- Note: Form Submission causes Page Redirection - which may not what we want. -->
+
+    <!-- action: request url -->
+    <!-- method: request method -->
+    <!-- enctype: type of data the request body brings with POST method -->
+    GET request
+    <form
+      action="https://apifastmock.com/mock/zlufsrZIDEmq_oFgBsLmblbp6r3Chmb5r2KGnx4rbSkpDXPnGXMrXIAu2IU9EESYq3JlL22F162gU5LB8LD5DjDzNFfZC-L18QSxYd4T7MMG48-rN8xSxlgOfZieYP54VNPoUw1lDR3sP3zu0j3yGK9mX_oOBqM"
+      method="get"
+    >
+      <!-- Note: name & the value of the input field will be attached to the back of the request url in GET request -->
+      <input
+        type="text"
+        name="username"
+        id="username1"
+        autocomplete="username"
+      />
+      <input
+        type="password"
+        name="password"
+        id="password1"
+        autocomplete="current-password"
+      />
+      <input type="submit" value="Submit" />
+    </form>
+
+    POST request
+    <form
+      action="https://apifastmock.com/mock/tilKfUdiPGsg1neglEm6jGcQCVweSqShZK18NaSOle4Qvw9-Ng1_z4lPufoZzvFt7cxOLRmTrYHrEfUbRShnOMqWqIuK0kTfbTtZD1T5ziwUJsJPslgbU92t4diDlfjT-AVjPMvOVV7in7F703msn1MJdS3HKrVEs0ws3RkeAffk9rrpPQY9hCUoqdhYtJ8Ki_VwwuA4Ogkk8ktA9PWsWArMeWTnmyvd74fUjkthBU3hPM9aiA"
+      method="post"
+    >
+      <!-- Note: name & the value of the input field will be sent in request body for POST request -->
+      <input
+        type="text"
+        name="username"
+        id="username2"
+        autocomplete="username"
+      />
+      <input
+        type="password"
+        name="password"
+        id="password2"
+        autocomplete="current-password"
+      />
+      <input type="submit" value="Submit" />
+    </form>
+
+    XHR (Form Submission via AJAX without Page Redirection)
+    <form action="" id="xhr-form">
+      <input
+        type="text"
+        name="username"
+        id="username3"
+        autocomplete="username"
+      />
+      <input
+        type="password"
+        name="password"
+        id="password3"
+        autocomplete="current-password"
+      />
+      <input type="submit" value="Submit" id="js-submit-button" />
+    </form>
+    <script>
+      // MIME types for Form:
+      // text/plain
+      // application/x-www-form-urlencoded
+      // multipart/form-data
+
+      // Implement form submission via XHR without Page Redirection
+      const xhrForm = document.getElementById("xhr-form");
+      const { username, password } = xhrForm;
+
+      const submitButton = document.getElementById("js-submit-button");
+
+      submitButton.addEventListener("click", (e) => {
+        // Prevent the default form submission behavior (page redirection)
+        e.preventDefault();
+
+        // Get the input field values
+        const _username = username.value.trim();
+        const _password = password.value.trim();
+
+        // Data validation...
+        const xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+          if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+            console.log(xhr.responseText);
+          }
+        };
+
+        xhr.open(
+          "POST",
+          "https://apifastmock.com/mock/tilKfUdiPGsg1neglEm6jGcQCVweSqShZK18NaSOle4Qvw9-Ng1_z4lPufoZzvFt7cxOLRmTrYHrEfUbRShnOMqWqIuK0kTfbTtZD1T5ziwUJsJPslgbU92t4diDlfjT-AVjPMvOVV7in7F703msn1MJdS3HKrVEs0ws3RkeAffk9rrpPQY9hCUoqdhYtJ8Ki_VwwuA4Ogkk8ktA9PWsWArMeWTnmyvd74fUjkthBU3hPM9aiA"
+        );
+
+        xhr.setRequestHeader(
+          "Content-Type",
+          "application/x-www-form-urlencoded"
+        );
+
+        // Prepare the request body data
+        const data = `username=${_username}&password=${_password}`;
+
+        xhr.send(data);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XHR 8 - XHR Instance Methods - setRequestHeader</title>
+  </head>
+  <body>
+    <script>
+      const url = "http://localhost:8881/";
+
+      const xhr = new XMLHttpRequest();
+
+      /* ----------------- */
+      /*       Events      */
+      /* ----------------- */
+      xhr.addEventListener("readystatechange", () => {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+          console.log(xhr.response);
+        }
+      });
+
+      /* ----------------- */
+
+      xhr.open("GET", url);
+
+      /* ----------------- */
+      /*       Setting     */
+      /* ----------------- */
+
+      // Set request header
+      // - Note: there are forbidden headers that can't be set programmatically.
+      // - Example: Cookie - set by user agent (browser)
+      // - Usually, it is used to set Content-Type
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.responseType = "json";
+
+      /* ----------------- */
+
+      xhr.send(JSON.stringify({ username: "admin", password: "123456" }));
+    </script>
+  </body>
+</html>

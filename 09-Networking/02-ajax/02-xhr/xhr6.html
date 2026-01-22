@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XHR 6 - XHR Instance Properties - withCredentials</title>
+  </head>
+  <body>
+    <button id="send-btn">Send</button>
+    <script>
+      /* It seems like there's limitation in POSTMAN Mock API with CORS handling */
+      const url = "http://localhost:8881/";
+
+      const btn = document.getElementById("send-btn");
+
+      btn.addEventListener("click", () => {
+        console.log("send");
+        // Cross-origin cookie can't be accessed here.
+        // console.log(document.cookie);
+
+        const xhr = new XMLHttpRequest();
+
+        xhr.addEventListener("readystatechange", () => {
+          if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+          if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+            console.log(xhr.response);
+          }
+        });
+
+        xhr.open("POST", url);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        // Specifies to bring cookies when CORS
+        xhr.withCredentials = true;
+        xhr.send(JSON.stringify({ test: "test" }));
+      });
+
+      //   const url = "./data.json";
+      const xhr = new XMLHttpRequest();
+
+      /* ----------------- */
+      /*       Events      */
+      /* ----------------- */
+      xhr.addEventListener("readystatechange", () => {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+          console.log(xhr.response);
+        }
+      });
+
+      /* ----------------- */
+
+      xhr.open("POST", url);
+
+      /* ----------------- */
+      /*       Setting     */
+      /* ----------------- */
+
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      // xhr.withCredentials
+      // - Set only when you want to send request with cookies to url of different origin (CORS)
+      // - Trigger a preflight OPTIONS request if the main request is non-simple (e.g., use custom headers, non-GET/POST/HEAD method etc)
+      //   - preflight request doesn't bring credentials (cookie)
+      // - Do not set when sending request with same origin
+      // - Note: Require collaboration from backend - set Access-Control-Allow-Credentials, Access-Control-Allow-Origin, and maybe even Access-Control-Allow-Headers
+      xhr.withCredentials = true;
+
+      /* ----------------- */
+
+      xhr.send(JSON.stringify({ username: "admin", password: "123456" }));
+    </script>
+  </body>
+</html>

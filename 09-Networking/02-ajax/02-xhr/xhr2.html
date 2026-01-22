@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XHR 2</title>
+  </head>
+  <body>
+    <!-- <form action="" enctype="application/x-www-form-urlencoded"></form> -->
+    <script>
+      const xhr = new XMLHttpRequest();
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+          console.log(xhr.responseText);
+        }
+      };
+
+      // We use mock API to simulate a POST request
+      // - Note that the backend have to validate the request body we sent before responding us with data
+      xhr.open(
+        "POST",
+        "https://apifastmock.com/mock/tilKfUdiPGsg1neglEm6jGcQCVweSqShZK18NaSOle4Qvw9-Ng1_z4lPufoZzvFt7cxOLRmTrYHrEfUbRShnOMqWqIuK0kTfbTtZD1T5ziwUJsJPslgbU92t4diDlfjT-AVjPMvOVV7in7F703msn1MJdS3HKrVEs0ws3RkeAffk9rrpPQY9hCUoqdhYtJ8Ki_VwwuA4Ogkk8ktA9PWsWArMeWTnmyvd74fUjkthBU3hPM9aiA"
+      );
+
+      // Set the request header
+      //   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      // Send the request with the request body
+      //   xhr.send("username=admin&password=123456");
+
+      xhr.send(
+        JSON.stringify({
+          username: encodeURIComponent("韦萱"), // Example of non-ASCII characters
+          password: "123456",
+        })
+      );
+
+      // Note: When sending data containing non-ASCII characters (e.g., Chinese) in a request, we need to encode them properly.
+      // - encodeURIComponent
+    </script>
+  </body>
+</html>

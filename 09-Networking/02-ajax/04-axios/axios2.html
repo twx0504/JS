@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Axios 2: Understand Config</title>
+    <script src="https://unpkg.com/axios@1.13.2/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <script>
+      const url = "http://localhost:8881/api/users";
+
+      // Config object
+      const config = {
+        // 'url': absolute url or relative url to baseURL
+        url: "/users",
+        // 'method': request method
+        method: "get",
+        // 'baseURL': prepends to the relative url, if absolute url is not used
+        baseURL: "http://localhost:8881/api/",
+        // // 'transformRequest': transforms the data before the request is sent
+        // transformRequest(data) {
+        //   return data;
+        // },
+        // 'params': url paramters to be sent in a request e.g., GET
+        params: {
+          user: "twx0504",
+          email: "abc@gmail.com",
+        },
+        // // 'paramsSerializer'
+        // paramsSerializer: {
+        //   serialize(param) {
+        //     // let us customize how the params are serialized into the url
+        //   },
+        // },
+        // // 'headers': custom headers
+        // headers: {
+        //   "Content-Type": "application/json", // Specify the type of data to be sent to the backend
+        // },
+        // // 'data': send data in the request body
+        // // - object form: Internally converts to JSON format, when Content-Type is application/json
+        // data: {
+        //   username: "admin",
+        //   password: "123456",
+        // },
+        // // another form of data, when Content-Type is application/x-www-form-urlencoded
+        // data: "country=Malaysia&city=Penang",
+        // // 'timeout': specify the time in millisecond before a request times out
+        // timeout: 0, // 0 (Default) - never timeout
+        // // 'withCredentials': should request bring cookie during CORS
+        // withCredentials: false, // false (Default)
+        // // 'responseType': type of data the server responds with
+        // responseType: "json", // json (Default)
+        // `onUploadProgress`: handle upload progress
+        onUploadProgress: function (e) {},
+        // `onDownloadProgress`: handle download progress
+        onDownloadProgress: function (e) {},
+        // // 'validateStatus'
+        // validateStatus: function (status) {
+        //   // Here axios doesn't consider 304
+        //   return status >= 200 && status < 300; // default
+        // },
+        // // 'signal': used to cancel axios request
+        // signal: new AbortController().signal,
+        // // 'proxy': specify the proxy server
+        // proxy: {
+        //   protocol: "https",
+        //   host: "127.0.0.1",
+        //   port: 9000,
+        //   auth: {
+        //     username: "mikeymike",
+        //     password: "rapunz3l",
+        //   },
+        // },
+        // // 'auth': basic auth, it will ignore custom Authorization header we set.
+        // // - To override pre-existing basic auth, 1) set auth to other values, or 2) set auth: null
+        // auth: {
+        //   username: "janedoe",
+        //   password: "s00pers3cret",
+        // },
+        // // `xsrfCookieName` is the name of the cookie to use as a value for xsrf token
+        // xsrfCookieName: "XSRF-TOKEN", // default
+
+        // // `xsrfHeaderName` is the name of the http header that carries the xsrf token value
+        // xsrfHeaderName: "X-XSRF-TOKEN", // default
+      };
+
+      axios(config)
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    </script>
+  </body>
+</html>
