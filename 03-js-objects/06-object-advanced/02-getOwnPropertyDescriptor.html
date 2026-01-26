@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-getOwnPropertyDescriptor</title>
+  </head>
+  <body>
+    <script>
+      var obj = {
+        a: 1,
+        b: 2,
+      };
+      obj.c;
+
+      Object.defineProperty(obj, "name", {
+        value: "twx",
+      });
+
+
+      // note: we define b using traditional method, but we still can use Object.defineProperty to redefine it.
+      // note: since b already has descriptor, enumerable and configurable will follow original one, it will not use default value.
+      Object.defineProperty(obj, "b", {
+        value: "b has been changed",
+        writable: false,
+      });
+
+      console.log(Object.getOwnPropertyDescriptor(obj, "a"));
+      console.log(Object.getOwnPropertyDescriptor(obj, "name"));
+      console.log(Object.getOwnPropertyDescriptor(obj, "c"));
+      console.log(Object.getOwnPropertyDescriptor(obj, "b"));
+      // {value: 1, writable: true, enumerable: true, configurable: true}
+      // {value: 'twx', writable: false, enumerable: false, configurable: false}
+      // undefined
+      // {value: 'b has been changed', writable: false, enumerable: true, configurable: true}
+    </script>
+  </body>
+</html>

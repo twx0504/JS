@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Redirection</title>
+  </head>
+  <body>
+    <ul id="js-list">
+      <!-- <li><a href="./demo.html?targetId=93">Link1</a></li>
+      <li><a href="./demo.html?targetId=91">Link2</a></li>
+      <li><a href="./demo.html?targetId=77">Link3</a></li> -->
+    </ul>
+    <script>
+      var data = [
+        {
+          targetId: 93,
+          title: "Test1",
+          mainImage: "./assets/min1.jpg",
+          price: 8680,
+        },
+        {
+          targetId: 91,
+          title: "Test2",
+          mainImage: "./assets/min2.jpg",
+          price: 0,
+        },
+        {
+          targetId: 77,
+          title: "Test3 ",
+          mainImage: "./assets/min3.jpg",
+          price: 2680,
+        },
+      ];
+
+      var ul = document.getElementById("js-list");
+      //   for (var i = 0; i < data.length; i++) {
+
+      //   }
+
+      var fragment = document.createDocumentFragment();
+      data.forEach(function (item) {
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        a.href = "./02-redirection-demo.html?targetId=" + item.targetId;
+        a.textContent = item.title;
+        a.target = "_blank";
+        li.appendChild(a);
+        fragment.appendChild(li);
+      });
+
+      ul.appendChild(fragment);
+    </script>
+  </body>
+</html>

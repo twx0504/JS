@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .box1 {
+        width: 200px;
+        padding: 50px;
+        background-color: tomato;
+      }
+
+      .box2 {
+        width: 100px;
+        height: 100px;
+        padding: 50px;
+        background-color: violet;
+      }
+
+      .box3 {
+        width: 100px;
+        height: 100px;
+        background-color: skyblue;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box1">
+      <div class="box2">
+        <div class="box3"></div>
+      </div>
+    </div>
+    <script>
+      var divs = document.getElementsByTagName("div");
+
+      // capturing phase
+      //   divs[0].addEventListener(
+      //     "click",
+      //     function () {
+      //       console.log("box1");
+      //     },
+      //     true
+      //   );
+      //   divs[1].addEventListener(
+      //     "click",
+      //     function () {
+      //       console.log("box2");
+      //     },
+      //     true
+      //   );
+      //   divs[2].addEventListener(
+      //     "click",
+      //     function () {
+      //       console.log("box3");
+      //     },
+      //     true
+      //   );
+
+      // bubbling phase
+      //   divs[0].addEventListener("click", function () {
+      //     console.log("box1");
+      //   });
+      //   divs[1].addEventListener("click", function () {
+      //     console.log("box2");
+      //   });
+      //   divs[2].addEventListener("click", function () {
+      //     console.log("box3");
+      //   });
+
+      // capturing -> bubbling
+      // box1
+      // box2
+      // box3
+      // box3
+      // box2
+      // box1
+
+      /* test */
+      divs[0].addEventListener(
+        "click",
+        function () {
+          console.log("box1");
+        },
+        true
+      );
+      divs[1].addEventListener(
+        "click",
+        function () {
+          console.log("box2");
+        },
+        false // default - bubbling
+      );
+      divs[2].addEventListener(
+        "click",
+        function () {
+          console.log("box3");
+        },
+        true
+      );
+
+      // box1 - capturing
+      // box3 - capturing
+      // box2 - bubbling
+    </script>
+  </body>
+</html>

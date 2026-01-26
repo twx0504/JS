@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>06-Template String - method 2</title>
+  </head>
+  <body>
+    <script>
+      // data (at global it is working fine)
+      //   let data = {
+      //     name: "twx",
+      //     age: 25,
+      //   };
+      //   let name = "ljy";
+      //   let age = 24;
+      /* IMPLEMENTATION with FUNCTION CONSTRUCTOR */
+
+      //   function parseString(str) {
+      //     const reg = /\${(.+?)}/g; // note: use . instead of \w because it encompasses the operation symbols.
+      //     str = str.replace(reg, function (_, p1) {
+      //       return Function("return " + p1)(); // p1 ~ obj.name obj.age
+      //       /**
+      //        * (function(){
+      //        *    return p1;
+      //        * })();
+      //        *
+      //        */
+      //     });
+      //     return str;
+      //   }
+
+      function test() {
+        // these are not global variable.
+        // some problem.
+        // in this case, we must pass them as arguments into the function instance!
+        let data = {
+          name: "twx",
+          age: 25,
+        };
+        let name = "ljy";
+        let age = 24;
+        function parseString(str) {
+          const reg = /\${(.+?)}/g; // note: use . instead of \w because it encompasses the operation symbols.
+          str = str.replace(reg, function (_, p1) {
+            return Function("data", "return " + p1)(data); // p1 ~ obj.name obj.age
+            /**
+             * (function(data,name,age){
+             *    return p1;
+             * })();
+             *
+             */
+          });
+          return str;
+        }
+        console.log(
+          parseString("Hi, I am ${data.name}, I am ${data.age} years old.")
+        );
+
+        // but this method cannot work in this form
+        // console.log(parseString("Hi, I am ${name}, I am ${age} years old."));
+      }
+
+      test();
+
+      //   console.log(
+      //     parseString("Hi, I am ${data.name}, I am ${data.age} years old.")
+      //   );
+
+      //   console.log(parseString("Hi, I am ${name}, I am ${age} years old."));
+    </script>
+  </body>
+</html>

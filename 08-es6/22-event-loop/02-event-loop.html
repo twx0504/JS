@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Event Loop</title>
+  </head>
+  <body>
+    <div>Main Content</div>
+    <script>
+      console.log("Sync Task 1");
+
+      setTimeout(function fn1() {
+        console.log("Macrotask");
+      }, 0);
+
+      new Promise((resolve, reject) => {
+        console.log("Sync Task 2");
+        resolve("a");
+      })
+        .then(function fn2() {
+          console.log("Microtask 1");
+        })
+        .then(function fn3() {
+          console.log("Microtask 2");
+          alert("Blocking Microtask 2");
+          // Note: After confirming to signal the end of microtask 2, the content of DOM shows in the webpage before macrotask.
+        
+        });
+
+      console.log("Sync Task 3");
+
+      // Sync Task 1
+      // Sync Task 2
+      // Sync Task 3
+      // Microtask 1
+      // Microtask 2
+      // Macrotask
+    </script>
+  </body>
+</html>

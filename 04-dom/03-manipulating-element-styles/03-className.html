@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-className</title>
+    <style>
+      .box {
+        width: 200px;
+        height: 200px;
+        background-color: skyblue;
+        text-align: center;
+        line-height: 200px;
+      }
+
+      .box1 {
+        font-size: 30px;
+        color: blue;
+      }
+
+      .box2 {
+        width: 100px;
+        height: 100px;
+      }
+
+      .box3 {
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="font-size: 20px">A box</div>
+    <script>
+      var box = document.getElementsByTagName("div")[0];
+      // console.log(box.class); // undefined Note: class is a keyword, so use className.
+      console.log(box.className); // box
+      /* Add multiple class names to the box */
+      box.className = "box box1 box2 box3";
+
+      /* Drawback: This completely overrides any existing class names on the element */
+      box.className = "override";
+
+      /* What if we want to append new class names to the existing class names? We might want to implement it ourselves. */
+    </script>
+  </body>
+</html>

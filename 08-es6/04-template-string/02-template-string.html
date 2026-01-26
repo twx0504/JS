@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Template String</title>
+  </head>
+  <body>
+    <script>
+      // Things to remember when using template string.
+      // 1. multiple line string
+      let msg = "first line\nsecond line";
+      console.log(msg);
+
+      msg = `first line\nsecond line`;
+      console.log(msg);
+
+      msg = `first line
+      second line`;
+      console.log(msg); // this is not the same. Besides new line, there's also spaces.
+
+      msg = `first line
+second line`;
+      console.log(msg); // this is the same as first and second msg.
+
+      // special characters have to be escaped.
+      // ` and \ have special meaning, use \ to escape them.
+      msg = `\``;
+      console.log(msg);
+
+      msg = `\\`;
+      console.log(msg);
+
+      // Note: '' and "" are not special character in template string.
+      msg = `'`;
+      console.log(msg);
+      msg = `“`;
+      console.log(msg);
+    </script>
+  </body>
+</html>

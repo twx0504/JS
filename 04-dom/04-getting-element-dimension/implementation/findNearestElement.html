@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Find the Nearest Element</title>
+    <style>
+
+        html, body {
+            height: 100%;
+        }
+
+      .parent {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      .box {
+        position: absolute;
+      }
+      .box1 {
+        left: 1200px;
+        top: 20px;
+        width: 100px;
+        height: 100px;
+        background-color: khaki;
+      }
+      .box2 {
+        left: 400px;
+        top: 600px;
+        width: 100px;
+        height: 100px;
+        background-color: royalblue;
+      }
+      .box3 {
+        left: 800px;
+        top: 400px;
+        width: 100px;
+        height: 100px;
+        background-color: green;
+      }
+      .box4 {
+        left: 500px;
+        top: 200px;
+        width: 100px;
+        height: 100px;
+        background-color: tomato;
+      }
+      .box5 {
+        left: 1500px;
+        top: 600px;
+        width: 100px;
+        height: 100px;
+        background-color: violet;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- elements are absolutely positioned to the same parents. -->
+    <!-- Specify an element to be the target. -->
+    <!-- find out which element is the closest to target. -->
+    <!-- calculate midpoint distance between each element with target. -->
+    <!-- 
+
+        var elementInfo = [
+            { el: box1, distance: 40},
+            { el: box2, distance: 70},
+            { el: box3, distance: 150},
+        ]
+    
+    -->
+    <div class="parent">
+      <div class="box box1"></div>
+    <div class="box box2"></div>
+      <div id="target" class="box box3"></div>
+      <div class="box box4"></div>
+    <div class="box box5"></div>
+    </div>
+    <script src="./getMidpointDistance.js"></script>
+    <script src="./findNearestElement.js"></script>
+  </body>
+</html>

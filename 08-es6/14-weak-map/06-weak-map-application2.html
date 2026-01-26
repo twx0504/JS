@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>06-WeakMap Application 2</title>
+  </head>
+  <body>
+    <script>
+      //   const s = Symbol("stack");
+      //   function Stack() {
+      //     this[s] = [];
+      //   }
+
+      //   Stack.prototype.push = function (val) {
+      //     this[s].push(val);
+      //   };
+
+      //   Stack.prototype.pop = function () {
+      //     this[s].pop();
+      //   };
+
+      //   Stack.prototype.peek = function () {
+      //     console.log(this[s]);
+      //   };
+
+      //   const stack = new Stack();
+      //   stack.push(1);
+      //   stack.push(2);
+      //   stack.push(3);
+      //   console.log(stack);
+      //   stack.pop();
+      //   console.log(stack);
+
+      //   // Symbol doesn't make the property private - it is only semi-private.
+      //   // it's still possible to retrieve the symbol and access the internal array used as the stack.
+      //   const symbol = Object.getOwnPropertySymbols(stack)[0];
+      //   console.log(symbol);
+      //   console.log(stack[symbol]);
+
+      // Solution: Using WeakMap to make the internal structure truly private
+      const Stack = (function () {
+        // To ensure _stackData is truly private, we use closure.
+        const _stackData = new WeakMap();
+        function Stack() {
+          _stackData.set(this, []);
+
+          // Note: if you have multiple private property, you can use an object.
+          //   _stackData.set(this, {
+          //     stack: [],
+          //     // others...
+          //   });
+        }
+
+        Stack.prototype.push = function (val) {
+          _stackData.get(this).push(val);
+          return this; // return the instance for method chaining.
+        };
+
+        Stack.prototype.pop = function () {
+          _stackData.get(this).pop();
+        };
+
+        Stack.prototype.view = function () {
+          console.log(_stackData.get(this));
+        };
+        return Stack;
+      })();
+
+      let stack = new Stack();
+      stack.push(1);
+      stack.push(2);
+      stack.push(3);
+      stack.push(4);
+      stack.push(5);
+      console.log(stack);
+      stack.view();
+      stack.pop();
+      stack.pop();
+      console.log(stack);
+      stack.view();
+
+      stack.push(100).push(200).push(300);
+      stack.view(); // [1, 2, 3, 100, 200, 300]
+
+      // When you destroy the stack, the data inside the weakmap is also gone.
+      //   stack = null;
+    </script>
+  </body>
+</html>

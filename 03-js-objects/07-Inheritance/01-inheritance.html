@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Inheritance</title>
+  </head>
+  <body>
+    <script>
+      function People(name, age, sex) {
+        this.name = name;
+        this.age = age;
+        this.sex = sex;
+      }
+      People.prototype.sayHello = function () {};
+      People.prototype.sleep = function () {};
+
+      function Student(name, age, sex, studentId, school) {
+        
+        // similar to People
+        this.name = name;
+        this.age = age;
+        this.sex = sex;
+
+        // additional
+        this.studentId = studentId;
+        this.school = school;
+      }
+
+      // similar to People
+      Student.prototype.sayHello = function () {};
+      Student.prototype.sleep = function () {};
+      // additional
+      Student.prototype.study = function () {};
+      Student.prototype.exam = function () {};
+
+      
+    </script>
+  </body>
+</html>

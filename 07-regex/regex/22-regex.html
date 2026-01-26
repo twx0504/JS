@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>22-regex - lookbehind assertion</title>
+  </head>
+  <body>
+    <script>
+      // (?<=y)x lookbehind assertion
+      // right to left
+      // case 1: get the number where the left of it is letter.
+      var str = "a12bc43ww3q";
+      var reg = /(?<=[a-zA-Z])\d+/g;
+      console.log(str.match(reg)); // ['12', '43', '3']
+
+      // case 2: Replace the last 4 digits of an 11-digit phone number with asterisks (****) only if the string is exactly 11 digits long.
+      var str = "99912345678923";
+      var reg = /(?<=\d{7})\d{4}/;
+      console.log(str.match(reg)); // ['8923', index: 7, input: '12345678923', groups: undefined]
+      var newStr = str.replace(reg, "****");
+      console.log(newStr);
+      // note: if str = "99912345678923" the replaced result is 9991234****923, so it is not strictly 11 digits.
+      // thinking how to make sure the phone number is 11 digits.
+
+      // case 3: replace "courses" to "project" if "frontend" is on the left of "courses"
+      var str = "frontend courses are fun.";
+      var reg = /(?<=frontend) courses/;
+      var newStr = str.replace(reg, "$& and projects"); // $& means frontend courses
+      console.log(newStr);
+
+      // case 4: special case
+      // (?<=y)(?<=z)x
+      // the left of x is y AND z. this is clearly not valid, unless y === z.
+
+      // this is not valid.
+      var reg = /(?<=A)(?<=a)1/; // both a and A are in front of 1 (not valid, not possible)
+      console.log("aA1".match(reg)); // null
+      console.log("aa1".match(reg)); // null
+      // use i flag, make it case insensitive so A === a
+      var reg = /(?<=A)(?<=a)1/i;
+      console.log("aA1".match(reg)); // ['1', index: 2, input: 'aA1', groups: undefined]
+      console.log("aa1".match(reg)); // ['1', index: 2, input: 'aa1', groups: undefined]
+      // solution:
+      var reg = /((?<=a)|(?<=A))1/; // either a or A is in front of 1.
+      console.log("aA1".match(reg)); // ['1', '', index: 2, input: 'aA1', groups: undefined]
+      console.log("aa1".match(reg)); //  ['1', '', index: 2, input: 'aa1', groups: undefined]
+
+      // case: Extract the numbers (including decimals) in the string that are preceded by ￥ or $.
+      var str = `
+        Book $20.00  
+        Pen $30.00
+        Notebook $52
+        Ruler $0.5
+        Total cost: 50.5 yuan
+    `;
+
+      var reg = /((?<=￥)|(?<=\$))(\d+(\.\d+)?)/g;
+      console.log(str.match(reg));
+
+      // Differentiate /(?<=.*y)(?<=.*z)x/ & /(?<=y.*)(?<=z.*)x/
+      var reg = /(?<=.*a)1/; // meaning: 1 is preceded by a and then a is preceded by any or no character.
+      console.log(reg.test("33a121")); // true
+      //   1. Invalid form /(?<=.*y)(?<=.*z)x/
+      var reg = /(?<=.*a)(?<=.*b)(?<=.*c)/; // this will never valid.
+      //   var reg = /(?<=.*a)(?<=.*A)(?<=.*\w)/i; // this is valid with i flag. because a is same as A with i flag, and \w contains a.
+
+      console.log(reg.test("a1")); // false
+      console.log(reg.test("abc1")); // false
+
+      // 2. Solution: valid form /(?<=y.*)(?<=z.*)x/
+      var reg = /(?<=[A-Z].*)1/;
+      console.log(reg.test("Adasd1")); // true
+      console.log(reg.test("AdBsd1")); // true
+      console.log(reg.test("AdsZd1")); // true
+
+      var reg = /(?<=[A-Z].*)(?<=[a-z].*)(?<=\d.*)1/;
+      console.log(reg.test("Adasd1")); // false
+      console.log(reg.test("AdB3d1")); // true
+      console.log(reg.test("Ad12Zd1")); // true
+
+      // case: 6 - 8 characters, must contain 1 capital letter, 1 lowercase letter, and a digit
+      // this is never valid.
+      // there's nothing before the lookbehind assertion especially at the start of the string.
+      // so they instantly failed.
+      var reg = /^(?<=[A-Z].*)(?<=[a-z].*)(?<=\d.*)\S{6,8}$/;
+      console.log(reg.test("Aa12as")); // false
+      console.log(reg.test("Aa12asCC")); // false
+      console.log(reg.test("Aa12asCCdaa")); // false
+      console.log(reg.test("Aaas12daa")); // false
+
+      // this is valid.
+      // it first match 6 to 8 characters.
+      // after that, it lookbehind the matched substring, and compared it with the lookbehind pattern (not scan each character individually).
+      var reg = /^\S{6,8}(?<=[A-Z].*)(?<=[a-z].*)(?<=\d.*)$/;
+      console.log(reg.test("Aa12as")); // true
+      console.log(reg.test("Aa12asCC")); // true
+      console.log(reg.test("Aa12asCCdaa")); // false
+      console.log(reg.test("Aaas12daa")); // false
+    </script>
+  </body>
+</html>

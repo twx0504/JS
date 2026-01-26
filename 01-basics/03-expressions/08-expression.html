@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08-Expression: Test - Logical Operators</title>
+  </head>
+  <body>
+    <script>
+      /* #1. AND*/
+      // var a = 1,
+      //   b = 3,
+      //   c;
+
+      // /* Post increment: Assignment before increment */
+      // c = a < b && a++; // true && a++ => c = 1  -> a = 2
+      // console.log(c, a); // 1 2
+      // c = a > b && --a; // false && --a; => since it is false, it will not look at the second operand.
+      // console.log(c, a); // false 2
+      // a != b && alert("a & b is NOT EQUAL."); // true && alert() -> the popup appears.
+
+      /* #2 Check NaN*/
+      // Method 1
+      // var x = NaN;
+      // var _isNaN = typeof x === "number" && isNaN(x);
+
+      // // Method 2
+      // var _isNaN2 = x !== x;
+      // console.log(_isNaN); // true
+      // console.log(_isNaN2); // true
+
+      /* #2. OR */
+      var a = 1,
+        b = 2,
+        c;
+      c = a < b || a++; // true || a ++ a = 1
+      console.log(c); // true
+      c = a > b || a--; // false || a -- c = 1  a = 0
+      console.log(a, c); // 0 1
+    </script>
+  </body>
+</html>

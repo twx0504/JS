@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Wheel</title>
+    <style>
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+    <script src="./wheel.js"></script>
+    <script>
+      var box = document.querySelector(".box");
+      var speed = 10;
+      window._addWheelListener(box, function (e) {
+        var height;
+        if (e.deltaY > 0) {
+          height = this.offsetHeight + speed;
+        } else {
+          height = this.offsetHeight - speed;
+        }
+        height = Math.max(50, Math.min(height, 400));
+        box.style.height = height + "px";
+      });
+    </script>
+  </body>
+</html>

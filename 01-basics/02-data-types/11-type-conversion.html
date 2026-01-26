@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-Type Conversion: Boolean</title>
+  </head>
+  <body>
+    <script>
+      /* Falsy value -> false */
+      console.log(Boolean(false)); // false
+      console.log(Boolean(0)); // false
+      console.log(Boolean(null)); // false
+      console.log(Boolean(undefined)); // false
+      console.log(Boolean("")); // false
+      console.log(Boolean(NaN)); // false
+
+      /* Other values -> true */
+      console.log(Boolean({})); // true
+      console.log(Boolean([])); // true
+      console.log(Boolean(" ")); // true
+      console.log(Boolean(1)); // true
+      console.log(Boolean(Infinity)); // true
+      console.log(Boolean("0")); // true
+      console.log(Boolean("0")); // true
+      console.log(Boolean("30")); // true
+    </script>
+  </body>
+</html>

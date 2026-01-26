@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08-Array - flatMap</title>
+  </head>
+  <body>
+    <script>
+      // flatMap(callback)
+      // flatMap(callback, thisArg)
+      // Similar to map & flat method combined.
+      // The result is flattened by depth of 1.
+      // process: map -> flat
+      // slightly more efficient than calling two methods separately
+      const arr = [1, 2, 3, 4];
+      const newArr = arr.flatMap((v) => [v * 2]);
+      console.log(newArr); // [2, 4, 6, 8]
+
+      // Similar to the following:
+      //   const newArr2 = arr.map((v) => [v * 2]);
+      //   console.log(newArr2); //  [[2], [4], [6], [8]]
+      //   console.log(newArr2.flat()); // [2, 4, 6, 8]
+
+      // Generate a list of words from a list of sentences.
+      const arr2 = ["Hello World.", "", "It is a good day."];
+      //   console.log(arr2.map((v) => v.split(" "))); // [['Hello', 'World.'], [''], ['It', 'is', 'a', 'good', 'day.']]
+      //   console.log(arr2.map((v) => v.split(" ")).flat()); // ['Hello', 'World.', '', 'It', 'is', 'a', 'good', 'day.']
+      console.log(arr2.flatMap((v) => v.split(" "))); //  ['Hello', 'World.', '', 'It', 'is', 'a', 'good', 'day.']
+
+      // Adding and Removing items
+      // - callback returns:
+      // a. empty array [] to remove item
+      // b. single element array to keep item [v]
+      // c. multiple-element array to add more item [v, x. y. z. ...]
+
+      // Example: Removing negative numbers and split odd numbers into even number and 1.
+      const arr3 = [5, 4, -3, 20, 17, -33, -4, 19, 31];
+      const newArr2 = arr3.flatMap((v) => {
+        if (v < 0) {
+          return [];
+        }
+        return v % 2 === 0 ? [v - 1, 1] : [v];
+      });
+      console.log(newArr2); // [5, 3, 1, 19, 1, 17, 19, 31]
+    </script>
+  </body>
+</html>

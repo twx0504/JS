@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Array Spread Operator Application</title>
+  </head>
+  <body>
+    <p>1</p>
+    <p>2</p>
+    <p>3</p>
+
+    <script>
+      // 1. Shallow Clone
+      const arr = [1, 2, 3, 4, 5];
+      const arr1 = [...arr];
+      console.log(arr1, arr === arr1); // [1, 2, 3, 4, 5] false
+
+      // 2. Concate arrays
+      const x = [1];
+      const y = [2, 3];
+      const z = [5, 6, 7];
+      console.log([...x, ...y, ...z]); // [1, 2, 3, 5, 6, 7]
+      console.log([...y, ...x, ...z]); // [2, 3, 1, 5, 6, 7]
+      console.log([...x, 10, ...x, 20, ...y, ...z, 30]); // [1, 10, 1, 20, 2, 3, 5, 6, 7, 30]
+
+      // 3. Convert string to array - because there's many useful methods in array.
+      const str = "Hello World";
+      console.log(...str); // H e l l o   W o r l d
+      const strArr = [...str];
+      console.log(strArr); // ['H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd']
+      console.log(strArr.reverse()); // ['d', 'l', 'r', 'o', 'W', ' ', 'o', 'l', 'l', 'e', 'H']
+
+      // 4. Convert Array-like object to array
+      // e.g.1 arguments object
+      function fn() {
+        console.log([...arguments]);
+      }
+
+      fn(1, 2, 3, 4, 5, 6, 7, 8); // [1, 2, 3, 4, 5, 6, 7, 8]
+
+      // e.g., NodeList
+      const p = document.querySelectorAll("p");
+      console.log(p); // NodeList(3) [p, p, p]
+      const pArr = [...p];
+      console.log(pArr);
+
+      // 5. Expand array into function arguments.
+      // Note: Alternative to apply method
+
+      // e.g., 1 Find max or min
+      let max = Math.max(1, 2, 31);
+      let min = Math.min(31, 1, 0, 99);
+      console.log(max, min); // 31 0
+
+      const testData = [17, 5, 1, 8, 3, 20];
+      // ES5
+      let max1 = Math.max.apply(null, testData);
+      let min1 = Math.min.apply(null, testData);
+      console.log(max1, min1); // 20 1
+
+      // ES6
+      let max2 = Math.max(...testData);
+      let min2 = Math.min(...testData);
+      console.log(max2, min2); // 20 1
+    </script>
+  </body>
+</html>

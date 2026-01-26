@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Async Await 2</title>
+  </head>
+  <body>
+    <script type="module">
+      import { sleep } from "./sleep.js";
+
+      async function foo() {
+        const res1 = await sleep(1000);
+        console.log("task 1");
+        const res2 = await sleep(2000);
+        console.log("task 2");
+        const res3 = await sleep(3000);
+        console.log("task 3");
+      }
+      foo().then((data) => {
+        console.log("I am the last to execute.")
+      });
+    </script>
+  </body>
+</html>

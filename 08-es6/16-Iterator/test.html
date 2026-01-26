@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test</title>
+  </head>
+  <body>
+    <script>
+      //   const obj = {
+      //     data: ["a", "b", "c"],
+      //     [Symbol.iterator]() {
+      //       let index = 0;
+      //       const that = this;
+      //       return {
+      //         next() {
+      //           if (index < that.data.length) {
+      //             return {
+      //               value: that.data[index++],
+      //               done: false,
+      //             };
+      //           } else {
+      //             return {
+      //               value: undefined,
+      //               done: true,
+      //             };
+      //           }
+      //         },
+      //         // To make iterator also an iterable, you need to implement [Symbol.iterator] that returns this iterator.
+      //         [Symbol.iterator]() {
+      //           return this;
+      //         },
+      //       };
+      //     },
+      //   };
+
+      //   const iter = obj[Symbol.iterator]();
+      //   // console.log(iter.next());
+      //   // console.log(iter.next());
+      //   // console.log(iter.next());
+
+      //   for (const v of obj) {
+      //     console.log(v);
+      //   }
+
+      //   // a
+      //   // b
+      //   // c
+
+      //   // Note:
+      //   console.log(iter, iter[Symbol.iterator]()); // {next: ƒ, Symbol(Symbol.iterator): ƒ} {next: ƒ, Symbol(Symbol.iterator): ƒ}
+      //   for (const v of iter) {
+      //     console.log(v);
+      //   }
+
+      //   // a
+      //   // b
+      //   // c
+
+      const arr = [1, 2, 3, 4];
+      const iter = arr[Symbol.iterator]();
+      for (const v of iter) {
+        if (v === 3) {
+          break;
+        }
+        console.log(v);
+      }
+
+      // 1
+      // 2
+
+      for (const v of iter) {
+        console.log(v);
+      }
+      // 4
+    </script>
+  </body>
+</html>

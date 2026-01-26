@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Change Color based on mouseover & mouseleave</title>
+    <style>
+      ul,
+      li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      ul > li {
+        height: 30px;
+        width: 200px;
+        cursor: pointer;
+      }
+
+      ul > li:nth-child(2n) {
+        background-color: #ddd;
+      }
+      ul > li:nth-child(2n + 1) {
+        background-color: #eee;
+      }
+
+      ul > li.bg-color {
+        background-color: violet;
+      }
+      /* ul > li:hover {
+        background-color: violet;
+      } */
+    </style>
+  </head>
+  <body>
+    <ul>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+    <script>
+      var lis = document.querySelectorAll("li");
+      var len = lis.length;
+
+      /* similar to li:hover */
+      for (var i = 0; i < len; i++) {
+        lis[i].addEventListener("mouseover", function () {
+          console.log("mouseover");
+          this.classList.add("bg-color");
+        });
+        lis[i].addEventListener("mouseout", function () {
+          console.log("mouseleave");
+          this.classList.remove("bg-color");
+        });
+      }
+    </script>
+  </body>
+</html>

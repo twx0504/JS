@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-requestAnimationFrame</title>
+    <style>
+      .ball {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ball"></div>
+    <script>
+      var ball = document.querySelector(".ball");
+      var speed = 3;
+      var requestId;
+      function move() {
+        var currentDistance = ball.offsetLeft + speed;
+
+        ball.style.left = currentDistance + "px";
+        requestId = requestAnimationFrame(move);
+        if (currentDistance >= 300) {
+          cancelAnimationFrame(requestId);
+        }
+      }
+
+      setTimeout(function () {
+        requestId = requestAnimationFrame(move);
+      }, 1000);
+    </script>
+  </body>
+</html>

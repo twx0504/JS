@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-let & const: why we need them?</title>
+  </head>
+  <body>
+    <script>
+      // Why do we need block scope?
+      // case 1. inner variables may override outer variable.
+
+      //   var tmp1 = 2;
+      //   function foo() {
+      //     // tmp1 hoisting
+      //     console.log(tmp1); // undefined - due to variable hoisting
+      //     if (false) {
+      //       var tmp1 = "hello world";
+      //     }
+      //   }
+
+      //   foo();
+
+      var tmp1 = 2;
+      function foo() {
+        // tmp1 hoisting
+        console.log(tmp1); // 2
+        if (false) {
+          // block scope
+          // since it is declared with let, it will not hoist to the top of the function and override tmp1.
+          let tmp1 = "hello world";
+          console.log(tmp1);
+        }
+      }
+
+      foo();
+
+      // case  2. loop variables leaks to global scope.
+      // we don't want it to be part of window!
+
+      //   for (var i = 0; i < 5; i++) {
+      //     console.log("loop:", i);
+      //   }
+      //   console.log(i, window.i);
+
+      for (let i = 0; i < 5; i++) {
+        console.log("loop:", i);
+      }
+      // throw error, because it doesn't exist.
+      // console.log(i, window.i); // Uncaught ReferenceError: i is not defined
+
+      for (let i = 0; i < 5; i++) {
+        // note: header has distinct scope.
+
+        // let i = 10; // this will not throw error, indicating the body of the loop creates its own scope.
+        // each iteration, create 5 block scope.
+        setTimeout(function () {
+          console.log(i);
+        }, 100);
+      }
+
+      // equivalent to
+      // {
+      //   // Simulating header scope
+      //   let i = 0;
+      //   {
+      //     // Simulating body scope
+      //     setTimeout(function () {
+      //       console.log(i); // Accesses outer scope's i
+      //     }, 100);
+      //   }
+      // }
+      // {
+      //   // Simulating header scope
+      //   let i = 1;
+      //   {
+      //     // Simulating body scope
+      //     setTimeout(function () {
+      //       console.log(i); // Accesses outer scope's i
+      //     }, 100);
+      //   }
+      // }
+      // {
+      //   // Simulating header scope
+      //   let i = 2;
+      //   {
+      //     // Simulating body scope
+      //     setTimeout(function () {
+      //       console.log(i); // Accesses outer scope's i
+      //     }, 100);
+      //   }
+      // }
+      // {
+      //   // Simulating header scope
+      //   let i = 3;
+      //   {
+      //     // Simulating body scope
+      //     setTimeout(function () {
+      //       console.log(i); // Accesses outer scope's i
+      //     }, 100);
+      //   }
+      // }
+      // {
+      //   // Simulating header scope
+      //   let i = 4;
+      //   {
+      //     // Simulating body scope
+      //     setTimeout(function () {
+      //       console.log(i); // Accesses outer scope's i
+      //     }, 100);
+      //   }
+      // }
+
+      // babel transpiled ES5:
+      // var _loop = function _loop(i) {
+      //   setTimeout(function () {
+      //     console.log(i);
+      //   }, 100);
+      // };
+      // for (var i = 0; i < 5; i++) {
+      //   _loop(i); // use of closure.
+      // }
+    </script>
+  </body>
+</html>

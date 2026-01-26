@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Application - without event delegation</title>
+    <style>
+      body,
+      ul,
+      li {
+        margin: 0;
+        padding: 0;
+      }
+      ul {
+        list-style: none;
+      }
+      .music {
+        width: 400px;
+        /* border: 2px solid red; */
+        margin: 10px auto;
+      }
+      .music .music-tab {
+        height: 50px;
+      }
+      .music .music-tab li {
+        width: 80px;
+        line-height: 50px;
+        float: left;
+        cursor: pointer;
+      }
+      .music-content {
+        width: 100%;
+        height: 200px;
+        /* border: 2px solid blue; */
+      }
+      .music-content .item {
+        background-color: #ddd;
+        height: 200px;
+        font-size: 50px;
+        line-height: 200px;
+        text-align: center;
+        display: none;
+      }
+      .music .music-tab li.current {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="music">
+      <ul class="music-tab">
+        <li class="current">Latest</li>
+        <li>Local</li>
+        <li>Chinese</li>
+        <li>Europe</li>
+        <li>K-Pop</li>
+      </ul>
+      <div class="music-content">
+        <div class="item" style="display: block">Latest</div>
+        <div class="item">Local</div>
+        <div class="item">Chinese</div>
+        <div class="item">Europe</div>
+        <div class="item">K-Pop</div>
+      </div>
+    </div>
+
+    <script>
+      var musicTabUl = document.querySelector(".music-tab");
+      var tabLis = document.querySelectorAll(".music-tab > li");
+      var contentDivs = document.querySelectorAll(".music-content > div");
+      // current tab
+      var currentTabLi = musicTabUl.firstElementChild;
+      // current item
+      var currentItemDiv = contentDivs[0];
+
+      // bind index to each item.
+
+      for (var i = 0; i < tabLis.length; i++) {
+        tabLis[i].dataset.index = i;
+      }
+
+      musicTabUl.addEventListener("click", function (e) {
+        if (e.target.tagName !== "LI") return;
+        currentTabLi.classList.remove("current");
+        e.target.classList.add("current");
+        currentTabLi = e.target;
+
+        // get data-index from e.target (tabLi)
+        var index = e.target.dataset.index;
+        // make current content div disappears.
+        currentItemDiv.style.display = "none";
+        // make the selected content div appears.
+        contentDivs[index].style.display = "block";
+        // set currentItemDiv to the new itemDiv.
+        currentItemDiv = contentDivs[index];
+      });
+    </script>
+  </body>
+</html>

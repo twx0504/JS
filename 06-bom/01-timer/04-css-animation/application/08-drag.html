@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08-Application: Drag and Collision</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body,
+      ul,
+      li {
+        margin: 0;
+      }
+      ul {
+        padding: 0;
+        list-style: none;
+      }
+      .list {
+        /* Make sure it is a positioned element */
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 880px;
+        height: 240px;
+        background-color: #ddd;
+      }
+      .list li {
+        width: 200px;
+        height: 100px;
+        background-color: skyblue;
+        float: left;
+        margin: 10px; /* This will be included in the offsetLeft and offsetTop calcualted using JS. */
+        text-align: center;
+        line-height: 100px;
+        font-size: 50px;
+        font-weight: bold;
+        user-select: none;
+        cursor: grab;
+      }
+      .list li:active {
+        cursor: grabbing;
+      }
+
+      .move {
+        transition: left 0.5s, top 0.5s;
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="list">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+      <li>7</li>
+      <li>8</li>
+    </ul>
+    <script src="./drag3.js"></script>
+    <script>
+      // Convert float layout to position layout using JS.
+      var ul = document.querySelector(".list");
+      var liLists = document.querySelectorAll(".list li");
+      var totalLi = liLists.length;
+      var coordinateList = [];
+      var bgColors = [
+        "pink",
+        "skyblue",
+        "turquoise",
+        "khaki",
+        "salmon",
+        "thistle",
+        "orange",
+        "red",
+      ];
+      var previousCollidedElement = null;
+      var nearestElem = null;
+
+      for (var i = 0; i < totalLi; i++) {
+        var li = liLists[i];
+        coordinateList.push({
+          left: li.offsetLeft,
+          top: li.offsetTop,
+        });
+      }
+
+      for (var j = 0; j < totalLi; j++) {
+        var li = liLists[j];
+        li.style.position = "absolute";
+        li.style.margin = 0; // remove margin
+        li.style.top = coordinateList[j].top + "px";
+        li.style.left = coordinateList[j].left + "px";
+        li.style.backgroundColor = bgColors[j];
+        li.style.zIndex = 2;
+        // store left and top value directly on li here.
+        li.dataset.left = coordinateList[j].left;
+        li.dataset.top = coordinateList[j].top;
+      }
+
+      ul.addEventListener("mousedown", function (e) {
+        var target = e.target;
+        if (target.tagName !== "LI") return;
+
+        // original position of each li
+        var _offsetX = parseFloat(target.dataset.left);
+        var _offsetY = parseFloat(target.dataset.top);
+
+        var _clientX = e.clientX;
+        var _clientY = e.clientY;
+        var _offsetLeft = target.offsetLeft;
+        var _offsetTop = target.offsetTop;
+
+        // Make sure the dragged target always has the higher z-index.
+
+        target.style.zIndex = 33;
+        var throttledMouseMove = throttleLeading(handleMouseMove, 50);
+        document.addEventListener("mousemove", throttledMouseMove);
+
+        function handleMouseMove(e) {
+          var clientX = e.clientX;
+          var clientY = e.clientY;
+          var newLeft = clientX - _clientX + _offsetLeft;
+          var newTop = clientY - _clientY + _offsetTop;
+
+          // We do not check the boundary here, we allows the drag to move out of bound.
+
+          target.style.left = newLeft + "px";
+          target.style.top = newTop + "px";
+
+          var collidedElements = [];
+
+          liLists.forEach(function (item) {
+            // skip the target
+            if (item !== target) {
+              // check collision
+              if (isCollided(target, item)) {
+                collidedElements.push(item);
+              }
+            }
+          });
+
+          // find out the nearest elements
+          nearestElem = findClosestElement(target, collidedElements);
+
+          // clear the previous collided element's outline
+          if (previousCollidedElement) {
+            previousCollidedElement.style.outline = "none";
+          }
+
+          // if nearest element exists, store it in previousCollidedElement and set the outline
+          if (nearestElem) {
+            previousCollidedElement = nearestElem;
+            nearestElem.style.outline = "3px solid tomato";
+          }
+        }
+
+        document.addEventListener("mouseup", handleMouseUp);
+        function handleMouseUp(e) {
+          if (nearestElem) {
+            // exchange data attribute values
+            target.dataset.left = nearestElem.dataset.left;
+            target.dataset.top = nearestElem.dataset.top;
+
+            nearestElem.dataset.left = _offsetLeft;
+            nearestElem.dataset.top = _offsetTop;
+
+            // make sure the nearestElement (to be exchanged) has the second highest z index
+            // so it will appear on top of the remaining elements.
+            nearestElem.style.zIndex = 22;
+
+            // adding class for transition
+            target.classList.add("move");
+            nearestElem.classList.add("move");
+
+            // swapping element
+            target.style.left = target.dataset.left + "px";
+            target.style.top = target.dataset.top + "px";
+            nearestElem.style.left = nearestElem.dataset.left + "px";
+            nearestElem.style.top = nearestElem.dataset.top + "px";
+            nearestElem.style.outline = "none";
+
+            // Use of one-time listener to reset the zIndex and remove 'move' class.
+            target.addEventListener(
+              "transitionend",
+              function (e) {
+                this.style.zIndex = 2;
+                this.classList.remove("move");
+              },
+              {
+                once: true,
+              }
+            );
+
+            nearestElem.addEventListener(
+              "transitionend",
+              function () {
+                this.style.zIndex = 2;
+                this.classList.remove("move");
+                nearestElem = null;
+              },
+              {
+                once: true,
+              }
+            );
+          } else {
+            // adding class for transition.
+            target.classList.add("move");
+            // If there's no collision, go back to original position.
+            target.style.left = _offsetX + "px";
+            target.style.top = _offsetY + "px";
+            // target.style.zIndex = 22;
+            // Use of one-time listener to reset the zIndex and remove 'move' class.
+            target.addEventListener(
+              "transitionend",
+              function () {
+                this.style.zIndex = 2;
+                this.classList.remove("move");
+              },
+              {
+                once: true,
+              }
+            );
+          }
+          document.removeEventListener("mousemove", throttledMouseMove);
+          document.removeEventListener("mouseup", handleMouseUp);
+        }
+      });
+
+      function midpointDistance(elem1, elem2) {
+        var p1 = {
+          x: elem1.offsetLeft + elem1.offsetWidth / 2,
+          y: elem1.offsetTop + elem1.offsetHeight / 2,
+        };
+
+        var p2 = {
+          x: elem2.offsetLeft + elem2.offsetWidth / 2,
+          y: elem2.offsetTop + elem2.offsetHeight / 2,
+        };
+
+        return Number(
+          Math.sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2).toFixed(2)
+        );
+      }
+
+      function findClosestElement(target, elemLists) {
+        // var siblings = target.parentNode.children;
+        var len = elemLists.length;
+        if (len <= 0) return null;
+        if (len === 1) return elemLists[0];
+        var nearestElem = null;
+        var shortestDist = Infinity;
+        for (var i = 0; i < len; i++) {
+          if (elemLists[i] !== target) {
+            var dist = midpointDistance(target, elemLists[i]);
+            if (dist < shortestDist) {
+              shortestDist = dist;
+              nearestElem = elemLists[i];
+            }
+          }
+        }
+        return nearestElem;
+      }
+
+      function isCollided(elem1, elem2) {
+        var r1 = elem1.getBoundingClientRect();
+        var r2 = elem2.getBoundingClientRect();
+        // Consider all the non-overlapping cases and negate.
+        return !(
+          r1.right < r2.left ||
+          r2.right < r1.left ||
+          r1.bottom < r2.top ||
+          r2.bottom < r1.top
+        );
+      }
+
+      function throttleLeading(callback) {
+        var requestId = null;
+        return function () {
+          if (requestId) return;
+          var args = [];
+          var len = arguments.length;
+          for (var i = 0; i < len; i++) {
+            args.push(arguments[i]);
+          }
+          var context = args[0] instanceof Event ? args[0].target : this;
+          requestId = requestAnimationFrame(function () {
+            requestId = null;
+          });
+          typeof callback === "function" && callback.apply(context, args);
+        };
+      }
+    </script>
+  </body>
+</html>

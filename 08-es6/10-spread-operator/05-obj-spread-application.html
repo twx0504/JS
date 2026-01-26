@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-Object Spread Application</title>
+  </head>
+  <body>
+    <script>
+      // 1. Shallow Clone
+      const obj = { a: 1, b: 2 };
+      obj.__proto__.c = 44;
+      const obj2 = { ...obj };
+      console.log(obj2); // {a: 1, b: 2} - note: it will not copy property and method from prototype chain.
+
+      // 2. Mixin User parameter and default parameter
+      // Use case: when there's a ton of parameters!
+      // userparam: pass by user usually object
+      const person = (userParam) => {
+        // Default configs inside function
+        const defaultParam = {
+          username: "none",
+          age: 20,
+          sex: "unknown",
+        };
+
+        // Merge
+        // const configs = {
+        //   ...defaultParam,
+        //   ...userParam, // user-defined configs, it will override the default if present.
+        // };
+        // // console.log(configs);
+        // const { username, age, sex } = configs;
+        // console.log(username, age, sex);
+        const { username, age, sex } = { ...defaultParam, ...userParam };
+        console.log(username, age, sex);
+      };
+
+      person({
+        username: "twx0504",
+      });
+
+
+      // Alternative:
+      // Use case: When the parameter is not much, this way is okay.
+      // const person = ({ username = "twx0504", age = 0, sex = "male" } = {}) => {
+      //   console.log(username, age, sex);
+      // };
+
+      // person({ username: "ljy515", sex: "female" });
+      // These two ways are basically achieving the same purpose, use the default if you dont provide.
+    </script>
+  </body>
+</html>

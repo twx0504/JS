@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scroll Navigation (scrollspy)</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      /* html {
+        scroll-behavior: smooth;
+      } */
+      body {
+        background-color: #ddd;
+      }
+      body,
+      ul,
+      li {
+        margin: 0;
+      }
+
+      ul {
+        padding: 0;
+        list-style: none;
+      }
+
+      header {
+        height: 800px;
+      }
+
+      main {
+        width: 650px;
+        min-height: 500px;
+        margin: 0 auto;
+      }
+      main .category-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 50px;
+        background-color: tomato;
+        font-size: 50px;
+      }
+
+      footer {
+        height: 1000px;
+      }
+
+      .floating-panel {
+        position: fixed;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+      }
+      .floating-panel ul {
+        width: 100px;
+        padding: 10px;
+        background-color: #fff;
+      }
+
+      .floating-panel ul li {
+        height: 35px;
+        line-height: 35px;
+        /* text-align: center; */
+        text-indent: 1em;
+        font-size: 14px;
+        border-bottom: 1px dashed #ddd;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .floating-panel ul li.active {
+        color: red;
+      }
+
+      .floating-panel ul li:hover {
+        background-color: red;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="floating-panel">
+      <ul>
+        <li>Local</li>
+        <li>Entertainment</li>
+        <li>Movies</li>
+        <li>Games</li>
+        <li>Documentary</li>
+        <li>TV Shows</li>
+        <li>Others</li>
+      </ul>
+    </nav>
+
+    <header></header>
+    <main id="app">
+      <div class="category-section" style="height: 500px">Local</div>
+      <div class="category-section" style="height: 530px">Entertainment</div>
+      <div class="category-section" style="height: 400px">Movies</div>
+      <div class="category-section" style="height: 600px">Games</div>
+      <div class="category-section" style="height: 560px">Documentary</div>
+      <div class="category-section" style="height: 400px">TV Shows</div>
+      <div class="category-section" style="height: 620px">Others</div>
+    </main>
+    <footer></footer>
+    <script>
+      // 1. when the current li is clicked,
+      // - change text color.
+      // - restore the previous li text color.
+      // - scroll to the position.
+      //   - store the scrollTop of each category into an array.
+      //   - based on the item you clicked, you get the index, and get the scrollTop from the array based on the index.
+
+      // Event Delegation
+      var ul = document.querySelector(".floating-panel ul");
+      var lis = document.querySelectorAll(".floating-panel ul li");
+      var lastActiveIndex = -1;
+      var currentIndex = -1;
+      // find all category section
+      // get each of their scrollTop and store them in an array
+      var categories = document.querySelectorAll("#app .category-section");
+      var sectionScrollTops = [];
+      categories.forEach(function (category) {
+        sectionScrollTops.push(category.offsetTop);
+      });
+
+      ul.addEventListener("click", function (e) {
+        var target = e.target;
+        if (target.tagName !== "LI") return;
+
+        // restore the previous li text color
+        lastActiveIndex !== -1 &&
+          lis[lastActiveIndex].classList.remove("active");
+
+        // change text color
+        target.classList.add("active");
+
+        // store the current li index to lastActiveIndex
+        lastActiveIndex = Array.prototype.indexOf.call(lis, target);
+
+        // scroll to the specific location
+
+        // window.scroll(0, sectionScrollTops[lastActiveIndex]);
+        // window.scroll({
+        //   top: sectionScrollTops[lastActiveIndex],
+        //   behavior: "smooth",
+        // });
+
+        /* Alternative: */
+        // categories[lastActiveIndex].scrollIntoView({
+        //   behavior: "smooth",
+        //   block: "start",
+        // });
+
+        /* Alternative: support older browser version when scroll-behaviour is not available. */
+        scrollToTop(sectionScrollTops[lastActiveIndex]);
+      });
+
+      // Compatibility for older browser version which do not support scroll-behaviour: smooth.
+      function scrollToTop(targetTop, delay = 300) {
+        var time = 0;
+        var from = window.scrollY;
+        var change = targetTop - from;
+        var intervalId = setInterval(function () {
+          time += 20;
+          var currentPosition = (time / delay) * change + from;
+          if (time >= delay) {
+            currentPosition = targetTop;
+            clearInterval(intervalId);
+          }
+          window.scroll(0, currentPosition);
+        }, 20);
+      }
+
+      // traverse through sectionScrollTops array, and find the last item whose value > scrollY
+      window.addEventListener("scroll", function (e) {
+        var scrollY = window.scrollY;
+        // sectionScrollTops.forEach(function (scrollTop, index) {
+        //   if (scrollY > scrollTop) {
+        //     currentIndex = index;
+        //   }
+        // });
+        for (var i = 0; i < sectionScrollTops.length; i++) {
+          if (scrollY >= sectionScrollTops[i]) {
+            currentIndex = i; // if meet the condition, update currentIndex.
+          } else {
+            break; // if scrollY is smaller than sectionScrollTops[i] it means the one we are looking for is the one before this value.
+          }
+        }
+
+        // handle special case - the first and last category
+
+        var topBound = sectionScrollTops[0];
+        var bottomBound = sectionScrollTops[sectionScrollTops.length - 1];
+
+        if (
+          scrollY < topBound - categories[0].offsetHeight / 2 ||
+          scrollY >
+            bottomBound + categories[categories.length - 1].offsetHeight / 2
+        ) {
+          currentIndex = -1;
+        }
+
+        if (lastActiveIndex === currentIndex) return; // if the previous and current index is equal, we do not need to run the subsequent code (change style).
+
+        lastActiveIndex !== -1 &&
+          lis[lastActiveIndex].classList.remove("active");
+        currentIndex !== -1 && lis[currentIndex].classList.add("active");
+        lastActiveIndex = currentIndex;
+      });
+    </script>
+  </body>
+</html>

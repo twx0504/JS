@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Infinite Scroll</title>
+    <style>
+      .main {
+        height: 3000px;
+      }
+
+      .box1 {
+        background-color: khaki;
+        height: 500px;
+        margin: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main"></div>
+    <script src="../../../common/dom-utils.js"></script>
+    <script>
+      function infiniteScroll() {
+        /* 
+        
+        scrollHeight = scrollTop + clientHeight (ideally, when scrolling to the bottom)
+        
+
+
+        */
+        var scrollHeight = domUtils.getDocumentSize().height;
+        var scrollTop = domUtils.getScrollOffset().y;
+        var clientHeight = domUtils.getViewportSize().h;
+        // console.log(
+        //   scrollHeight,
+        //   scrollTop,
+        //   clientHeight,
+        //   scrollHeight - scrollTop - clientHeight
+        // );
+
+
+        // when scrollHeight - scrollTop - clientHeight === 0 (reach the bottom) we will load more item.
+        // but in most cases, we want it slightly above the bottom to load.
+        if (scrollHeight - scrollTop - clientHeight < 10) { /* when the value < 10, you will fetch data and render more items.  */
+          var div = document.createElement("div");
+          div.className = "box1";
+          document.body.appendChild(div);
+
+          // AJAX
+          // Rendering UI from data
+        }
+      }
+
+      var throttledScroll = throttle(infiniteScroll, 100);
+      window.addEventListener("scroll", throttledScroll);
+
+      function throttle(callback, delay) {
+        var timer = null;
+        return function () {
+          if (timer) return;
+          var args = arguments;
+          var that = this;
+          timer = setTimeout(function () {
+            callback.apply(that, args);
+            timer = null;
+          }, delay);
+        };
+      }
+    </script>
+  </body>
+</html>

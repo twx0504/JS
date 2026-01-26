@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Object - Object.is</title>
+  </head>
+  <body>
+    <script>
+      // Object.is(v1, v2)
+      // Case 1: Similar to ===
+      console.log(Object.is(10, 10)); // true
+      console.log(Object.is("foo", "foo")); // true
+      console.log(Object.is(null, null)); // true
+      console.log(Object.is(undefined, undefined)); // true
+      console.log(Object.is(window, window)); // true
+      console.log(Object.is([], [])); // false
+
+      // Case 2: Signed Zeroes
+      console.log(-0 === +0); // true
+      console.log(-0 === 0); // true
+      console.log(+0 === 0); // true
+      console.log(-0 === -0); // true
+      console.log(Object.is(-0, +0)); // false
+      console.log(Object.is(-0, 0)); // false
+      console.log(Object.is(+0, 0)); // true
+      console.log(Object.is(-0, -0)); // true
+
+      // Case 3: NaN
+      console.log(NaN === NaN); // false
+      console.log(Object.is(NaN, NaN)); // true
+      console.log(Object.is(NaN, Number.NaN)); // true
+
+      if (!Object.is) {
+        Object.defineProperty(Object, "_is", {
+          value: function (x, y) {
+            if (x === y) {
+              // Case 1 & Case 2
+              // if both x and y are identical
+              // check if both are not 0 here we only check x because the conditional has already checked for us that x === y to enter this branch.
+              // OR
+              // check if x and y are both zero of the same sign.
+              // 1 / 0 === Infinity
+              // 1 / -0 === -Infinity
+              return x !== 0 || 1 / x === 1 / y;
+            } else {
+              // Case 2: check NaN
+              // Number.NaN, 0/0, NaN
+              // NaN === NaN => false
+              return x !== x && y !== y;
+            }
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

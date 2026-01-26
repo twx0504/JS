@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Implementation v3</title>
+  </head>
+  <body>
+    <script src="./parseStr-v3.js"></script>
+    <script>
+      let data = {
+        name: "twx",
+        age: 25,
+        arr: [1, 2, 3],
+        test: { x: { y: 333 } },
+      };
+
+      let name = "ljy";
+      let age = 24;
+
+      // similar to Vue.
+      // we dont access obj.name but name
+      // but the data is internally an object.
+      // through some treatment, we can access obj.name via name only. e.g.,
+      console.log(
+        parseString(
+          "Hi, I am {{name}}, I am {{age}} years old. {{test.x.y}}",
+          data
+        )
+      );
+    </script>
+  </body>
+</html>

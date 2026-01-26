@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Location: Methods</title>
+  </head>
+  <body>
+    <script>
+      document.addEventListener("click", function () {
+        // similar to how location.href = "url" works.
+        // location.assign("./demo2.html");
+        location.replace("./demo2.html");
+        location.reload();
+        location.reload(false); // default - use cache
+
+        // note: this param forceGet is not standard, only supported in Firefox.
+        location.reload(true); // force reload load from server
+      });
+    </script>
+  </body>
+</html>

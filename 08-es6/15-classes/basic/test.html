@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test</title>
+  </head>
+  <body>
+    <script>
+      class Cat {
+        #money;
+
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+          this.#money = 1000;
+        }
+      }
+
+      const cat1 = new Cat(1, 2);
+      console.log(cat1);
+      // Note: if you write this code in dev tool it allows you to view the private property value.
+      //   console.log(cat1.#money); // Uncaught SyntaxError: Private field '#money' must be declared in an enclosing class
+    </script>
+  </body>
+</html>

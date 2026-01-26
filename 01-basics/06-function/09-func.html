@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>09-Function: return and loop</title>
+  </head>
+  <body>
+    <script>
+      var arr = [200, 500, 900, 1200, 1500];
+      function maxIndex(n, arr) {
+        for (var i = 0; i < arr.length; i++) {
+            // > or >=?
+          if (arr[i] >= n) return i;
+        }
+      }
+
+      var _index = maxIndex(600, arr);
+      console.log(_index); // 2
+    </script>
+  </body>
+</html>

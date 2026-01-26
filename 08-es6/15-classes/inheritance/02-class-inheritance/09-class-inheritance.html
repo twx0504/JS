@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>09-Class Inheritance - built-in constructor</title>
+  </head>
+  <body>
+    <script>
+      // ES6
+      // Inheritance via extends built-in constructor works because the parent constructor is called first (via super(...args))
+      // So, the proper data structure is prepared first.
+      // Unlike ES5 where Child instance is created first, and it is always a plain object, not the proper data structure that needs the built-in constructor.
+
+      class MyArray extends Array {
+        constructor(...args) {
+          // rest parameter, args is an array
+          // used to inherit parent instance props.
+          super(...args); // spread args array into Array constructor.
+        }
+      }
+
+      let arr = new MyArray(1, 2, 3, 4);
+      console.log(arr, Array.isArray(arr)); // MyArray(4) [1, 2, 3, 4] true
+
+      // Caveat:
+      // Object constructor
+
+      class NewObject extends Object {
+        constructor(...args) {
+          // passing args inside super doesn't work for Object constructor.
+          // if Object is not called via new Object(), arguments will be ignored.
+          //   so {a:1} is ignored.
+          super(...args);
+        }
+      }
+
+      let obj = new NewObject({ a: 1 });
+      console.log(obj); // NewObject {} // why is this?
+      console.log(obj.a); // undefined
+
+      let obj2 = new Object({ a: 1 });
+      console.log(obj2); // {a: 1}
+      //   // ES5
+      //   // MyArray will be inherited from Array built-in constructor.
+      //   // In ES5, we creates Child instance, and pass this child instance to the Parent constructor to inherit parent instance props.
+      //   // However, this will not work especially dealing with the built-in Constructor.
+      //   // Since "this" of BuiltInConstructor.apply(this, ...args) is not required data structure, and it is always {}
+      //   // the inheritance fails.
+
+      //   function MyArray() {
+      //     // {}
+      //     // when MyArray is called with new, internally,
+      //     // this = {}
+      //     // note here this is not an array!
+      //     Array.apply(this, arguments); // this fails because this is not an array.
+      //   }
+
+      //   let prototype = Object.create(Array.prototype);
+      //   prototype.constructor = MyArray;
+      //   MyArray.prototype = prototype;
+
+      //   const arr = new MyArray(1, 2, 3, 4);
+
+      //   console.log(arr); // MyArray {} - this is an empty object. The inheritance failed.
+      //   // We would expect maybe {"0":1,"1":2, ...} but we doesn't get.
+      //   // So, we cannot truly inherit from built-in constructor.
+    </script>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-KeyboardEvent</title>
+  </head>
+  <body>
+    Input: <input type="text" />
+    <script>
+      var inp = document.querySelector("input");
+      inp.addEventListener("keydown", function (e) {
+        console.log(e);
+        console.log("key:", e.key);
+        console.log("code:", e.code);
+        console.log("e.crtlKey", e.ctrlKey);
+        console.log("e.shiftKey", e.shiftKey);
+        console.log("e.altKey", e.altKey);
+      });
+
+      // change body background color when pressing a and ctrl key.
+      document.addEventListener("keyup", function (e) {
+        if (e.key === "a" && e.ctrlKey) {
+          document.body.style.backgroundColor = "red";
+        }
+      });
+    </script>
+  </body>
+</html>

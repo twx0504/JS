@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Template String - Application</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 860px;
+        margin: 50px auto;
+      }
+      table tr th,
+      td {
+        border: 1px solid #dfe2e5;
+        text-align: center;
+        padding: 0.6em 1em;
+      }
+      caption {
+        font-size: 22px;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <caption>
+          Student List Session 2025/2026
+        </caption>
+        <tr>
+          <th>Name</th>
+          <th>Sex</th>
+          <th>Age</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody id="stu-list">
+        <!-- Insert data -->
+        <!-- <tr>
+          <td>Twx</td>
+          <td>make</td>
+          <td>male</td>
+          <td>Johor</td>
+        </tr> -->
+        <tr>
+          <td colspan="4">Loading ...</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Side Note</th>
+          <td colspan="3">Student List</td>
+        </tr>
+      </tfoot>
+    </table>
+    <script>
+      // AJAX
+      const students = [
+        {
+          username: "Twx",
+          age: 25,
+          sex: "male",
+          state: "Johor",
+        },
+        {
+          username: "Ljy",
+          age: 24,
+          sex: "female",
+          state: "Pahang",
+        },
+        {
+          username: "Ohg",
+          age: 25,
+          sex: "male",
+          state: "Johor",
+        },
+        {
+          username: "Ljh",
+          age: 25,
+          sex: "male",
+          state: "Penang",
+        },
+      ];
+
+      const studentList = document.querySelector("#stu-list");
+      let html = ``;
+      students.forEach(function (student) {
+        html += `<tr>
+          <td>${student.username}</td>
+          <td>${student.age}</td>
+          <td>${student.sex}</td>
+          <td>${student.state}</td>
+        </tr>`;
+      });
+
+      studentList.innerHTML = html;
+    </script>
+  </body>
+</html>

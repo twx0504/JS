@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>12-regex: grouping - capturing group</title>
+  </head>
+  <body>
+    <div class="info">
+      I love to search on Google for information. Google is my go-to search
+      engine, and Google helps me find answers quickly.
+    </div>
+    <script>
+      // \1 \2 ... \n where n refers to nth capturing group.
+
+      // case 1: check if the date format is connected via - or /
+      // e.g., 2022-02-09 or 2022/04/12
+      // 2022-02/09 (wrong)
+      // 2022/09/03 (wrong)
+      var str1 = "2022-02-09";
+      var str2 = "2022/08/09";
+      var str3 = "2023-05/09";
+      var str4 = "2022/09-04";
+
+      // var reg = /^\d{4}[\-/]\d{1,2}[\-/]\d{1,2}$/; // this cannot ensure the consistent formatting of date.
+      // \1 here means it will match exactly what was previously captured by the first capturing group.
+      //   e.g., if the capturing group matched - instead of /.
+      // \1 refers to -.
+      var reg = /^\d{4}([\-/])\d{1,2}\1\d{1,2}$/;
+      console.log(reg.test(str1)); // true
+      console.log(reg.test(str2)); // true
+      console.log(reg.test(str3)); // false
+      console.log(reg.test(str4)); // false
+
+      // case 2: reverse 2022-09-08 to 08-09-2022
+      // same go to 2022/09/08.
+      var str1 = "2022-09-08";
+      var str2 = "2022/09/08";
+      var reg = /^(\d{4})([\-/])(\d{1,2})\2(\d{1,2})$/;
+      // $1,$2,...,$n in String.prototype.replace means the match result of nth capturing group.
+      var res1 = str1.replace(reg, "$4$2$3$2$1");
+      var res2 = str2.replace(reg, "$4$2$3$2$1");
+      console.log(res1, res2); // 08-09-2022 08/09/2022
+
+      // case 3: change (010)12345675 to 010-12345675
+      var str = "(010)12345675";
+      var reg = /^\((\d{3,4})\)(\d{7,8})$/;
+      var res = str.replace(reg, "$1-$2");
+      console.log(res); // 010-12345675
+
+      // case 3: add link to text Google
+      // "Google" -> "<a href='https://www.google.com'>Google</a>"
+      var info = document.querySelector(".info");
+      var str = info.innerHTML;
+      var reg = /Google/g; // g flag. All Google has been replaced.
+      // $& means the matched result.
+      var res = str.replace(
+        reg,
+        "<a href='https://www.google.com/' target='_blank'>$&<a>"
+      );
+      info.innerHTML = res;
+
+      // important:
+      //   var str = "12abs#B@";
+      var str = "12abs#B@12abs12#B@#B@";
+      var reg = /^((\d+)[a-z]+)((#)([A-Z]@))\1\2\3\4\5$/;
+      // from left to right:
+      // \1 ((\d+)[a-z]+)
+      // \2 (\d+)
+      // \3 ((#)([A-Z]@)
+      // \4 (#)
+      // \5 ([A-Z]@)
+      console.log(reg.test(str)); // true
+
+      // replacement function
+      // case: get all number, and replace the number as "=number="
+      var str = "12awe32wwwo345e322ww";
+      //   var reg = /(\d+)([a-z])/g;
+      var reg = /(\d+)/g;
+
+      // note; p1,...pN is determined based on how many capturing groups you have.
+      var res = str.replace(
+        reg,
+        function (match, p1, p2, offset, string, groups) {
+          console.log(match, p1, p2, offset, string, groups);
+          return "=" + p1 + "=";
+        }
+      );
+      console.log(res);
+      // 12a 12 a 0 12awe32wwwo345e322ww undefined
+      // 32w 32 w 5 12awe32wwwo345e322ww undefined
+      // 345e 345 e 11 12awe32wwwo345e322ww undefined
+      // 322w 322 w 15 12awe32wwwo345e322ww undefined
+      // =12=awe=32=wwwo=345=e=322=ww （replaced result)
+    </script>
+  </body>
+</html>

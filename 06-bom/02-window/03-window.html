@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Window - scroll size</title>
+    <style>
+      body {
+        width: 3000px;
+        height: 3000px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      window.addEventListener("scroll", function () {
+        console.clear();
+        console.log("scrollX:" + window.scrollX);
+        console.log("scrollY:" + window.scrollY);
+        console.log("pageXoffset:" + window.pageXOffset);
+        console.log("pageYoffset:" + window.pageYOffset);
+        console.log("scrollTop:" + document.documentElement.scrollTop);
+        console.log("scrollLeft:" + document.documentElement.scrollLeft);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-Object Destructuring</title>
+  </head>
+  <body>
+    <script>
+      // 1. Pattern Matching
+      // Both side must be object.
+      // Note: array is also an object.
+      let {} = {};
+      let { push } = []; // array is also an object
+      // Primitive -> Wrapper
+      let { length } = new String("I am Too Wei Xin"); // new String returns a string object.
+      //   let {} = undefined; // Uncaught TypeError: Cannot destructure 'undefined' as it is undefined
+      //   let {} = null; // Uncaught TypeError: Cannot destructure 'null' as it is null.
+      // JS automatically wrap primitive in their object wrapper type during property access.
+      let {} = 1;
+      let {} = true;
+      console.log(push); // ƒ push() { [native code] }
+      console.log(length); // 16
+
+      // 2. Assigning by Matching Property
+      // - In object destructuring, JavaScript searches for a property in the source object
+      // - whose name matches the key before the colon (:),
+      // - and assigns its value to the variable name after the colon.
+
+      //   let {
+      //     myname: _name,
+      //     age: _age,
+      //     sex: _sex,
+      //     id: _id,
+      //   } = { myname: "twx", age: 25, sex: "male" };
+      //   console.log(_name, _age, _sex, _id); // twx 25 male undefined - when the property name cannot be found, it will be default to undefined.
+
+      // Shorthand
+      // if the variable name and property name are the same, we can use shortform.
+      let { myname, age, sex, id } = { myname: "twx", age: 25, sex: "male" };
+      console.log(myname, age, sex, id); // twx 25 male undefined - when the property name cannot be found, it will be default to undefined.
+
+      // Differentiating Pattern & Variables
+      // - object property name is part of the matching pattern.
+      // - the part used to receive the value of the property is the newly declared variable.
+
+      // Example 1
+      const { a: _a, b: _b } = { a: 1, b: 2 };
+      console.log(_a); // 1
+      console.log(_b); // 2
+      //   console.log(a); // Uncaught ReferenceError: a is not defined
+      //   console.log(b); // Uncaught ReferenceError: a is not defined
+
+      // Example 2
+      let {
+        foo, // Declare variable `foo` and assign it the value of the `foo` property (same as foo: foo)
+
+        // Reuse the same property key `foo`, but destructure its inner `start` property into a new variable `start`.
+        // This is allowed as long as you're assigning to different variable names.
+        foo: { start }, // From the `foo` property, extract `start` and assign to variable `start`
+      } = { foo: { start: 33 } };
+
+      console.log(foo, start); // { start: 33 }  33
+
+      // Example 3
+      const obj = {
+        arr: ["1", ["one", "two", "three"], { name: "twx", age: 123 }],
+      };
+
+      let {
+        arr: [a, , { name, age: _age, gender }],
+      } = obj;
+
+      // a name _age gender are variables.
+      // arr age is pattern matching.
+      console.log(a, name, _age, gender); // "1" "twx" 123 undefined
+
+      // Example 4
+      const obj2 = {
+        foo1: {
+          bar: {
+            start: {
+              number: 1,
+            },
+          },
+        },
+      };
+
+      var {
+        foo1, // declare variable foo1 = obj2.foo1
+        foo1: { bar }, // from foo1, extract bar → declare variable bar
+        foo1: {
+          bar: {
+            start: { number },
+          },
+        }, // from foo1.bar.start, extract number → declare variable number
+      } = obj2;
+
+      console.log(foo1); // {bar: {start: {number: 1}}}
+      console.log(bar); // {start: {number: 1}}
+      console.log(number); // 1
+
+      // Extracting value from Nested Structure
+      const obj3 = {
+        x: 1,
+        y: [2, 3, 4],
+        z: { a: 5, b: 6 },
+      };
+
+      const {
+        z, // declare variable z = obj3.z
+        z: { b }, // from z, extract b, declare variable b
+        y: [, , c], // from y, extract the third element, declare variable c
+      } = obj3;
+
+      console.log(z); // { a: 5, b: 6 }
+      console.log(b); // 6
+      console.log(c); // 4
+    </script>
+  </body>
+</html>

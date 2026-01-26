@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>07 - Module - Important Notes</title>
+  </head>
+  <body>
+    <script>
+      console.log(this); // window
+      function fn() {
+        console.log(this); // window
+      }
+      fn();
+    </script>
+    <script>
+      "use strict";
+      // Top level this of normal script is still window - it is the global scope, that's why.
+      console.log(this); // window
+      function fn2() {
+        console.log(this); // undefined
+      }
+      fn2();
+    </script>
+    <script type="module">
+      // 1. Module uses strict mode automatically.
+      // The top level this is undefined.
+      console.log(this); // undefined
+    </script>
+
+    <script src="./check-module.js" type="module"></script>
+    <!-- Uncaught Error: Use module to load this script -->
+    <!-- <script src="./check-module.js"></script> -->
+
+    <script type="module">
+      // 2. re-exporting with export...from syntax.
+      import { apple, orange, c } from "./export-from.js";
+      console.log(apple, orange, c); // apple orange My favourite fruit is apple & orange
+    </script>
+    <script type="module">
+      // import * as obj from "./import-d.js";
+      // 3. export * from "module" will not include the default export.
+      import * as obj from "./export-from2.js";
+      console.log(obj); // note: this module object will not include the default export
+    </script>
+    <script type="module">
+      // 4. Person is default export.
+      import Person, { bar } from "./export-from3.js";
+      console.log(Person);
+      console.log(bar());
+    </script>
+    <script type="module">
+      import num1 from "./export-from4.js";
+      console.log(num1);
+    </script>
+    <script type="module">
+      import { mod } from "./export-from5.js";
+      console.log(mod);
+    </script>
+  </body>
+</html>

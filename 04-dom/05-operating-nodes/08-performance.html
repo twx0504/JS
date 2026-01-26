@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08-Performance: innerHTML & createElement</title>
+  </head>
+  <body>
+    <ul class="list"></ul>
+    <script>
+      /* innerHTML */
+      //   var str = "<ul>";
+      //   for (var i = 0; i <= 5; i++) {
+      //     str += "<li>" + i + "</li>";
+      //   }
+      //   str += "</ul>";
+      //   document.body.innerHTML = str;
+
+      /* dynamically create elements */
+      //   var ul = document.createElement("ul");
+      //   for (var j = 0; j <= 5; j++) {
+      //     var li = document.createElement("li");
+      //     li.innerText = j;
+      //     ul.appendChild(li);
+      //   }
+      //   document.body.appendChild(ul);
+    </script>
+    <script>
+      // JavaScript executes quickly, but manipulating the DOM can be relatively slow.
+      var ul = document.querySelector(".list");
+
+      /* InnerHTML - Do not recommend! */
+      console.time("innerHTML");
+      for (var i = 0; i < 10000; i++) {
+        // 1.  Each iteration performs two lookups, which adds performance overhead.
+        //     LHS            RHS
+        // ul.innerHTML = ul.innerHTML + "<li>" + (i + 1) + "</li>"
+        // 2. update (replace the old ones)
+        ul.innerHTML += "<li>" + (i + 1) + "</li>";
+      }
+      console.timeEnd("innerHTML");
+
+      /* createElement */
+      console.time("createElement");
+      for (var j = 0; j < 10000; j++) {
+        // 1. create
+        var li = document.createElement("li");
+        li.innerText = i + 1;
+        // 2. append
+        ul.appendChild(li);
+      }
+      console.timeEnd("createElement");
+
+      // innerHTML: 120678.2080078125 ms
+      // createElement: 8.9619140625 ms
+    </script>
+    <script>
+      var ul = document.querySelector(".list");
+
+      /* innerHTML - Optimised
+        - combine multiple DOM operations into one.
+      */
+      console.time("innerHTML - Optimisation");
+      var str = "";
+      for (var i = 0; i < 10000; i++) {
+        str += "<li>" + (i + 1) + "</li>";
+      }
+      ul.innerHTML = str;
+      console.timeEnd("innerHTML - Optimisation");
+
+      console.time("createElement");
+      for (var j = 0; j < 10000; j++) {
+        // 1. create
+        var li = document.createElement("li");
+        li.innerText = i + 1;
+        // 2. append
+        ul.appendChild(li);
+      }
+      console.timeEnd("createElement");
+
+      // innerHTML - Optimisation: 7.403076171875 ms
+      // createElement: 7.496826171875 ms
+
+      /* Notes:
+        - The optimized innerHTML method shows slightly better performance.
+        - However, as code complexity increases, innerHTML can become harder to read and maintain.
+        - In such cases, using createElement and other DOM methods is recommended for better clarity and flexibility.
+      */
+    </script>
+  </body>
+</html>

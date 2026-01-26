@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Promise</title>
+  </head>
+  <body>
+    <script>
+      const p = Promise.all([]);
+      console.log(p); // Promise {<fulfilled>: Array(0)}
+      const p2 = Promise.all(); // Promise {<rejected>: TypeError: undefined is not iterable (cannot read property Symbol(Symbol.iterator)) at Promise.…}
+      console.log(p2);
+    </script>
+  </body>
+</html>

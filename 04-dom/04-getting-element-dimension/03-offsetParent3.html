@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Offset Parent-zoom</title>
+  </head>
+  <body>
+    <!-- Effective zoom = 2 -->
+    <div class="grand-grandparent" style="zoom: 2">
+        <!-- Effective zoom = 2 -->
+      <div class="grandparent">
+        <!-- Effective zoom = 2 * 0.5 = 1 -->
+        <div class="parent" style="zoom: 0.5">
+            <!-- Effective zoom = 1 (inherit from parent) -->
+          <div id="target1"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Effective zoom: 2 -->
+    <div class="grandparent" style="zoom: 2">
+      <!-- Effective zoom: 2 * 1.5 = 3 -->
+      <div class="parent" style="zoom: 1.5; position: static">
+        <!-- Effective zoom: 3 (inherit from parent) -->
+        <div id="target2" class="child"></div>
+      </div>
+    </div>
+    <script>
+      var div1 = document.getElementById("target1");
+
+      console.log(div1.offsetParent);
+
+      var div2 = document.getElementById("target2");
+      /* When target's effect zoom !== ancestor's effect zoom, the ancestor becomes offset parent of target. */
+      console.log(div2.offsetParent);
+    </script>
+  </body>
+</html>

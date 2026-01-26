@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Drag</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+      }
+      .container {
+        position: relative;
+        width: 500px;
+        height: 500px;
+        border: 1px solid;
+      }
+      .box {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        cursor: grab;
+      }
+
+      .box:active {
+        cursor: grabbing;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="box"></div>
+    </div>
+    <script>
+      var container = document.querySelector(".container");
+      var box = document.querySelector(".box");
+
+      container.addEventListener("mousedown", downHandler);
+
+      function downHandler(e) {
+        e.preventDefault();
+        var target = e.target;
+        if (!target.classList.contains("box")) return;
+        var prevClientX = e.clientX;
+        var prevClientY = e.clientY;
+        var prevOffsetLeft = box.offsetLeft;
+        var prevOffsetTop = box.offsetTop;
+        document.addEventListener("mousemove", moveHandler);
+        document.addEventListener("mouseup", upHandler);
+
+        function moveHandler(e) {
+          var targetX = e.clientX - prevClientX + prevOffsetLeft;
+          var targetY = e.clientY - prevClientY + prevOffsetTop;
+          if (targetX < 0) targetX = 0;
+          if (targetX > container.clientWidth - box.clientWidth) {
+            targetX = container.clientWidth - box.clientWidth;
+          }
+          if (targetY < 0) targetY = 0;
+          if (targetY > container.clientHeight - box.clientHeight) {
+            targetY = container.clientHeight - box.clientHeight;
+          }
+          box.style.left = targetX + "px";
+          box.style.top = targetY + "px";
+        }
+
+        function upHandler(e) {
+          document.removeEventListener("mousemove", moveHandler);
+          document.removeEventListener("mouseup", upHandler);
+        }
+      }
+    </script>
+  </body>
+</html>

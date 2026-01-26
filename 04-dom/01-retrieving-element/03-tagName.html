@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Retrieving Element: Tag Name</title>
+  </head>
+  <body>
+    <h1>title</h1>
+    <div>
+      <div id="box1">box1</div>
+      <div id="box2" class="box2">box2</div>
+      <div id="box3">
+        <div><p>This is p.</p></div>
+      </div>
+    </div>
+    <script>
+      var divs = document.getElementsByTagName("div");
+      console.log(divs);
+      console.log(divs[0]);
+      console.log(divs[1]);
+      console.log(divs[2]);
+      console.log(divs.length); // 3
+
+      /* Traversal */
+      for (var i = 0; i < divs.length; i++) {
+        console.log(i, divs[i]);
+      }
+
+
+      /* Any element can use getElementsByTagName */
+      var box3 = divs[3];
+      var p = box3.getElementsByTagName("p");
+      console.log(p[0]);
+
+      // HTMLCollection is array-like object.
+      // divs.push(1); // Uncaught TypeError: divs.push is not a function
+    </script>
+  </body>
+</html>

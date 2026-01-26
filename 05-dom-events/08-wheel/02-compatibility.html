@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Compatibility of Wheel Event</title>
+    <style>
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+    <script src="./wheel.js"></script>
+    <script>
+      var box = document.querySelector(".box");
+      window._addWheelListener(box, handleWheel);
+
+      function handleWheel(e) {
+        console.log(e, e.deltaY);
+        // logic
+        if (e.deltaY > 0) {
+          // scroll down
+          console.log("go down");
+        } else {
+          // scroll up
+          console.log("go up");
+        }
+      }
+    </script>
+  </body>
+</html>

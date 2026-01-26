@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-Class Inheritance - super #1 as a fn call in child constructor. </title>
+  </head>
+  <body>
+    <script>
+      // super - use in child class.
+      // two forms: function & object
+
+      // scenarios:
+      // #1: super as a fn call in Child constructor. this as the Child instance.
+
+      class A {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+          // You may wonder why this here looks like B instance?
+          // this in class refers to "instance being created".
+          // so when we instantiate a new instance using the child class extending A.
+          // this inside A will refers to the new instance B being created.
+          // it will initialize the props of parent class first.
+          console.log(this); // the new instance B {x: 1, y: 2} - but only initialize with parent props.
+        }
+      }
+      class B extends A {
+        constructor(x, y, z) {
+          // super as fn form - represents the parent constructor.
+
+          super(x, y);
+          this.z = z;
+        }
+      }
+
+      const b = new B(1, 2, 3);
+      // B {x: 1, y: 2} -> 
+      console.log(b); // B {x: 1, y: 2, z: 3} - fully initialized.
+
+
+    
+    </script>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>17-Proxy - DELETE</title>
+  </head>
+  <body>
+    <script>
+      "use strict";
+      const obj = {
+        a: 1,
+        b: 2,
+        _n: "hello",
+      };
+
+      Object.defineProperty(obj, "say", {
+        value: function () {},
+        configurable: false, // "say" is non-configurable - meaning that it cannot be deleted.
+        writable: true,
+      });
+
+      const proxy = new Proxy(obj, {
+        deleteProperty(target, prop) {
+          // intercept deletion of any property name started with "_".
+          if (prop[0] === "_") {
+            return false; //
+          }
+
+          if (prop === "say") {
+            // since "say" is non-configurable
+            // attempts to return true throws error.
+            // So, for non-configurable property, it must return false.
+            delete target[prop]; // here: it returns false for non-configurable prop.
+            return true; // but we manually make it return true - which conflicts the behavior, so that's why the error is thrown.
+          }
+          // The return value follows the semantics of the `delete` operator:
+          // - true  → deletion succeeded
+          // - false → deletion failed (silent in non-strict mode, throws in strict mode)
+          return delete target[prop];
+        },
+      });
+
+      console.log(obj); // {a: 1, b: 2, _n: 'hello'}
+      console.log(delete proxy["a"]); // true - indicating prop "a" has been deleted.
+      console.log(obj); // {b: 2, _n: 'hello'}
+
+      console.log(delete proxy["_n"]); // false
+      // Note: In non-strict mode, returning false causes `delete proxy["_n"]`
+      // to simply evaluate to false.
+      // In strict mode, a falsy return value causes the delete operation to throw
+      // a TypeError, because the deletion is considered unsuccessful.
+
+      console.log(obj); // {b: 2, _n: 'hello', say: ƒ}
+
+      // When using proxy for an object, it is advisable to use try...catch to prevent any error that causes the program to not execute.
+      try {
+        console.log(delete proxy["say"]);
+      } catch (err) {
+        console.log(err); // // Uncaught TypeError: 'deleteProperty' on proxy: trap returned truish for property 'say' which is non-configurable in the proxy target
+      }
+
+      console.log(obj); // {b: 2, _n: 'hello', say: ƒ}
+    </script>
+  </body>
+</html>

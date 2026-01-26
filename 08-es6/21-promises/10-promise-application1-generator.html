@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      10-Promise - Application 1 - Sequential Image Preloading with Generator
+    </title>
+  </head>
+  <body>
+    <script>
+      const urls = [
+        "https://emojiisland.com/cdn/shop/products/Hugging_Face_Emoji_2028ce8b-c213-4d45-94aa-21e1a0842b4d_grande.png?v=1571606036",
+        "https://i.pinimg.com/736x/19/82/2c/19822c18e912ad0ffb2ad2faed8a61af.jpg",
+        // The URL below is intentionally incorrect to test error handling.
+        "htt://i.pinimg.com/736x/81/aa/6b/81aa6b36930a0af2d0a6ef967adfe5af.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWqPywvm0jmBaK8f944mTqST4RnA5DCGxRQA&s",
+        "https://emojiisland.com/cdn/shop/products/Emoji_Icon_-_Thinking_grande.png?v=1571606093",
+      ];
+
+      // Generator function controlling sequential image loading.
+      // Each `yield` pauses execution until the previous image finishes loading.
+      function* gen() {
+        // Sequentially load each image.
+        for (const url of urls) {
+          try {
+            // The generator pauses here until `it.next(img)` or `it.throw(err)` is called.
+            const img = yield preloadImage(url);
+            // If an image was successfully loaded, append it to the page.
+            if (img) document.body.appendChild(img);
+            // Other operations...
+          } catch (err) {
+            // Handle individual image load errors without stopping the loop.
+            console.log(err + " : " + url);
+          }
+        }
+      }
+
+      // A helper function that loads an image from a given URL.
+      // Instead of returning a Promise, it communicates back to the generator using `it.next()` or `it.throw()`.
+      function preloadImage(url) {
+        const img = new Image();
+        img.style.cssText = "width:200px; margin:10px";
+
+        // When the image loads successfully, resume the generator and pass the loaded image element.
+        img.onload = function () {
+          it.next(img);
+        };
+
+        // When the image fails to load, throw an error into the generator.
+        img.onerror = function () {
+          it.throw(new Error("Image loading failed"));
+
+          // Alternatively, if you want to *skip* broken images instead of stopping execution:
+          // it.next(null);
+        };
+
+        // Start loading the image by setting its source.
+        // Send HTTP request.
+        img.src = url;
+      }
+
+      // Create a generator iterator and start it.
+      const it = gen();
+      it.next();
+
+      // function* gen() {
+      //   for (const url of urls) {
+      //     try {
+      //       yield preloadImage(url);
+      //     } catch (err) {
+      //       console.log(err);
+      //     }
+      //   }
+      // }
+
+      // function preloadImage(url) {
+      //   const img = new Image();
+      //   img.style.cssText = "width:200px; margin:10px";
+      //   img.onload = function () {
+      //     // If all images has the same operation, we may not need to pass img to generator.
+      //     document.body.appendChild(img);
+      //     // When the image is successfully loaded, it will start resume the generator and load next images.
+      //     it.next();
+      //   };
+      //   img.onerror = function () {
+      //     it.throw(new Error(`Image loading with url ${url} has failed.`));
+      //   };
+      //   img.src = url;
+      // }
+
+      // const it = gen();
+      // it.next();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Max</title>
+  </head>
+  <body>
+    <script>
+      var arr = [1, 43, 23, 8, 4, 6, 8, 22, 9];
+      // store the first item.
+      var max = arr[0];
+      // starts at index 1.
+      for (var i = 1; i < arr.length; i++) {
+        if (max < arr[i]) {
+          max = arr[i];
+        }
+      }
+      console.log(max);
+    </script>
+  </body>
+</html>

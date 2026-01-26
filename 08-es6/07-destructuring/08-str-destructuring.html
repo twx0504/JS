@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08-String Destructuring</title>
+  </head>
+  <body>
+    <script>
+      // Two Forms: Array & Object
+
+      // 1. Array Form
+      const [x, y, , , z] = "twx05";
+      console.log(x, y, z); // t w 5
+
+      // 2. Object Form -> by property matching
+      // note: in object, we can access string character via integer string keys
+      const { 0: p, 1: q, length } = "Hello World"; // similar to new String("Hello World")
+      console.log(p, q, length); // H e 11
+
+      //   const strObj = new String("Hello World");
+      //   console.log(strObj);
+    </script>
+  </body>
+</html>

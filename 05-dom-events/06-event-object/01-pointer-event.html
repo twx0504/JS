@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Event Object</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        height: 3000px;
+      }
+      .box {
+        margin: 100px;
+        border: 50px solid red;
+        width: 300px;
+        height: 300px;
+        background-color: tomato;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+    <script>
+      var box = document.querySelector(".box");
+      box.addEventListener("click", function (e) {
+        // In the past, this is for compatibility.
+        // e = e || window.event;
+        console.log(window.event);
+        console.log(e);
+        console.log("x:", e.clientX, " y:", e.clientY);
+        console.log("pageX:", e.pageX, "pageY:", e.pageY);
+        console.log("offsetX:", e.offsetX, "offsetY:", e.offsetY);
+      });
+    </script>
+  </body>
+</html>

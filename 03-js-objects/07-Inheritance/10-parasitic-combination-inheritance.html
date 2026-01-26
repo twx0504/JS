@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>10-Parasitic Combination Inheritance</title>
+  </head>
+  <body>
+    <script>
+      function Parent(surname) {
+        this.surname = surname;
+      }
+
+      Parent.prototype.saySurname = function () {
+        console.log(this.surname);
+      };
+
+      function Child(name, age, surname) {
+        this.name = name;
+        this.age = age;
+        // inherit the instance properties
+        Parent.call(this, surname);
+      }
+      // inherit the instance methods
+      // correct constructor
+      Child.prototype = Object.create(Parent.prototype);
+      Child.prototype.constructor = Child;
+      Child.prototype.sleep = function () {
+        console.log("sleep");
+      };
+      var child = new Child("twx", 25, "too");
+      console.log(child);
+      console.log(Child.prototype.constructor);
+      console.log(child.__proto__.constructor);
+
+      child.saySurname();
+      child.sleep();
+
+      // Before Object.create method:
+      //   function inherit(parent, child) {
+      //     var Fn = function () {};
+      //     return function () {
+      //       Fn.prototype = parent.prototype;
+      //       child.prototype = new Fn();
+      //       child.prototype.constructor = child;
+      //     };
+      //   }
+
+      function inherit(parent, child) {
+        child.prototype = Object.create(parent.prototype);
+        child.prototype.constructor = child;
+      }
+
+      //   function Point() {}
+      //   var point = new Point();
+      //   console.log(point.__proto__, Point.prototype);
+      //   console.log(point.__proto__.__proto__ === Object.prototype);
+    </script>
+  </body>
+</html>

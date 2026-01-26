@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>06-Drag</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .container {
+        margin: 100px;
+        position: relative;
+        width: 800px;
+        height: 600px;
+        border: 10px solid khaki;
+        background-color: skyblue;
+      }
+
+      .box {
+        position: absolute;
+        top: 100px;
+        left: 100px;
+        width: 200px;
+        height: 200px;
+        background-color: tomato;
+      }
+
+      .box .title {
+        /* position: absolute; */
+        width: 100%;
+        height: 50px;
+        background-color: khaki;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- <div class="drag">Lorem ipsum</div> -->
+      <div class="box">
+        <div class="title">Login</div>
+      </div>
+    </div>
+    <script src="./drag.js"></script>
+    <script src="./drag2.js"></script>
+    <script src="./drag3.js"></script>
+    <script>
+      var container = document.querySelector(".container");
+      var dragTarget = document.querySelector(".box");
+      dragTarget._drag();
+      //   dragTarget.addEventListener("mousedown", handleMousedown);
+
+      //   function handleMousedown(e) {
+      //     // stop default behaviours e.g., text / img that causes our drag function to not work.
+      //     e.preventDefault();
+
+      //     // compatibility: older IE browser uses window.event.
+      //     e = e || window.event;
+      //     if (e.target.className === "title") {
+      //       dragFn1(e, dragTarget);
+      //     }
+      //   }
+
+      /* Use dragFn2 */
+      //   dragTarget.addEventListener("mousedown", function (e) {
+      //     e = e || window.event;
+      //     if (e.target.className === "title") { // only when the event target is title, you apply drag fn for dragTarget.
+      //       var fn = dragFn2.bind(dragTarget);
+      //       fn(e); // passing e
+      //     }
+      //   });
+    </script>
+  </body>
+</html>

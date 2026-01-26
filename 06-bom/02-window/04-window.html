@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Window</title>
+    <style>
+      body {
+        width: 3000px;
+        height: 3000px;
+        background-image: linear-gradient(to bottom, skyblue, red, pink);
+      }
+      button {
+        width: 200px;
+        height: 50px;
+        position: fixed;
+        top: 200px;
+        right: 100px;
+      }
+
+      #btn2 {
+        top: 260px;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="btn1">Scroll to a specific location</button>
+    <button id="btn2">Scroll a certain amount of distance</button>
+    <script>
+      var btn1 = document.getElementById("btn1");
+      var btn2 = document.getElementById("btn2");
+
+      // note: scroll min is 0.
+      btn1.addEventListener("click", function (e) {
+        // window.scroll(800, 800); // x and y represents the target position.
+        // window.scrollTo();
+
+        // alternative (recommended)
+        //  set value
+        document.documentElement.scrollLeft = 0;
+        document.documentElement.scrollTop = 1200;
+        // get value
+        console.log(
+          document.documentElement.scrollLeft,
+          document.body.scrollLeft
+        ); // in standard mode, document.documentElement.scrollLeft has value, while document.body.scrollLeft is 0.
+      });
+
+      btn2.addEventListener("click", function (e) {
+        window.scrollBy(300, 300); // x y represents offset of x and y.
+        // value can be negative.
+        window.scrollBy(-300, -300);
+      });
+
+      function getScrollOffset() {
+        if (
+          typeof window.scrollX === "number" &&
+          typeof window.scrollY === "number"
+        ) {
+          return {
+            x: window.scrollX,
+            y: window.scrollY,
+          };
+        }
+        return {
+          x: document.documentElement.scrollLeft || document.body.scrollLeft,
+          y: document.documentElement.scrollTop || document.body.scrollTop,
+        };
+      }
+    </script>
+  </body>
+</html>

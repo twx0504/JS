@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Application</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 100px;
+      }
+      .btn {
+        width: 50px;
+        height: 40px;
+        font: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="btn">1</button>
+    <button class="btn">2</button>
+    <button class="btn">3</button>
+    <script>
+      var btns = document.querySelectorAll(".btn");
+      //   for (var i = 0; i < btns.length; i++) {
+      //     btns[i].addEventListener("click", function (e) {
+      //       console.log(i+1); // 4 - because i is global, at the end of this loop i became 4
+      //     });
+      //   }
+
+      // Solution 1: IIFE - use of closure
+      //   for (var i = 0; i < btns.length; i++) {
+      //     (function (i) {
+      //       btns[i].addEventListener("click", function (e) {
+      //         console.log(i + 1);
+      //       });
+      //     })(i);
+      //   }
+
+      // Solution 2: let
+      for (let i = 0; i < btns.length; i++) {
+        // in each iteration, it creates a new block scope.
+        // so, we can print i as expected.
+        btns[i].addEventListener("click", function (e) {
+          console.log(i + 1); // 4 - because i is global, at the end of this loop i became 4
+        });
+      }
+    </script>
+  </body>
+</html>

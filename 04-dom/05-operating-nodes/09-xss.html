@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>09-XSS Attack</title>
+  </head>
+  <body>
+    Enter a title <input type="text" name="" class="title" />
+    <button id="submit">Add</button>
+    <div class="container"></div>
+    <script>
+      var btn = document.getElementById("submit");
+      var input = document.querySelector(".title");
+      var container = document.querySelector(".container");
+
+      // click submit button, submit user input to the page.
+      btn.onclick = function () {
+        var val = input.value;
+        container.innerHTML = val;
+      };
+
+      /* 
+        Entering <script> tags in input may not execute directly when using innerHTML, 
+        but there are ways to bypass this protection.
+        e.g.,
+        - <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onload="alert('test');">
+        - <a href="" onclick="alert('attacked!')">Popular song</a>
+        
+        By attaching event handler on these non-script element, the malicious actions could be executed.
+      */
+    </script>
+   
+  </body>
+</html>

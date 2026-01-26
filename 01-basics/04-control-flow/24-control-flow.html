@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>24-Control Flow: X shape</title>
+    <style>
+
+      .lower {
+        color: green;
+      }
+
+      .upper {
+        color: tomato;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      //   var rows = 5;
+      //   var pattern = "";
+      //   /* Max rows: rows * 2 */
+      //   for (var i = 1; i <= rows * 2; i++) {
+      //     // Max columns: rows * 2 - 1
+      //     for (var j = 1; j <= rows * 2 - 1; j++) {
+      //       // Diagonal Conditions
+      //       if (i === j || j === rows * 2 - i) {
+      //         pattern += "\u25A1";
+      //       } else {
+      //         pattern += "\u00A0";
+      //       }
+      //     }
+      //     pattern += "\n";
+      //   }
+      //   console.log(pattern);
+
+      var rows = 5;
+      var lowerClassName = "lower";
+      var upperClassName = "upper";
+      /* Max rows: rows * 2 */
+      for (var i = 1; i <= rows * 2 - 1; i++) {
+        // Max columns: rows * 2 - 1
+        for (var j = 1; j <= rows * 2 - 1; j++) {
+          // Diagonal Conditions
+          if (i === j || j === rows * 2 - i) {
+            // squares
+            if (i > rows) {
+              // lower part
+              document.writeln(
+                "<span class='" + lowerClassName + "'>&#9724;</span>"
+              );
+            } else {
+              // upper part
+              document.writeln(
+                "<span class='" + upperClassName + "'>&#9724;</span>"
+              );
+            }
+          } else {
+            // spaces
+            document.writeln("<span>&#9723;</span>");
+          }
+        }
+
+        document.writeln("<br/>");
+      }
+    </script>
+  </body>
+</html>

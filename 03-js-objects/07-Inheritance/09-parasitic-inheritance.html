@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>09-Parasitic Inheritance</title>
+  </head>
+  <body>
+    <script>
+      // Parasitic Inheritance
+      // receive o
+      // return an object p with o as a prototype
+      // add new method to p.
+
+      function enhanceObject(o) {
+        var p = Object.create(o);
+        p.changeColor = function () {
+          this.color = "blue";
+          console.log("My color has changed to", this.color);
+        };
+        return p;
+      }
+
+      var obj = {
+        a: 1,
+        b: 2,
+      };
+
+      var newObj = enhanceObject(obj);
+      console.log(newObj);
+      newObj.changeColor();
+
+      var newObj2 = Object.create(obj, {
+        sleep: {
+          value: function () {
+            console.log("sleep");
+          },
+          writable: true,
+          enumerable: true,
+        },
+      });
+      console.log(newObj2);
+      newObj2.sleep();
+    </script>
+  </body>
+</html>

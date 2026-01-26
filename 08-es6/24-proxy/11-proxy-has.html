@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>11-Proxy - Has: Caveats</title>
+  </head>
+  <body>
+    <script>
+      //   // Caveats:
+      //   // 1. For non-configurable property of an object, handler.has cannot return false for that property.
+      //   // 2. For non-extensible object, handler.has cannot return false for all the object properties.
+      //   // Doing so throws an Error.
+      //   const obj = {
+      //     a: 1,
+      //     b: 2,
+      //   };
+
+      //   Object.defineProperty(obj, "c", {
+      //     value: 10,
+      //     configurable: false, // "c" is non-configurable.
+      //   });
+
+      //   // Note: This is not a real-world requirement.
+      //   // It is just to demonstrate the use of handler.has.
+      //   const proxy = new Proxy(obj, {
+      //     has(target, key) {
+      //       if (key === "c") {
+      //         // For non-configurable property, it can only return true.
+      //         return false; // return false on a non-configuarable property throws an Error.
+      //       }
+      //       return key in target;
+      //     },
+      //   });
+
+      //   // Note:
+      //   // This throws an Error because of returning false on non-configurable "c" key in handler.has.
+      //   console.log("c" in proxy); // Uncaught TypeError: 'has' on proxy: trap returned falsish for property 'c' which exists in the proxy target as non-configurable
+
+      const obj2 = {
+        x: 1,
+        y: 2,
+      };
+
+      // Make obj2 not extensible - new properties cannot be added.
+      Object.preventExtensions(obj2);
+      obj2.z = 10; // Let's try to add a new property z with value 10
+      console.log(obj2); // {x: 1, y: 2} // The obj2 is still the same.
+      const proxy2 = new Proxy(obj2, {
+        has(target, key) {
+          // We return false for all the properties of obj2.
+          // This will throw Error.
+          return !(key in target);
+        },
+      });
+
+      // Note: This error is only thrown when the following operation is being intercepted.
+      console.log("x" in proxy2); // Uncaught TypeError: 'has' on proxy: trap returned falsish for property 'x' but the proxy target is not extensible
+    </script>
+  </body>
+</html>

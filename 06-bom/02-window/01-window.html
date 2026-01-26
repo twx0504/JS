@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Window</title>
+  </head>
+  <body>
+    <!-- code in scripts, code from js files, shares the same global context, and share the same window object -->
+    <script>
+      var a = 2;
+      console.log(window.a); // 2
+      console.log(window["a"]); // 2
+      console.log(window.hasOwnProperty("a")); // true
+      console.log(window.a === a); // true
+    </script>
+    <!-- js files shares the same global context -->
+    <script src="./1.js"></script>
+    <script src="./2.js"></script>
+    <script>
+      console.log(i); // 4
+    </script>
+  </body>
+</html>

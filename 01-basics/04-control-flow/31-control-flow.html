@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>31-Control Flow</title>
+  </head>
+  <body>
+    <script>
+      // Game Development or Animation
+      // Generate position x and y within [-10, 10]
+      // The x & y cannot be 0 at the same time.
+      var x, y;
+      var min = -10;
+      var max = 10;
+      do {
+        x = min + Math.floor(Math.random() * (max - min + 1));
+        y = min + Math.floor(Math.random() * (max - min + 1));
+      } while (x === 0 && y === 0); // When the condition is met, loop again.
+      console.log(x, y);
+    </script>
+  </body>
+</html>

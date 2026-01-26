@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-let & const</title>
+  </head>
+  <body>
+    <script>
+      // var let const
+
+      // 1. redeclaration
+
+      // e.g., var - working
+      var a = 4;
+      console.log(a);
+      var a = 5;
+      console.log(a);
+
+      // e.g., let - throw error - redeclaration is not allowed.
+      let b = 10;
+      // let b = 20; // Uncaught SyntaxError: Identifier 'b' has already been declared
+
+      // const b = 10;
+      // consot b = 30; // Uncaught SyntaxError: Unexpected identifier 'b'
+
+      // 2. variable hoisting
+      // - var - yes
+      console.log(x); // undefined
+      var x = 10;
+      console.log(x); // 10
+      // - let const - no hoisting
+      //   console.log(y); // Uncaught ReferenceError: Cannot access 'y' before initialization
+      let y = 20;
+      console.log(y);
+
+      // 3. Temporal Dead Zone
+
+      let z = 1;
+      function foo() {
+        // since declaring z with let inside a function, z can only be found in this scope.
+        // attempt to use the variable before its declaration throws error.
+        // console.log(z); // Uncaught ReferenceError: Cannot access 'z' before initialization
+        let z = 3; // temporal dead zone
+        console.log(z); // 3
+      }
+      foo();
+
+      if (true) {
+        /* temporal dead zone start */
+        // tmp = "abc"; // Uncaught ReferenceError: Cannot access 'tmp' before initialization
+        // console.log(tmp);
+        let tmp; /* temporal dead zone end */
+        console.log(tmp); // undefined
+      }
+      tmp = 123;
+      console.log(tmp); // 123
+
+      // use j before j is declared throws error.
+      function bar(i = j, j = 2) {
+        // Uncaught ReferenceError: Cannot access 'j' before initialization
+        console.log(i, j);
+        return [i, j];
+      }
+      // bar(); // throw error because we do not pass argument to i, and i depends on j for value.
+      bar(2); // since we explicitly pass in 2 as an argument to i, i = 2 it is working.
+
+      var g = g; // RHS look up, g is not declared yet, it declares a g which is undefined.
+      console.log(g); // undefined
+
+      // since k is used before declaration (RHS look up) - RHS is evaluated in this case before LHS.
+      let k = k; // Uncaught ReferenceError: Cannot access 'k' before initialization
+    </script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-IIFE</title>
+  </head>
+  <body>
+    <script>
+      function fn() {
+        console.log("normal fn call");
+      }
+      fn();
+
+      /* IIFE - usually a anonymous fn*/
+
+      (function () {
+        console.log("IIFE");
+      })();
+
+      /* Alternative: */
+      //   (function () {
+      //     console.log("IIFE");
+      //   }());
+
+
+      /* Other form but not recommended. */
+      //   +function() {
+      //     console.log("IIFE +")
+      //   }();
+      //   -function() {
+      //     console.log("IIFE -")
+      //   }();
+      //   delete function() {
+      //     console.log("IIFE delete")
+      //   }();
+      //   !function() {
+      //     console.log("IIFE !")
+      //   }();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test 3</title>
+  </head>
+  <body>
+    <script>
+      //   class Point {
+      //     constructor() {
+      //       // note: if the derived class who calls super, new.target returns that derived Child class.
+      //       console.log(new.target);
+      //       console.log(new.target === Point);
+      //     }
+      //   }
+
+      //   const point = new Point();
+
+      //   //   class Point {
+      //   //     constructor() {
+      //   //       console.log(new.target);
+      //   //       console.log(new.target === Point);
+      //   //     }
+      //   //   }
+      //   //
+      //   // true
+
+      //   class ColorPoint extends Point {
+      //     constructor() {
+      //       super();
+      //       console.log(new.target);
+      //     }
+      //   }
+
+      //   const colorPoint = new ColorPoint();
+
+      //   class ColorPoint extends Point {
+      //     constructor() {
+      //       super();
+      //     }
+      //   }
+      //
+      //   false
+      //   class ColorPoint extends Point {
+      //     constructor() {
+      //       super();
+      //       console.log(new.target);
+      //     }
+      //   }
+
+      class Point {
+        constructor() {
+          if (new.target === Point) {
+            throw new Error(
+              "This class cannot be instantiated directly with new operator, it must be inherited by other subclasses."
+            );
+          }
+        }
+      }
+
+      class ColorPoint extends Point {
+        constructor() {
+          super();
+        }
+      }
+
+      const colorPoint = new ColorPoint();
+      const point = new Point();
+      // Uncaught Error: This class cannot be instantiated directly with new operator, it must be inherited by other subclasses.
+    </script>
+  </body>
+</html>

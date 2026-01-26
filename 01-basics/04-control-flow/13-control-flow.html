@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>13-Control Flow</title>
+  </head>
+  <body>
+    <script>
+      // 0 & 6: weekends
+      // 1 - 5: weekdays
+      var dayOfWeek = 10; // 0 - 6
+      //   if (
+      //     dayOfWeek == 1 ||
+      //     dayOfWeek == 2 ||
+      //     dayOfWeek == 3 ||
+      //     dayOfWeek == 4 ||
+      //     dayOfWeek == 5
+      //   ) {
+      //     console.log("Weekdays");
+      //   } else {
+      //     console.log("Weekend");
+      //   }
+
+      /* 
+        Not intuitive 
+        what about 10? It is not working unless you change else to else if.
+      */
+      //   if (dayOfWeek == 0 || dayOfWeek == 6) {
+      //     console.log("Weekend");
+      //   } else {
+      //     console.log("Weekday");
+      //   }
+
+      /* 
+        Switch statement.
+        more intuitive and readable.
+        when dayOfWeek = 10? It doesn't do anything.
+      */
+      switch (dayOfWeek) {
+        /* Category 1 */
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+          console.log("Weekday");
+          break;
+
+        /* Category 2 */
+        case 0:
+        case 6:
+          console.log("Weekend");
+      }
+    </script>
+  </body>
+</html>

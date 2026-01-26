@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Default Parameter</title>
+  </head>
+  <body>
+    <script>
+      let a = 1;
+      // treat parameters as a scope if you use default parameter.
+      // { let a; let b = a } - default parameter forms a scope.
+      // a = 3
+      // b = 3
+      const fn = (a, b = a) => {
+        console.log(b);
+      };
+
+      fn(3);
+
+      let x = 1;
+
+      // { let b = x }
+      // find x from outside
+      const fn2 = (b = x) => {
+        let x = 3; // this x is from inner scope, it cannot access this.
+        console.log(b);
+      };
+
+      fn2();
+      fn2(3);
+
+      // Error: k is not defined here.
+      // {let b = k}
+      const fn3 = (b = k) => {
+        let k = 33;
+        console.log(b);
+      };
+
+      // Since the default value k is not defined, if you didn't pass any value, it is throwing error.
+      //   fn3(); // Uncaught ReferenceError: k is not defined
+      fn3(2); // 2 - working.
+
+      /** Explanation
+       * Demonstrates Temporal Dead Zone (TDZ) behavior in function parameters
+       *
+       * This code showcases three distinct scopes:
+       * 1. Global scope: contains `let p = 5`
+       * 2. Parameter scope: creates new `p` parameter with default value
+       * 3. Function scope: function body where console.log executes
+       *
+       * The parameter `p = p` creates a TDZ error because:
+       * - Parameter `p` is hoisted to parameter scope but enters TDZ
+       * - Default value evaluation requires reading `p` (RHS) during declaration
+       * - The parameter `p` shadows the global `p`, so outer scope isn't accessed
+       * - Reading uninitialized parameter `p` throws ReferenceError
+       *
+       * Key concept: const/let DO hoist, but remain in TDZ from scope start
+       * until declaration line, unlike var which hoists and initializes with undefined.
+       */
+      //   let p = 5;
+
+      //   const fn4 = (p = p) => {
+      //     // you need to see p = p as one unit (declare p with the value of p, not declare p and then intiialize with p)
+      //     // {let p = p }
+      //     // since parameters create its own scope when using default parameter, it will not use outer p.
+      //     // Reading p (RHS) during its own declaration triggers TDZ error
+      //     console.log(p);
+      //   };
+
+      //   fn4();
+
+      // If default parameter is a function
+      //   Example 1:
+      let c = 4;
+      // { let a = 2, let fn = ()=> 6 }
+      // fn scope is determined during definition.
+      // fn in param scope will find variable from its own scope and outer scope.
+      function fn5(a = 2, fn = () => c + a) {
+        let c = 5;
+        console.log(fn());
+      }
+      fn5(); // 6
+
+      // Example 2
+      let m = 1;
+      function f() {
+        m = 5;
+      }
+      // { let a; let b = f }
+      function fn6(a, b = f) { // note: this f is not a copy of f, it is referencing the f in global.
+        // var a;
+        var a = 55; // a = 55;
+        b(); // since f is defined in global scope, it modify the m of the global scope.
+        console.log(a); // 55
+      }
+      fn6(); // 55
+      console.log(m); // 5
+    </script>
+  </body>
+</html>

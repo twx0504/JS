@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Date</title>
+  </head>
+  <body>
+    <script>
+      // method 1: new Date()
+      console.log(new Date()); // Wed Jun 04 2025 10:49:31 GMT+0800 (Malaysia Time)
+      //   console.log(Date()); // Wed Jun 04 2025 10:49:31 GMT+0800 (Malaysia Time)
+
+      // method 2: new Date(intValue) where intVal represents timestamp (ms since midnight of 1st Jan 1970 UTC)
+      console.log(new Date(5000)); // Thu Jan 01 1970 07:30:05 GMT+0730 (Malaysia Time)
+
+      // method 3: new Date(dateString)
+      // note: to get the specific time you need to provide.
+      // yyyy-mm-dd -> it assumes UTC midnight, convert to local time +8 hr
+      console.log(new Date("2025-05-04")); // Sun May 04 2025 08:00:00 GMT+0800 (Malaysia Time)
+
+      // To avoid the time difference, you need to specify the time.
+      console.log(new Date("2025-05-04 00:00:00")); // Sun May 04 2025 00:00:00 GMT+0800 (Malaysia Time)
+
+      // note: you must write in 2025-05-04 kind of format. Avoid padding zeros, the time will be 00:00:00.
+      console.log(new Date("2025-5-4")); // Sun May 04 2025 00:00:00 GMT+0800 (Malaysia Time)
+
+      // local time = UTC + timezone offset
+      // If you use local timezone this is more predicatable.
+      // yyyy/mm/dd -> it assumes local midnight, no conversion needed.
+      console.log(new Date("2025/05/04")); // Sun May 04 2025 00:00:00 GMT+0800 (Malaysia Time)
+      // this is ok.
+      console.log(new Date("2025/5/4")); // Sun May 04 2025 00:00:00 GMT+0800 (Malaysia Time)
+
+      // method 4: new Date(year, monthIndex, [day, hours, minutes, seconds, milliseconds]) note: at least pass year and month
+      // note: month is zero-indexed. 0 - 11
+      // if you only pass year and month,
+      // - day default to 1
+      // - hr, min, sec default to 0
+      console.log(new Date(2025, 4)); // Thu May 01 2025 00:00:00 GMT+0800 (Malaysia Time)
+      // year 0 - 99 maps to 1900 - 1999
+      // other value of year represents the year. e.g., 100 = year 100
+      // hr: 24-hr format （0 - 23）
+      console.log(new Date(0, 3)); // Sun Apr 01 1900 00:00:00 GMT+0655 (Malaysia Time)
+      console.log(new Date(76, 4)); // Sat May 01 1976 00:00:00 GMT+0730 (Malaysia Time)
+      console.log(new Date(100, 3)); // Thu Apr 01 0100 00:00:00 GMT+0655 (Malaysia Time)
+      console.log(new Date(1000, 3)); // Thu Apr 01 1000 00:00:00 GMT+0655 (Malaysia Time)
+      console.log(new Date(1, 4).valueOf()); // -2167109725000 (so negative timestamp is used to represent date before 1970)
+
+      console.log(new Date("invalid")); // Invalid Date
+      console.log(new Date(9e15)); // Invalid Date
+
+      var maxDate = new Date(8640000000000000);
+      console.log(maxDate); // Sat Sep 13 275760 08:00:00 GMT+0800 (Malaysia Time)
+
+      var exceedMaxDate = new Date(8640000000000001);
+      console.log(exceedMaxDate); // Invalid Date
+
+      var minDate = new Date(-864000000000000);
+      console.log(minDate); // Mon Dec 06 -25410 06:55:25 GMT+0655 (Malaysia Time)
+      var lessThanMinDate = new Date(-8640000000000001);
+      console.log(lessThanMinDate); // Invalid Date
+
+      // Importance:
+      var d = new Date(2022, 14); // new Date(2023, 2) - 14 - 12 = 2
+      console.log(d); // Wed Mar 01 2023 00:00:00 GMT+0800 (Malaysia Time)
+
+      var d2 = new Date(2022, 26); // new Date(2024, 2)
+      console.log(d2); // Fri Mar 01 2024 00:00:00 GMT+0800 (Malaysia Time)
+
+      /**
+       * new (2024, 4, 92) 
+       * new (2024, 4 +2 , 92 - 30 - 31)
+       * new (2024, 6 , 31) // WHICH IS also 2024 July 31! 
+       * we do not minus May days because 31 is the max value May can hold so what is the point of subtracting it
+       * 
+       */
+      var d3 = new Date(2022, 4, 92);
+      console.log(d3); // Sun Jul 31 2022 00:00:00 GMT+0800 (Malaysia Time)
+    </script>
+  </body>
+</html>

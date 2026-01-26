@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Math</title>
+  </head>
+  <body>
+    <script>
+      /* 
+        Math is not a constructor.
+
+        calling with new throws an error.
+
+        // How Math looks like?
+        Math = {
+            // these are static methods, not instance methods - the properties / methods belong to the object itself (or class)
+            PI: 3.14....,
+            abs: function(){},
+            min: function(){},
+            max: function(){},
+            etc...
+        }
+
+        */
+
+      var PI = Math.PI;
+      console.log(PI); // 3.141592653589793
+
+      console.log(Math.floor(PI)); // 3
+      console.log(Math.ceil(PI)); // 4
+
+      /* 
+
+        -6 -5 -4 -3 -2 -1 0 1 2 3 4 5
+        
+        if fraction:
+        1. > 0.5 round to the integer with higher absolute value
+        2. === 0.5 round to the direction of +Infinity
+        3. < 0.5 round to the integer with lower absolute value
+
+        e.g., -5.49
+        - fraction part is < 0.5
+        - round to the next lower absolute value
+        - -5
+
+
+        e.g., -5.5
+        - fraction part is exactly 0.6
+        - round to the direction of +Infinity
+        - so it is -5.
+
+
+        e.g., -5.51
+        - fraction part is > 0.5
+        - round to the next higher absolute value
+        - -6
+        
+      */
+      console.log(Math.round(PI)); // 3
+      // positive (this is like how you do rounding in math)
+      console.log(Math.round(5.49)); // 5
+      console.log(Math.round(5.5)); // 6
+      console.log(Math.round(5.51)); // 6
+      // negative (this is a little bit different.)
+      // follow the rule above.
+      console.log(Math.round(-5.49)); // -5
+      console.log(Math.round(-5.5)); // -5
+      console.log(Math.round(-5.51)); // -6
+
+      console.log(Math.pow(2, 10)); // 1024 (2 ** 10)
+      console.log(Math.sqrt(49)); // 7
+
+      // Min & Max
+      console.log(Math.min()); // Infinity = giving you the largest number possible, later compare with other values will always return the smaller one.
+
+      console.log(Math.min(1, 8, 2, 3, 5)); // 1
+      console.log(Math.min(1, 2, 3, 5, 7, undefined)); // NaN
+
+      console.log(Math.max()); // -Infinity = giving you the smallest number possible, later compare with other values will always return the larger one.
+      console.log(Math.max(1, 8, 2, 3, 5)); // 8
+      console.log(Math.max(1, 2, 3, 5, 7, undefined)); // NaN
+
+      // How call, apply are used with Math static method.
+      var nums = [199, 20, 3, 1000, 40, 40];
+      console.log(Math.max.apply(null, nums)); // 1000 - note: Math is not a constructor, we do not need to pass any context, just null is enough.
+
+      // abs
+      console.log(Math.abs(-5.49)); // 5.49
+      console.log(Math.abs(5.49)); // 5.49
+      var zero = -0;
+      console.log(zero); // -0
+      console.log(Math.abs(zero)); // 0
+      console.log(Math.abs(true)); // 1
+      console.log(Math.abs(false)); // 0
+      console.log(Math.abs(undefined)); // NaN - Math.abs will coerce value to number type, if can't, it will result in NaN
+    </script>
+  </body>
+</html>

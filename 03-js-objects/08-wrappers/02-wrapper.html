@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Wrapper</title>
+  </head>
+  <body>
+    <script>
+      var str = "twx"; // primitive, how can it has access to method and property
+      var str2 = str.charAt(2); // 1. new String(str).charAt(2);
+      // 2. call the method
+      // 3. destroy the wrapper object.
+      console.log(str2, typeof str2); // x string
+
+      // note: this doesn't throw error.
+      str.a = "123"; // new String(str).a = "123" => once executed, destroy this object.
+      // but why isn't a printed out?
+      console.log(str.a); // undefined : console.log(new String(str).a). this is not the same object already, when accessing a non existent property, it returns undefined.
+    </script>
+  </body>
+</html>

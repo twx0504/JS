@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>07-Expression: Logical Operators</title>
+  </head>
+  <body>
+    <script>
+      /* #1: NOT ! */
+      console.log(!true); // false
+      /* Implicit Type Conversion by internally invoking Boolean() */
+      console.log(!5 > 2); // false (true > 2 => 0 > 2 which is false)
+
+      console.log(!"I am Wei Xin"); // false
+      /* Falsy Value */
+      console.log(!undefined); // true
+      console.log(!null); // true
+      console.log(!NaN); // true
+      console.log(!""); // true
+
+      /* Double Negation !! */
+      console.log(!!3); // true
+      console.log(!!undefined); // false
+
+      /* #2: AND && */
+      console.log(false && true); // false
+      console.log(true && true); // true
+      console.log(true && false); // false
+
+      console.log(0 && 2); // 0
+      console.log(1 && 2); // 2
+      console.log(2 && 0); // 0
+      console.log("" && 4); // ""
+
+      1 && alert("This is alert.");
+      console.log(1 && alert("This is alert")); // undefined
+      console.log(1 + 2 && 3 + 4); // 7
+      console.log(1 - 1 && 3 + 4); // 0
+
+      /* Check the range of a number */
+      var a = 10;
+      /* 5 < a < 12 */
+      console.log(a > 5 && a < 12); // true
+      /* 5 < a < 8 */
+      console.log(a > 5 && a < 8); // false
+
+      /* Note: any expression will have a return value, use a variable to receive it. */
+      var b;
+      b = a > 5 && a < 12; // true
+      console.log(b); // true
+      b = a > 5 && a + 2; // true && 12
+      console.log(b); // 12
+
+      /* #3: OR || */
+      console.log(1 || 2); // 1
+      console.log(true || false); // true
+      console.log(false || 33); // 33
+
+      console.log(0 || alert("failed")); // undefined
+
+      /* Check the range  */
+      var a = 10;
+      console.log(a > 3 || a < 12); // true
+      console.log(a > 11 || a - 10); // 0
+
+      /* #4: Logical Operator Precedence 
+        - ! > && > ||
+      */
+      console.log((1 && false) || (4 && 5)); // false || 5 => 5
+      console.log((1 && 2) || (4 && 5)); // 2 || 5 => 2
+      console.log((1 && true) || (!"" && 2)); // true || false => true
+    </script>
+  </body>
+</html>

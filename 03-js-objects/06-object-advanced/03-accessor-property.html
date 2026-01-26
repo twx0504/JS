@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Accessor Property</title>
+  </head>
+  <body>
+    <script>
+      var obj = {
+        name: "twx",
+        age: 25,
+        _sex: "female", // private property - we don't want user to directly access it.
+        identity: "lady", // change based on _sex
+      };
+
+      // accessor property
+      Object.defineProperty(obj, "sex", {
+        // get will be invoked when sex is accessed.
+        get: function () {
+          // return the value of this property.
+          return this._sex; // if this.sex then it will cause stack overflow.
+        },
+        // set will be invoked when sex is set.
+        // when sex is changed, identity is also changed.
+        set: function (value) {
+          if (value === "female") {
+            this.identity = "lady";
+          } else if (value === "male") {
+            this.identity = "gentleman";
+          } else {
+            throw new Error("No LGBT");
+          }
+          this._sex = value;
+        },
+      });
+
+      // when reading / setting a value to a property:
+      // 1. we want change a property value when some other property value has changed.
+      // 2. we want to do some additional computation.
+      console.log(obj.sex);
+      console.log(obj.identity);
+      obj.sex = "male";
+      console.log(obj.sex);
+      console.log(obj.identity);
+
+      // note: we can still modify _sex though it is private.
+      // Interceptor / Data Interception
+    </script>
+  </body>
+</html>

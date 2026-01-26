@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-date-formatting</title>
+  </head>
+  <body>
+    <script>
+      var date = new Date();
+      console.log(date);
+      console.log(date.toString()); // Wed Jun 04 2025 12:28:41 GMT+0800 (Malaysia Time)
+      console.log(date.toDateString()); // Wed Jun 04 2025
+      console.log(date.toTimeString()); // 12:32:47 GMT+0800 (Malaysia Time)
+
+
+      // based on region setting in user computer.
+      console.log(date.toLocaleString()); // 6/4/2025, 12:29:23 PM
+      console.log(date.toLocaleDateString()); // 6/4/2025
+      console.log(date.toLocaleTimeString()); // 12:29:50 PM
+
+      // note: this one do not add the time offset.
+      console.log(date.toUTCString()); // Wed, 04 Jun 2025 04:32:16 GMT  note: GMT = GMT+0
+
+    </script>
+  </body>
+</html>

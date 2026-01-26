@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>06-Bitwise XOR</title>
+  </head>
+  <body>
+    <script>
+      // Convert to 32 bits and compare.
+
+      // 5 => 00000000 00000000 00000000 00000101
+      // 3 => 00000000 00000000 00000000 00000011 ^
+      //      -------------------------------------
+      //   => 00000000 00000000 00000000 00000110
+      //   => 6
+      var result = 5 ^ 3;
+      console.log(result); // 6
+
+      /* 1. Identity Property: a ^ 0 = a */
+      var num1 = 5;
+      console.log(num1 ^ 0); // 5
+      var num2 = 6.3;
+      console.log(num2 ^ 0); // 6
+
+      /* 2. Negation Property: a ^ a = 0 */
+      var num1 = 5;
+      console.log(num1 ^ num1 ^ num1 ^ num1 ^ num1 ^ num1); // 0 because of five times XOR (^)
+      console.log(num1 ^ num1 ^ num1 ^ num1 ^ num1 ^ num1 ^ num1); // 5 because of 6 times XOR (^) which is even.
+
+      /* 3. Commutative Property - Exchange integers only! Decimal part is truncating. */
+      var a = 5;
+      var b = 10;
+
+      a ^= b;
+      b ^= a;
+      a ^= b;
+      
+      /* Deduce:
+      
+        1. a ^= b => a = a ^ b;
+        2. b ^= a => b = b ^ a; => b ^ (a ^ b) => (b ^ b) ^ a => 0 ^ a => b = a
+        3. a ^= b => a = a ^ b; => (a ^ b) ^ a => (a ^ a) ^ b = 0 ^ b => a = b
+      */
+      console.log(a, b); // 10 5
+    </script>
+  </body>
+</html>

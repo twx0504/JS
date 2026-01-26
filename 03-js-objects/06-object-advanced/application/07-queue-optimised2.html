@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08-Queue - Optimisation 2</title>
+  </head>
+  <body>
+    <script>
+      // double pointer pattern
+      // _size + 1 = arr.length
+      // enqueue
+      // dequeue
+
+      var Queue = (function () {
+        var _queue = Symbol("_queue");
+        var _front = Symbol("_front");
+        var _rear = Symbol("_rear");
+        var _size = Symbol("_size");
+
+        function Queue(size = 100) {
+          // Dynamic size allocation
+          this[_queue] = new Array(size + 1); // fix the size of queue (it is size + 1)
+          this[_front] = 0;
+          this[_rear] = 0;
+          this[_size] = size; // capacity
+          Object.defineProperty(this, "size", {
+            get() {
+              return this[_size];
+            },
+            set() {
+              // Extension logic write here
+              throw new RangeError("This queue is not extendable.");
+            },
+            enumerable: true,
+          });
+        }
+
+        Queue.prototype.enqueue = function (value) {
+          if (this.isFull()) {
+            throw new RangeError("The queue is full.");
+          }
+          this[_queue][this[_rear]] = value;
+          this[_rear] = (this[_rear] + 1) % this[_queue].length;
+        };
+        Queue.prototype.dequeue = function () {
+          if (this.isEmpty()) {
+            throw new RangeError("The queue is empty.");
+          }
+          this[_queue][this[_front]] = undefined;
+          this[_front] = (this[_front] + 1) % this[_queue].length;
+        };
+        Queue.prototype.peekFront = function () {
+          return this[_queue][this[_front]];
+        };
+        Queue.prototype.view = function () {
+          // this do not consider the order of the item.
+          // if you want to output the value in order, you need to consider the front and rear.
+          return this[_queue].filter(function (value) {
+            return value !== undefined;
+          });
+        };
+        Queue.prototype.clear = function () {
+          this[_queue] = new Array(this.size + 1);
+          this[_front] = 0;
+          this[_rear] = 0;
+        };
+        Queue.prototype.isEmpty = function () {
+          return this[_rear] === this[_front];
+        };
+        Queue.prototype.isFull = function () {
+          return (this[_rear] + 1) % this[_queue].length === this[_front];
+        };
+
+        return Queue;
+      })();
+
+      // var queue = new Queue(5);
+      var queue = new Queue();
+      console.log(queue.isEmpty());
+      for (var i = 0; i < 50; i++) {
+        queue.enqueue(i);
+      }
+      console.log(queue);
+      console.log(queue.isFull());
+      for (var i = 0; i < 2; i++) {
+        queue.dequeue();
+      }
+      console.log(queue);
+      queue.enqueue(2);
+      queue.enqueue(3);
+      console.log(queue);
+      queue.dequeue();
+      queue.dequeue();
+      queue.dequeue();
+      console.log(queue);
+      queue.enqueue(2);
+      queue.enqueue(3);
+      queue.enqueue(4);
+      console.log(queue);
+      for (var key in queue) {
+        if (queue.hasOwnProperty(key)) {
+          console.log(key);
+        }
+      }
+      // queue.clear();
+      // console.log(queue);
+    </script>
+  </body>
+</html>

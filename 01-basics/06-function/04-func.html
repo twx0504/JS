@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Function: Parameters</title>
+  </head>
+  <body>
+    <script>
+      function sum(a, b) {
+        console.log(a + b);
+      }
+
+      // When arguments = parameters
+      console.log(sum(3, 2)); // 5
+
+      // When arguments > parameters
+
+      console.log(sum(3, 2, 4, 5, 6)); // 5
+
+      // When arguments < parameters
+      console.log(sum(3)); // NaN
+    </script>
+  </body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Type: Number Data Type</title>
+  </head>
+  <body>
+    <script>
+      var a = 100;
+      var b = 219;
+      var c = 2.131314;
+      var d = 0.2;
+      // We can ignore 0 before decimal point.
+      // var e = .1425323;
+
+      console.log(typeof a);
+      console.log(typeof b);
+      console.log(typeof c);
+      console.log(typeof d);
+      //   console.log(typeof e);
+
+      /* Binary */
+      console.log("===Binary===");
+      var binary1 = 0b100;
+      console.log(binary1); // 4
+
+      var binary2 = 0b101;
+      console.log(binary2); // 5
+
+      //   var binary3 = 0b21; // Uncaught SyntaxError: Invalid or unexpected token
+
+      /* Octal */
+      console.log("===Octal===");
+      // Octal literals are not allowed. Use the syntax '0o7'.
+      // Reason: if you accidentally write a digit that is more than 7, JS will treat it as decimal (base 10) without throwing any errors.
+      /* use Oo prefix instead. */
+      // var octal = 07;
+      var octal1 = 0o7;
+      console.log(octal1); // 7
+      var octal2 = 0o10;
+      console.log(octal2); // 8
+
+      /* Hexadecimal */
+      console.log("===Hexadecimal===");
+      var hexa1 = 0xa;
+      console.log(hexa1); // 10
+      var hexa2 = 0x1f;
+      console.log(hexa2); // 31
+
+      /* Scientific Notation */
+      console.log("===Scientific Notation===");
+      var sciNotation1 = 1e3;
+      console.log(sciNotation1); // 1000
+      var sciNotation2 = 1.3432423e8;
+      console.log(sciNotation2); // 134324230
+      var sciNotation3 = 4444444443e-10;
+      console.log(sciNotation3); // 0.4444444443
+
+      /* MIN & MAX VALUE */
+      console.log("===MIN_VALUE & MAX_VALUE===");
+      console.log(Number.MIN_VALUE); // 5e-324
+      console.log(Number.MAX_VALUE); // 1.7976931348623157e+308
+
+      /* INFINITY & -INFINITY */
+      console.log(1 / 0); // Infinity
+      console.log(-1 / 0); // -Infinity
+      console.log(Math.log(0)); // -Infinity
+      console.log(Number.MAX_VALUE * 2); // Infinity
+      console.log(-Number.MAX_VALUE * 2); // -Infinity
+
+      /* NaN */
+      console.log("===NaN===");
+      console.log(typeof NaN); // 'number'
+      console.log("b" * 7); // NaN
+      console.log(7 * "a"); // NaN
+      console.log({} * 1); // NaN
+      console.log(0 / 0); // NaN
+      console.log(-2 / 0);
+      console.log(1 + undefined); // NaN
+      console.log(Math.sqrt(-1)); // NaN
+      console.log(new Date("blabla").getTime()); // NaN
+      console.log(parseInt("Hello")); // NaN
+      console.log("Hello" / 2); // NaN
+      console.log(0 / NaN); // NaN
+      console.log("a" - "b"); // NaN
+      console.log("a" + "b"); // 'ab' - string concatenation is an exception.
+      console.log(NaN + "1"); // NaN1 - string concatenation is an exception.
+      console.log(NaN == NaN); // false
+
+      console.log("===isNaN===");
+      console.log(isNaN(1)); // false
+      console.log(isNaN("1")); // false
+      console.log(isNaN("a")); // true
+      console.log(isNaN("NaN")); // true
+      console.log("===Number.isNaN: do not convert parameter to a number ===");
+      console.log("===So, non-numbers always false. ===");
+      console.log(Number.isNaN(1)); // false
+      console.log(Number.isNaN("1")); // false
+      console.log(Number.isNaN("a")); // true
+      console.log(Number.isNaN("NaN")); // true
+      console.log(Number.isNaN(NaN)); // true
+    </script>
+  </body>
+</html>

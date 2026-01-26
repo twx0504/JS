@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>09-Proxy - Has: Hiding Private Property</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        a: 1,
+        b: 2,
+        _num: 10, // private property
+      };
+
+      const proxy = new Proxy(obj, {
+        has(target, key) {
+          if (key[0] === "_") {
+            // filter the private property
+            return false; // this means "_num" in proxy returns false - it exists in obj but we pretends it is not.
+          }
+          return key in target;
+        },
+      });
+
+      console.log("_num" in proxy); // false
+      console.log("c" in proxy); // false
+      console.log("a" in proxy); // true
+      console.log("toString" in proxy); // true - this is the property from the prototype chain.
+    </script>
+  </body>
+</html>

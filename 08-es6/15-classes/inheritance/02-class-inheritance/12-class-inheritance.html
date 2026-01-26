@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>12-Class Inheritance - new.target</title>
+  </head>
+  <body>
+    <script>
+      function Fn() {
+        console.log(new.target);
+        console.log(new.target === Fn);
+      }
+
+      // #1: call with new - new.target returns the constructor
+      new Fn();
+      //   ƒ Fn() {
+      //     console.log(new.target);
+      //     console.log(new.target === Fn);
+      //   }
+      // true
+
+      // #2: call without new - new.target returns undefined.
+      Fn();
+      // undefined
+      // false
+
+      // #3: We can use new.target to check if this constructor calling with new keyword.
+      function A() {
+        if (new.target !== A) {
+          throw new Error("This constructor must be called with new keyword.");
+        }
+      }
+
+      //   new A();
+      // nothing happens it works fine.
+      //   A();
+      // Uncaught Error: This constructor must be called with new keyword.
+
+      // #4: new.target in class
+      // class must be called with new.
+      // new.target refers to the current class.
+
+      class X {
+        constructor() {
+          console.log(new.target);
+          console.log(new.target === X);
+        }
+      }
+
+      new X();
+      //   class X {
+      //     constructor() {
+      //       console.log(new.target);
+      //     }
+      //   }
+      // true
+
+      class Y extends X {
+        constructor() {
+          console.log(new.target);
+          console.log(new.target === Y);
+          super(); // parent new.target but it is referred to this child class.
+        }
+      }
+      new Y();
+      //   class Y extends X{
+      //     constructor(){
+      //         super();
+      //     }
+      //   }
+      // true
+      // 
+      //   class Y extends X{
+      //     constructor(){
+      //         super();
+      //     }
+      //   }
+      // false
+    </script>
+  </body>
+</html>

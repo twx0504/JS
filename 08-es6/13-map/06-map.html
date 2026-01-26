@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>06-Map - Instance Property & Methods</title>
+  </head>
+  <body>
+    <script>
+      const map1 = new Map([
+        ["a", 1],
+        ["b", 2],
+        ["c", 3],
+      ]);
+
+      // Instance Property
+      // size: how many items are stored inside a map?
+      console.log(map1.size); // 3
+
+      // Instance Methods
+      const map2 = new Map();
+      // 1. set(key, val)
+      map2.set("a", 1);
+      map2.set("b", 2).set("c", 3); // Support Method Chaining
+      map2.set("c", 1000); // Duplicated key, the latter will replace the previous one.
+      console.log(map2); // Map(3) {'a' => 1, 'b' => 2, 'c' => 3}
+
+      // 2. get(key) - get the value based on given key.
+
+      console.log(map2.get("c")); // 1000
+      console.log(map2.get("x")); // undefined - when the key is not present, it returns undefined.
+
+      // 3. has(key) - check for the key existence.
+      console.log(map2.has("b")); // true - indicating "b" key is present in the map.
+
+      // 4. delete(key) - remove the specific key-value pair based on the given key.
+      console.log(map2); // Map(3) {'a' => 1, 'b' => 2, 'c' => 1000}
+      console.log(map2.delete("c")); // true - indicates the "c" key has been deleted.
+      console.log(map2.delete("c")); // false - indicates the "c" key is not present.
+      console.log(map2); // Map(2) {'a' => 1, 'b' => 2}
+
+      // delete behaviour is similar to delete of Set
+      //   const set = new Set([1, 2, 3]);
+      //   console.log(set.delete(2)); // true
+
+      // 5. clear() - remove all key value pairs in the map.
+      map2.clear();
+      console.log(map2); // Map(0) {size: 0}
+    </script>
+  </body>
+</html>

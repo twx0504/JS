@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>07-Tagged Template</title>
+  </head>
+  <body>
+    <script>
+      // tagged template
+
+      //   function tag(str) {
+      //     console.log(str);
+      //   }
+
+      //   tag`I am a man`; // process template string
+
+      // without ${...}
+      // if template string doesn't have ${...}, the template string becomes the param of the tag fn.
+      // it is an array. access it at index 0.
+
+      //   function tag(str) {
+      //     console.log(str);
+      //     console.log(Array.isArray(str)); // true
+      //     console.log(str[0]);
+      //     // console.log(arguments);
+      //   }
+
+      //   tag`I am a man`;
+
+      // with ${...}
+      // first param: strings splitted based on ${...}
+      // the rest of the params are value of ${...}
+      // if you concatenate first param with the rest of param, you will get original string.
+      function tag(str, username, city) {
+        console.log(str, username, city);
+
+        return str[0] + username + str[1] + city + str[2];
+      }
+
+      const obj = {
+        username: "weixin",
+        city: "Muar",
+      };
+      console.log(tag`Hello ${obj.username}, welcome back to ${obj.city}.`); // split into ['Hello ', ', welcome home']
+      // ['Hello ', ', welcome home', raw: Array(2)] 'weixintoo' 'Muar'
+
+      function getString(str) {
+        console.log(str, arguments);
+        let res = "";
+        let i = 0;
+        while (i < str.length) {
+          res += str[i++];
+          if (i < arguments.length) {
+            res += arguments[i];
+          }
+
+          // mine: more verbose.
+          //   var j = i + 1;
+          //   if (j === arguments.length) {
+          //     res += str[i];
+          //   } else {
+          //     res += str[i] + arguments[j];
+          //   }
+        }
+        console.log(res);
+      }
+
+      getString`Hello ${obj.username}, welcome back to ${obj.city}.`;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo</title>
+  </head>
+  <body>
+    Demo
+    <script>
+      // 1. get the query string and remove beginning ?
+      var search = location.search.slice(1);
+
+      console.log(getURLParams(search));
+
+      function getURLParams(search) {
+        if (search.length === 0) return {};
+        var tokenList = search.split("&");
+        var res = {};
+        tokenList.forEach(function (token) {
+          var keyValue = token.split("=");
+          res[keyValue[0]] = convert(decodeURIComponent(keyValue[1]));
+        });
+        return res;
+      }
+
+      // search / query string
+      // each key is mapped to a value, generally a primitive type.
+      // number, string, boolean, date, cases when the value is not passed (empty string, null)
+      function convert(value) {
+        // preprocessing - remove leading and trailing white spaces, convert to lowercase.
+        value = value.trim().toLowerCase();
+
+        // absence of value
+        if (value === undefined || value === null || value === "") {
+          return null;
+        }
+
+        // false
+        if (value === "false") {
+          return false;
+        }
+
+        // true
+        if (value === "true") {
+          return true;
+        }
+
+        // valid number
+        if (isFinite(value)) {
+          return parseFloat(value);
+        }
+
+        // date
+        if (isFinite(Date.parse(value))) {
+          return new Date(value);
+        }
+
+        // string
+        return value;
+      }
+    </script>
+  </body>
+</html>

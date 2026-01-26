@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Load JS</title>
+  </head>
+  <body>
+    <script>
+      function loadScript(src, onLoad) {
+        var script = document.createElement("script");
+        script.addEventListener("load", function () {
+          alert("Script loaded");
+          onLoad instanceof Function && onLoad();
+        });
+        script.addEventListener("error", function () {
+          alert("Script not loaded");
+        });
+        script.src = src; // send request after the script is inserted intot the document
+        // insert script into the document
+        document.body.appendChild(script);
+      }
+
+      loadScript("../../common/utils.js", function () {
+        document.body.style.backgroundColor = "lightblue";
+        console.log(utils.getBrowserName());
+        console.log(utils.getDevice());
+      });
+    </script>
+    <script></script>
+  </body>
+</html>

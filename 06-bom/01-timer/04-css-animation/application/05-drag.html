@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-Drag</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .container {
+        margin: 100px;
+        position: relative;
+        width: 800px;
+        height: 600px;
+        border: 10px solid khaki;
+        background-color: skyblue;
+      }
+
+      .drag {
+        position: absolute;
+        top: 100px;
+        left: 100px;
+        width: 200px;
+        height: 200px;
+        background-color: tomato;
+      }
+
+      .drag .title {
+        /* position: absolute; */
+        width: 100%;
+        height: 50px;
+        background-color: khaki;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- <div class="drag">Lorem ipsum</div> -->
+      <div class="drag">
+        <div class="title">Login</div>
+      </div>
+    </div>
+    <script src="./drag.js"></script>
+    <script>
+      var container = document.querySelector(".container");
+      var dragTarget = document.querySelector(".drag");
+      dragTarget.addEventListener("mousedown", handleMousedown);
+
+      function handleMousedown(e) {
+        // stop default behaviours e.g., text / img that causes our drag function to not work.
+        e.preventDefault();
+
+        // compatibility: older IE browser uses window.event.
+        var e = e || window.event;
+        // dragFn(e, dragTarget);
+        drag(e, dragTarget);
+      }
+
+      function drag(e, el) {
+        // distance between pointer and the viewport edges.
+        var _clientX = e.clientX;
+        var _clientY = e.clientY;
+
+        // distance between elem and the container edges.
+        var _offsetLeft = el.offsetLeft;
+        var _offsetTop = el.offsetTop;
+
+        // dragTarget size
+        var dragWidth = el.offsetWidth;
+        var dragHeight = el.offsetHeight;
+
+        // parent container size
+        var parentWidth = el.offsetParent.clientWidth;
+        var parentHeight = el.offsetParent.clientHeight;
+
+        // calculate boundary size
+        var maxLeft = parentWidth - dragWidth;
+        var maxTop = parentHeight - dragHeight;
+
+        // event is attached to document, ensure the dragging works even the pointer is out of the container.
+        document.addEventListener("mousemove", handleMouseMove);
+
+        function handleMouseMove(e) {
+          // distance between pointer and the viewport edges after moving.
+          var _movedClientX = e.clientX;
+          var _movedClientY = e.clientY;
+
+          // distance of the pointer movement
+          var _x = _movedClientX - _clientX;
+          var _y = _movedClientY - _clientY;
+
+          // check boundary
+          var newLeft = _x + _offsetLeft;
+          var newTop = _y + _offsetTop;
+
+          if (newLeft < 0) {
+            newLeft = 0;
+          } else if (newLeft > maxLeft) {
+            newLeft = maxLeft;
+          }
+
+          if (newTop < 0) {
+            newTop = 0;
+          } else if (newTop > maxTop) {
+            newTop = maxTop;
+          }
+          el.style.left = newLeft + "px";
+          el.style.top = newTop + "px";
+        }
+        document.addEventListener("mouseup", handleMouseUp);
+
+        function handleMouseUp(e) {
+          document.removeEventListener("mousemove", handleMouseMove);
+          document.removeEventListener("mouseup", handleMouseUp);
+        }
+      }
+    </script>
+  </body>
+</html>

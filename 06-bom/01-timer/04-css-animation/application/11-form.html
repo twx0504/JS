@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>11-Form</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        background-color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      input {
+        outline: none; /* remove the selected input outline */
+      }
+
+      button,
+      input {
+        padding: 0; /* clear the padding of button and input element */
+      }
+
+      .login {
+        width: 300px;
+        background-color: #fff;
+        padding: 40px;
+      }
+
+      .login .login-row {
+        position: relative;
+        margin: 20px 0px;
+      }
+
+      .login .login-row input,
+      .login .login-row button {
+        box-sizing: content-box;
+        width: 100%;
+        border: none;
+        background-color: #f1efef;
+        height: 60px;
+      }
+
+      .login .login-row input {
+        padding-left: 10px;
+      }
+
+      /* Add via JS */
+      .login .login-row input.focus-ring {
+        outline: 1px solid tomato;
+      }
+
+      .login .login-row input.focus-bg {
+        background-color: #f7f1f2;
+      }
+
+      label.label-tip {
+        position: absolute;
+        left: 20px;
+        top: 0px;
+        /* make the label height same as input */
+        line-height: 60px;
+        color: rgba(0, 0, 0, 0.4);
+        font-size: 18px;
+        transition: all 0.2s ease-out;
+        cursor: text;
+      }
+
+      /* Dynamically add the diminishing effect */
+      label.label-tip-min {
+        font-size: 12px;
+        line-height: 24px;
+      }
+
+      /* error prompt */
+      .label-error {
+        margin-top: 5px;
+        font-size: 14px;
+        color: tomato;
+      }
+
+      .hide {
+        visibility: hidden;
+      }
+
+      .password-icon {
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        top: 15px;
+        right: 10px;
+        background-color: red;
+        background: url("./assets/eye-close.png") no-repeat;
+        background-position: center;
+        background-size: cover;
+        cursor: pointer;
+      }
+
+      .open {
+        background-image: url("./assets/eye-open.png");
+      }
+
+      .login .login-row button {
+        background-color: tomato;
+        font-size: 30px;
+        color: #fff;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login">
+      <div class="login-row">
+        <input type="text" id="username" name="username" class="username" />
+        <!-- ensure when clicking on the text, the input get focused -->
+        <!-- label here is used in place of placeholder - for transition purpose. -->
+        <label for="username" class="label-tip">email / phone number</label>
+        <div class="label-error hide">Please enter your username.</div>
+      </div>
+      <div class="login-row">
+        <input type="password" id="password" name="password" class="password" />
+        <label for="password" class="label-tip">password</label>
+        <div class="label-error hide">Please enter your password.</div>
+        <div class="password-icon"></div>
+      </div>
+      <div class="login-row">
+        <button type="submit" name="login" class="login-btn" id="login-btn">
+          Login
+        </button>
+      </div>
+    </div>
+    <script>
+      var inputs = document.querySelectorAll("input");
+      var password = document.querySelector(".password");
+      var showPasswordBtn = document.querySelector(".password-icon");
+      var lock = true;
+
+      for (var i = 0; i < inputs.length; i++) {
+        inputs[i].addEventListener("focus", focusFn);
+        inputs[i].addEventListener("blur", blurFn);
+      }
+
+      function focusFn(e) {
+        // Note: focus event only happens once.
+        // But the value we type in the input field, it is updated in real time in DOM.
+        // using requestAnimationFrame, we can get the real time update to the value of the input field.
+        window.requestAnimationFrame(fn);
+        var that = this; // store the this.
+        // 1. reduce text size
+        that.nextElementSibling.classList.add("label-tip-min");
+        // 2. add outline
+        that.classList.add("focus-ring");
+
+        lock = false; // unlock the moment when the element gets focused.
+        function fn(e) {
+          // this fn remains the closure and the reference of this from the outer scope.
+          var value = that.value.trim();
+          if (value) {
+            // if there's input data
+            // 1. remove error message
+            that.nextElementSibling.nextElementSibling.classList.add("hide");
+            // 2. remove pink background
+            that.classList.remove("focus-bg");
+            that.classList.remove("focus-ring"); // note: we remove the focus-ring here when the input field has value.
+          } else {
+            // 3. show error message
+            that.nextElementSibling.nextElementSibling.classList.remove("hide");
+          }
+          if (!lock) {
+            window.requestAnimationFrame(fn);
+          }
+        }
+      }
+
+      function blurFn(e) {
+        lock = true; // lock the timer
+        var value = this.value.trim();
+
+        // Note:
+        // So far, when there is value, the focus-ring has already been removed in the focus event handler.
+        // So, there's no need to move the this.classList.remove("focus-ring") outside !value conditional.
+        // this.classList.remove("focus-ring");
+        if (!value) {
+          // when there's no value when blurring out.
+          // 1. recover text
+          this.nextElementSibling.classList.remove("label-tip-min");
+          // 2. remove outline
+          this.classList.remove("focus-ring");
+          this.classList.add("focus-bg");
+          // 3. hide error message
+          this.nextElementSibling.nextElementSibling.classList.add("hide");
+        }
+      }
+
+      showPasswordBtn.addEventListener("click", function (e) {
+        var isOpened = this.classList.toggle("open");
+        if (isOpened) {
+          // when the show password button is opened, we temporarily change the password input field type to text
+          // so we can see the text.
+          password.type = "text";
+        } else {
+          // we change back to password type.
+          password.type = "password";
+        }
+      });
+    </script>
+  </body>
+</html>

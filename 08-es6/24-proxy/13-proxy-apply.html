@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      13-Proxy - Apply: Modifying the Return Value of a Function Call
+    </title>
+  </head>
+  <body>
+    <script>
+      /**
+       * Generate a list of random number with a specific length.
+       * min: specifies the min value of the range.
+       * max: specifies the max - 1 value of the range. max is not included.
+       */
+      function generateListOfRandomNumber(len, min, max) {
+        const arr = Array.from({ length: len }, () => {
+          return Math.floor(Math.random() * (max - min)) + min;
+        });
+        return arr;
+      }
+
+
+      // We want the return value of the target function to be sorted alphabetically.
+      // But we don't want to / cannot touch other people's code maybe it is a library code.
+      // We use proxy to help us achieve what we want without modifying other people function.
+      const proxy = new Proxy(generateListOfRandomNumber, {
+        apply(target, thisArgs, argumentList) {
+          const res = target.apply(thisArgs, argumentList);
+          console.log("Before sorting: ", res);
+          return res.sort((a, b) => a - b);
+        },
+      });
+
+      console.log("After sorting: ", proxy(10, 1, 100));
+    </script>
+  </body>
+</html>

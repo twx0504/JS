@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Application - drag and sort 2</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body,
+      ul,
+      li {
+        margin: 0;
+      }
+
+      ul {
+        padding: 0;
+        list-style: none;
+      }
+      .drag-wrapper {
+        width: 300px;
+        padding: 15px 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin: 0px auto;
+      }
+
+      .drag-wrapper .drag-item {
+        height: 50px;
+        background-color: skyblue;
+        border-radius: 5px;
+        margin: 10px 0;
+        font-size: 30px;
+        line-height: 50px;
+        text-align: center;
+        cursor: move;
+      }
+
+      .drag-item.js-drag {
+        background-color: transparent;
+        border: 1px solid #ddd;
+        color: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="drag-wrapper">
+      <li draggable="true" class="drag-item">1</li>
+      <li draggable="true" class="drag-item">2</li>
+      <li draggable="true" class="drag-item">3</li>
+      <li draggable="true" class="drag-item">4</li>
+      <li draggable="true" class="drag-item">5</li>
+    </ul>
+    <script>
+      var dragWrapper = document.querySelector(".drag-wrapper");
+      var draggedTarget = null;
+      dragWrapper.addEventListener("dragstart", function (e) {
+        var target = e.target;
+        draggedTarget = target;
+        // dragImage will use the snapshot of the initial target.
+        setTimeout(function () {
+          // delay setting style to ensure the snapshot is working.
+          // once the dragImage is internally set, we add style to the dragged target.
+          target.classList.add("js-drag");
+        }, 10);
+      });
+      
+      dragWrapper.addEventListener("dragenter", function (e) {
+        e.preventDefault();
+        var target = e.target;
+        if (target === draggedTarget || target === dragWrapper) return;
+        var children = Array.prototype.slice.call(this.children);
+        // get index
+        var draggedIndex = children.indexOf(draggedTarget);
+        var targetIndex = children.indexOf(target);
+        if (draggedIndex > targetIndex) {
+          // to top
+          console.log(draggedIndex, targetIndex);
+          this.insertBefore(draggedTarget, target);
+        } else {
+          // to bottom
+          this.insertBefore(draggedTarget, target.nextElementSibling);
+        }
+      });
+
+      document.addEventListener("dragover", function (e) {
+        e.preventDefault();
+      });
+
+      dragWrapper.addEventListener("dragend", function (e) {
+        var target = e.target;
+        target.classList.remove("js-drag");
+      });
+    </script>
+  </body>
+</html>

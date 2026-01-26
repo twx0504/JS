@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Reflect - Caveats</title>
+  </head>
+  <body>
+    <script>
+      // Passing `receiver` ensures that `this` inside getters/setters points to the proxy.
+      // This makes all interactions that use `this`—property access, assignment, method calls, deletion, etc.—
+      // go through the proxy, keeping them fully interceptable.
+      const obj = {
+        a: 1,
+        b: 2,
+        _foo: "foo",
+        get foo() {
+          console.log(this); // "this" is a proxy if we pass receiver
+          console.log(this.a);
+          console.log(this.b);
+          return this._foo;
+        },
+        set foo(val) {
+          console.log(this); // "this" is a proxy if we pass receiver
+          console.log(this.a);
+          console.log(this.b);
+          this._foo = val;
+        },
+      };
+
+      const proxy = new Proxy(obj, {
+        get(target, prop, receiver) {
+          //   console.log(target);
+          //   console.log(prop);
+          //   console.log(receiver);
+          // console.log("get invoked.")
+          // receiver is used to change "this" inside getter / setter to proxy instance.
+          // If receiver is not provided, it is default to target itself.
+          // return Reflect.get(target, prop); // "this" = target
+          return Reflect.get(target, prop, receiver); // "this" = proxy
+        },
+        set(target, prop, val, receiver) {
+          return Reflect.set(target, prop, val, receiver); // "this" = proxy
+        },
+      });
+
+      console.log(proxy.foo);
+      // Proxy(Object) {a: 1, b: 2, _foo: 'foo'}
+      // 1
+      // 2
+      // foo
+
+      console.log((proxy.foo = "bar"));
+      // Proxy(Object) {a: 1, b: 2, _foo: 'foo'}
+      // 1
+      // 2
+      // bar
+    </script>
+  </body>
+</html>

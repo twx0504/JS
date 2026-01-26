@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-mousedown, mouseup, mousemove</title>
+    <style>
+      .box {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+    <script>
+      var box = document.querySelector(".box");
+      box.addEventListener("mousedown", function () {
+        console.log("mousedown");
+      });
+      box.addEventListener("mouseup", function () {
+        console.log("mouseup");
+      });
+
+      /* Notice that the mousemove event triggers frequently!
+        - we might use debounce to limit it.
+      */
+      box.addEventListener("mousemove", function () {
+        console.log("mousemove");
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Rest Parameter - Destructuring</title>
+  </head>
+  <body>
+    <script>
+      // Rest Element
+
+      // 1. Array Destructuring
+      // rest elements are stored as an array.
+      // Binding Pattern
+      let [a, b, ...c] = [1, 2, 3, 4, 5, 6];
+      console.log(a); // 1
+      console.log(b); // 2
+      console.log(c); // [3, 4, 5, 6]
+
+      //   let [x, y, ...z, p] = [1, 2, 3, 4, 5, 6]; // Uncaught SyntaxError: Rest element must be last element
+
+      //   Assignment Pattern
+      let x, y, z;
+      [x, y, ...z] = [1, 2, 3, 4, 5, 6, 7];
+      console.log(x); // 1
+      console.log(y); // 2
+      console.log(z); // [3, 4, 5, 6, 7]
+
+      // 2. Object Destructuring
+      // rest elements are stored as an object.
+      // Note: it will not copy the property on the prototype chain.
+      // Binding Pattern
+      const { p, q, ...r } = { p: 1, q: 2, r: 3, s: 10 };
+      //   const { p, q, ...r,s } = { p: 1, q: 2, r: 3, s: 10 }; // Uncaught SyntaxError: Rest element must be last element
+      console.log(p, q, r); // 1 2 {r: 3, s: 10}
+
+      // Assignment Pattern
+      ({ k, l, ...m } = { k: 1, l: 2, m: 3, n: 4 });
+      console.log(k, l, m); // 1  2 {m: 3, n: 4}
+
+      // Exercise
+      function fn([a, ...args1], ...args2) {
+        // {
+        //   let [a, ...args1] = [1, 2, 3, 4, 5];
+        //   let args2 = ["A", "B"]
+        // }
+        console.log(args1); // rest element
+        console.log(args2); // rest parameter
+      }
+      
+      fn([1, 2, 3, 4, 5], "A", "B");
+      // [2, 3, 4, 5]
+      // ['A', 'B']
+    </script>
+  </body>
+</html>

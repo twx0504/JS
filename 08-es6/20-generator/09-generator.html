@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>09-Generator</title>
+  </head>
+  <body>
+    <script>
+      // #1: Generator Function as Object Method
+
+      //   const obj = {
+      //     gen: function* () {},
+      //   };
+      // OR
+      //   const obj = {
+      //     *gen() {},
+      //   };
+
+      // #2: Generator cannot be used as constructor (called with new).
+      // - but the returned iterator is the instance of the generator function.
+
+      //   function* gen() {}
+      //   new gen(); // Uncaught TypeError: gen is not a constructor
+
+      // #3: this in generator function / method.
+      // - similar to normal function.
+
+      function* gen() {
+        console.log(this); // window
+      }
+
+      // prototype of generator function.
+      gen.prototype.a = 2;
+
+      const it = gen();
+
+      // Check if the iterator is the instance of generator function.
+      console.log(it instanceof gen); // true
+
+      // Access property from prototype.
+      console.log(it.a); // 2
+
+      //   console.log(it.__proto__ === gen.prototype); // true
+
+      it.next();
+
+      const obj = {
+        *gen() {
+          console.log(this); // {gen: ƒ}
+        },
+      };
+      const it2 = obj.gen();
+      it2.next();
+
+      // Note: This trick is not useful in real code — just a curiosity about generators and `this`.
+      function* Gen(a, b) {
+        this.a = a;
+        this.b = b;
+        yield 1;
+        yield 2;
+      }
+      //   const gen2 = new Gen(1, 2); // Uncaught TypeError: Gen is not a constructor
+
+      // Here we call Gen with `this = Gen.prototype`.
+      // → So inside Gen, `this.a` and `this.b` set properties on Gen.prototype.
+      // The generator object (`it3`) inherits from Gen.prototype,
+      // so it can access `a` and `b` through the prototype chain.
+      const it3 = Gen.call(Gen.prototype, 1, 2);
+      console.log(it3.next()); // {value: 1, done: false}
+      console.log(it3.next()); // {value: 2, done: false}
+      console.log(it3.next()); // {value: undefined, done: true}
+      // Accessing `a` and `b` works because they live on Gen.prototype,
+      // which `it3` uses as its prototype.
+      // Note: these props can only be accessed after it3.next() is called.
+      console.log(it3.a); // 1
+      console.log(it3.b); // 2
+    </script>
+  </body>
+</html>

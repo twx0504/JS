@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Redirection-demo</title>
+  </head>
+  <body>
+    <div id="js-container"></div>
+    <script src="../../../common/utils.js"></script>
+    <script>
+      var container = document.getElementById("js-container");
+      // based on targetId of the queryString, and render the corresponding data.
+      var data = [
+        {
+          targetId: 93,
+          title: "Test1",
+          mainImage: "./assets/min1.jpg",
+          price: 8680,
+        },
+        {
+          targetId: 91,
+          title: "Test2",
+          mainImage: "./assets/min2.jpg",
+          price: 0,
+        },
+        {
+          targetId: 77,
+          title: "Test3 ",
+          mainImage: "./assets/min3.jpg",
+          price: 2680,
+        },
+      ];
+
+      // get query string id.
+      var search = window.location.search;
+      var params = utils.getURLParams(search);
+
+      // alternative: use forEach
+      var item = data.find(function (item) {
+        return item.targetId === params.targetId;
+      });
+
+      var img = document.createElement("img");
+      img.src = item.mainImage;
+      var h3 = document.createElement("h3");
+      h3.textContent = item.title;
+      var p = document.createElement("p");
+      p.textContent = item.price > 0 ? item.price : "FREE";
+      container.append(img, h3, p);
+    </script>
+  </body>
+</html>

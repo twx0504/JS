@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lazy Loading</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+
+      /* Reset */
+      body,
+      ul,
+      li {
+        margin: 0;
+      }
+
+      ul {
+        /* width: 968px; */
+        width: 726px;
+        margin: 0 auto;
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        width: 200px;
+        height: 200px;
+        padding: 10px;
+        margin: 10px;
+        border: 1px solid #ddd;
+        float: left;
+      }
+
+      li img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .clearfix::after {
+        content: "";
+        display: block;
+        clear: both;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="js-container" class="clearfix">
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/01.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/02.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/03.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/04.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/05.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/06.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/07.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/08.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/09.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/10.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/11.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/12.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/13.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/14.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/15.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/16.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/17.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/18.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/19.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/20.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/21.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/22.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/23.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/24.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/25.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/26.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/27.png"
+          class="lazy"
+        />
+      </li>
+      <li>
+        <img
+          src="./assets/loading-svg/loading-spinning-bubbles.svg"
+          alt=""
+          data-src="./assets/images/28.png"
+          class="lazy"
+        />
+      </li>
+      <!-- <p class="lazy"></p> -->
+    </ul>
+    <script src="../../../common/dom-utils.js"></script>
+    <script src="./lazyload.js"></script>
+    <script>
+      // Container width is set based on the viewport size
+      updateContainerWidth();
+
+      function updateContainerWidth() {
+        var container = document.getElementById("js-container");
+        var viewportSize = domUtils.getViewportSize();
+        var viewportWidth = viewportSize.w;
+        var maxItemPerRow = Math.floor(viewportWidth / 242);
+        container.style.width = maxItemPerRow * 242 + "px";
+      }
+
+      window.addEventListener("resize", throttle(updateContainerWidth, 290)); // delay must be less than lazy. Usually we set it to less than 100ms (e.g., 90ms)
+
+      lazyLoad();
+      function throttle(callback, delay) {
+        var timer = null;
+        return function () {
+          if (timer) {
+            return; // if timer is already set, do nothing
+          }
+          var args = arguments;
+          var that = this;
+          timer = setTimeout(function () {
+            callback.apply(that, args);
+            timer = null; // reset the timer
+          }, delay);
+        };
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>15-Control Flow: Nested Switch Statement</title>
+  </head>
+  <body>
+    <script src="../../common.js"></script>
+    <script>
+      //   switch () {
+      //     case val1:
+      //       // code
+      //       break;
+      //     case val2:
+      //       // code
+      //       switch () {
+      //         case val1:
+      //           // code
+      //           break;
+      //         //
+      //       }
+      //       break;
+      //     // ...
+      //   }
+
+      // Determine the number of days based on year and month.
+      // 1 3 5 7 8 10 12 -> 31 days
+      // 4 6 9 11 -> 30 days
+      // 2 -> 29 days (leap) or 28 days
+
+      var year = Number(prompt("Enter the year: "));
+      var month = Number(prompt("Enter the month: "));
+
+      var day; // store the current month's days
+
+      switch (month) {
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+        case 8:
+        case 10:
+        case 12:
+          day = 31;
+          break;
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+          day = 30;
+          break;
+        case 2:
+          var isLeap = isLeapYear(year);
+          switch (isLeap) {
+            case true:
+              day = 29;
+              break;
+            default:
+              day = 28;
+              break;
+          }
+      }
+
+      console.log(day);
+    </script>
+  </body>
+</html>

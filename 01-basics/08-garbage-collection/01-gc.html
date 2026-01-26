@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Garbage Collection</title>
+  </head>
+  <body>
+    <script>
+      /* i is still kept in the global object, not garbaged collected. */
+      for (var i = 0; i < 10; i++) {}
+
+      /* 
+        - ES6 introduces block scope, and variable declared with let will be scoped to the block.
+        - when the loop is done, all the i is garbage collected.
+      */
+      for (let i = 0; i < 10; i++) {}
+    </script>
+  </body>
+</html>

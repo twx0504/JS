@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Map</title>
+  </head>
+  <body>
+    <script>
+      // Object keys are not ordered.
+      // Integer-like key precedes string key.
+      const obj = {
+        a: 1,
+        b: 2,
+        ["0"]: 1,
+        ["1"]: 2,
+      };
+      console.log(obj); // {0: 1, 1: 2, a: 1, b: 2}
+
+      // Map keys are ordered.
+      const map = new Map([
+        ["a", 1],
+        ["b", 2],
+        ["0", 1],
+        ["1", 2],
+      ]);
+      console.log(map); // Map(4) {'a' => 1, 'b' => 2, '0' => 1, '1' => 2}
+    </script>
+  </body>
+</html>

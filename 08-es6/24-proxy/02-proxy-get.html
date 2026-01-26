@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Proxy - Get: Accessing Non-defined Property</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        name: "tooweixin",
+        age: 25,
+      };
+
+      //   const obj = {};
+
+      // When accessing a property that is not defined, we get undefined.
+      // With proxy, we can intercept this behavior, and make it throw an Error if accessing non-defined property.
+      const proxy = new Proxy(obj, {
+        // target: original object
+        // key: property
+        // receiver: proxy
+        get(target, key, receiver) {
+          if (key in target) {
+            return target[key];
+          } else {
+            throw new Error("The property is not defined.");
+          }
+        },
+      });
+
+      // Any operations on the object is done via the proxy instance we created.
+      console.log(proxy.name); // tooweixin
+      console.log(proxy.age); // 25
+      console.log(proxy === obj); // false
+      console.log(obj.gender); // undefined - this is what happening when we access a non-defined property.
+      //   console.log(proxy.gender); // Uncaught Error: The property is not defined
+    </script>
+  </body>
+</html>

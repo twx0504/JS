@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Map</title>
+  </head>
+  <body>
+    <script>
+      // 1. Manually using set method.
+      const map = new Map();
+      map.set("username", "twx0504");
+      map.set([1, 2, 3], "arr");
+      map.set(null, "empty");
+      map.set(NaN, "Not a number");
+      console.log(map);
+
+      // 2. Passing iterable whose member are an array of [key, val] as argument of the constructor.
+      // [[key1, val1],[key2, val2]]
+      const map2 = new Map([
+        ["username", "twx0504"],
+        [null, "empty"],
+        [undefined, 1, 2, 3], // Note: Passing more than 2 items, it only takes the first two.
+        [1], // Note: If only one value, the value will be set to undefined
+      ]);
+      console.log(map2);
+
+      // Internal Implementation
+      //   const arr = [
+      //     ["username", "twx0504"],
+      //     [null, "empty"],
+      //   ];
+
+      //   const map3 = new Map(arr);
+
+      //   // Internally,
+      //   //   for (const [k, v] of arr) {
+      //   //     map3.set(k, v);
+      //   //   }
+
+      //   console.log(map3);
+
+      // Example using Set
+      const set1 = new Set([
+        // Each item is an array of [key, val]
+        [1, 2],
+        [3, 4],
+      ]);
+
+      const map5 = new Map(set1);
+      console.log(map5);
+
+      // Example using Array
+      const arr = [
+        [10, 20],
+        [30, 40],
+      ];
+
+      const map6 = new Map(arr);
+      console.log(map6);
+
+      // Example using Map
+      const testMap = new Map();
+      testMap.set(10, 20).set(20, 40).set(30, 60);
+      const map7 = new Map(testMap);
+      console.log(map7);
+    </script>
+  </body>
+</html>

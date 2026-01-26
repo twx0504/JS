@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>18-Promise - Static Method - allSettled</title>
+  </head>
+  <body>
+    <script>
+      const p1 = new Promise((resolve, reject) => {
+        setTimeout(function () {
+          resolve("p1 is done.");
+        }, 1000);
+      });
+
+      p1.then((data) => {
+        console.log(data);
+      });
+
+      const p2 = new Promise((resolve, reject) => {
+        setTimeout(function () {
+          resolve("p2 is done.");
+        }, 2000);
+      });
+
+      p2.then((data) => {
+        console.log(data);
+      });
+      const p3 = new Promise((resolve, reject) => {
+        setTimeout(function () {
+          resolve("p3 is done.");
+        }, 3000);
+      });
+      p3.then((data) => {
+        console.log(data);
+      });
+      const p4 = new Promise((resolve, reject) => {
+        setTimeout(function () {
+          reject("p4 is rejected.");
+        }, 500);
+      });
+
+      p4.catch((err) => {
+        console.log(err);
+      });
+
+      // Promise.allSettled(iterable)
+      // - if non-promise value is part of the array, then it will be converted to a fulfilled promise with that value.
+      const p = Promise.allSettled(new Set([p1, p2, p3, p4, "hello"]));
+      console.log(p);
+
+      p.then((data) => {
+        // data is an array of object describes the outcome of each promise.
+        console.log("p is done.", data);
+      });
+    </script>
+  </body>
+</html>

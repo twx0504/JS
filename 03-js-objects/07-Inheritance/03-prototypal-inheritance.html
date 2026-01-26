@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Inheritance</title>
+  </head>
+  <body>
+    <script>
+      // function SuperType() {}
+
+      // // Reference Data Type on prototype chain will be shared among instances.
+      // // Usually we will write reference type inside constructor.
+      // // Unless you have specific requirement to do so.
+      // SuperType.prototype.arr = [1, 2, 3];
+
+      // var s1 = new SuperType();
+      // var s2 = new SuperType();
+      // console.log(s1.arr.push("a"));
+      // console.log(s1.arr, s2.arr);
+
+      function SuperType() {
+        // This is not shared among instances.
+        // But if a Child constructor extends this class
+        // this is the same PROBLEM.
+        this.arr = [];
+      }
+      var s1 = new SuperType();
+      var s2 = new SuperType();
+      console.log(s1.arr.push("a"));
+      console.log(s1.arr, s2.arr);
+
+      function subType() {}
+
+      subType.prototype = new SuperType();
+
+      var sub1 = new subType();
+      // sub1.arr = []; - note: this can avoid the PROBLEM, but this is not what we want!
+      var sub2 = new subType();
+      // sub2.arr = []; - note: this can avoid the PROBLEM, but this is not what we want!
+      sub1.arr.push("b");
+      console.log(sub1.arr, sub2.arr);
+    </script>
+  </body>
+</html>

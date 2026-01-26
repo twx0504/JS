@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-Scope: Scope Chain</title>
+  </head>
+  <body>
+    <script>
+      var a = 2;
+      function fn() {
+        var b = 3;
+        console.log(a);
+        function fn2() {
+          var a = 5;
+          var c = 3;
+          console.log(b);
+          console.log(c, a);
+        }
+        fn2();
+      }
+      fn();
+      // 2
+      // 3
+      // 3 5
+    </script>
+  </body>
+</html>

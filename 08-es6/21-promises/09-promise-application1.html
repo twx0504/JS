@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>09-Promise - Application 1 - Sequential Image Preloading</title>
+  </head>
+  <body>
+    <script>
+      const urls = [
+        "https://emojiisland.com/cdn/shop/products/Hugging_Face_Emoji_2028ce8b-c213-4d45-94aa-21e1a0842b4d_grande.png?v=1571606036",
+        "https://i.pinimg.com/736x/19/82/2c/19822c18e912ad0ffb2ad2faed8a61af.jpg",
+        // this url is mispelled somewhere.
+        "htt://i.pinimg.com/736x/81/aa/6b/81aa6b36930a0af2d0a6ef967adfe5af.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWqPywvm0jmBaK8f944mTqST4RnA5DCGxRQA&s",
+        "https://emojiisland.com/cdn/shop/products/Emoji_Icon_-_Thinking_grande.png?v=1571606093",
+      ];
+
+      function preloadImage(url) {
+        // return a promise.
+        return new Promise((resolve, reject) => {
+          let img = new Image();
+          // css style.
+          img.style.cssText = "width:200px; margin:10px";
+          img.onload = function () {
+            resolve(img);
+          };
+          img.onerror = function () {
+            // reject(new Error("Image loading failed."));
+            // OR
+            // We don't care if the image loading failed.
+            reject(null);
+          };
+
+          img.src = url;
+        });
+      }
+
+      preloadImage(urls[0])
+        .then((data) => {
+          if (data) {
+            document.body.appendChild(data);
+          }
+          return preloadImage(urls[1]);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .then((data) => {
+          if (data) {
+            document.body.appendChild(data);
+          }
+          return preloadImage(urls[2]);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .then((data) => {
+          if (data) {
+            document.body.appendChild(data);
+          }
+          return preloadImage(urls[3]);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .then((data) => {
+          if (data) {
+            document.body.appendChild(data);
+          }
+          return preloadImage(urls[4]);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .then((data) => {
+          if (data) {
+            document.body.appendChild(data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      // Note: We do not use promise like this, this is no difference as callback hell!
+      //   preloadImage(urls[0])
+      //     .then((data) => {
+      //       if (data) {
+      //         document.body.appendChild(data);
+      //       }
+      //       preloadImage(urls[0])
+      //         .then((data) => {
+      //           if (data) {
+      //             document.body.appendChild(data);
+      //           }
+      //           preloadImage(urls[0])
+      //             .then((data) => {
+      //               if (data) {
+      //                 document.body.appendChild(data);
+      //               }
+      //               return preloadImage(urls[1]);
+      //             })
+      //             .catch((err) => {
+      //               console.log(err);
+      //             });
+      //         })
+      //         .catch((err) => {
+      //           console.log(err);
+      //         });
+      //     })
+      //     .catch((err) => {
+      //       console.log(err);
+      //     });
+
+
+
+    
+    </script>
+  </body>
+</html>

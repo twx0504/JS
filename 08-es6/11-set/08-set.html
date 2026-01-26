@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08-set-Applications</title>
+  </head>
+  <body>
+    <script>
+      // 1. unique
+      let arr = [1, 1, 2, 1, 5, 4, 2, 3, 8, 9, 9, 10];
+      arr = [...new Set(arr)];
+      console.log(arr); // [1, 2, 5, 4, 3, 8, 9, 10]
+
+      const arr2 = [1, 2, 3, 4, 5, 6, 7, 9, 10, 11];
+      const arr3 = [0, 2, 4, 6, 9, 99];
+
+      // 2. union (find the element in both arr2 and arr3)
+      const union = new Set([...arr2, ...arr3]);
+      console.log(union);
+
+      // 3. intersection (find element of arr2 and arr3 intercept)
+      const intersection = new Set(
+        arr2.filter((item) => new Set(arr3).has(item))
+      );
+      console.log(intersection);
+
+      // 4. Difference (find element of arr2 not in arr3)
+      const difference = new Set(
+        arr2.filter((item) => !new Set(arr3).has(item))
+      );
+      console.log(difference);
+
+      // 5. symmetric difference (find element in both arr2 and arr3, but exclude intercepted elements)
+      const symmetricDifference = new Set([
+        ...arr2.filter((item) => !new Set(arr3).has(item)),
+        ...arr3.filter((item) => !new Set(arr2).has(item)),
+      ]);
+      console.log(symmetricDifference);
+
+      // 6. superset (find if arr4 is the superset of arr5)
+      const arr4 = [1, 2, 3, 4, 5, 6, 7, 8];
+      const arr5 = [2, 4, 100];
+      let isSuperset = true;
+      const set4 = new Set(arr4);
+
+      for (const item of arr5) {
+        if (!set4.has(item)) {
+          isSuperset = false;
+          break;
+        }
+      }
+
+      if (isSuperset) {
+        console.log("is superset");
+      } else {
+        console.log("not a superset");
+      }
+    </script>
+  </body>
+</html>

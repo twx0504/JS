@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Inheritance</title>
+  </head>
+  <body>
+    <script>
+      function Person() {}
+      Person.count = 0;
+      Person.sum = function () {
+        // What about the this?
+        console.log(this);
+      };
+      function Student() {
+        Person.count++;
+      }
+      const stu1 = new Student();
+      const stu2 = new Student();
+      const stu3 = new Student();
+
+      // Similar to Student.__proto__ = Person;
+      // Object.setPrototypeOf method is JS implemented.
+      Object.setPrototypeOf(Student, Person);
+      console.log(Student.count); // 3
+
+      // The this inside is also correct.
+      Person.sum(); // ƒ Person() {}
+      Student.sum(); // ƒ Student() {}
+
+      // Note on Parasitic Combination Inheritance in ES5:
+      // 1. inherit instance property: call the Parent constructor inside Child constructor with Function.prototype.call method.
+      // 2. inherit instance method from prototype chain: create a new prototype using the Parent prototype e.g., Object.create(Parent.prototype)
+      // 3. inherit static property / method: using Object.setPrototypeOf.
+    </script>
+  </body>
+</html>

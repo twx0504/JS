@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>11-Test</title>
+  </head>
+  <body>
+    <script>
+      var fn = new Function();
+      console.log(fn.__proto__, fn.__proto__.call); // ƒ () { [native code] } ƒ call() { [native code] }
+      console.log(Function); // ƒ Function() { [native code] }
+      console.log(Function.prototype); // ƒ () { [native code] }
+      console.log(Function === Function.prototype); // false
+      console.log(fn.__proto__ === Function.prototype); // true
+      console.log(fn.__proto__.__proto__ === Object.prototype); // true
+    </script>
+  </body>
+</html>

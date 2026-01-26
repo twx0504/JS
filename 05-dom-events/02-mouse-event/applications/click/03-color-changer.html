@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Click Application 4</title>
+    <style>
+      .circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        transition: background-color 1s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="circle" style="background-color: red"></div>
+    <script>
+      var colors = [
+        "red",
+        "green",
+        "yellow",
+        "blue",
+        "violet",
+        "royalblue",
+        "lightblue",
+      ];
+      (function () {
+        var ball = document.querySelector(".circle");
+        var colorChanger = createColorChanger(colors);
+        ball.addEventListener("click", colorChanger);
+      })();
+
+      function createColorChanger(colors) {
+        var i = 1; // initialize with 1.
+        return function () {
+          this.style.backgroundColor = colors[i];
+          i = (i + 1) % colors.length;
+        };
+      }
+    </script>
+  </body>
+</html>

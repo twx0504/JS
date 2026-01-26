@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Circular Carousel</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./font_5fplwdpxgpf/iconfont.js"></script>
+    <style>
+      .icon {
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.15em;
+        fill: currentColor;
+        overflow: hidden;
+      }
+
+      .icon-size {
+        width: 100%;
+        height: 100%;
+      }
+
+      .icon-right {
+        transform: rotate(180deg);
+      }
+
+      svg {
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="banner">
+      <!-- scrolling content -->
+      <ul>
+        <li><img src="./img/1.jpg" alt="1" /></li>
+        <li><img src="./img/2.jpg" alt="2" /></li>
+        <li><img src="./img/3.jpg" alt="3" /></li>
+        <li><img src="./img/4.jpg" alt="4" /></li>
+      </ul>
+      <div class="nav-dots">
+        <!-- When you put span on separate line, and make them inline-block -->
+        <!-- There will be gaps between them. -->
+        <!-- HTML, spaces or newlines between inline or inline-block elements are treated as whitespace, which results in small gaps. -->
+        <!-- Solution: set font-size: 0 on parent. / do not separate <span> on different line. -->
+        <span class="active"></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="prev">
+        <svg class="icon icon-size" aria-hidden="true">
+          <use xlink:href="#icon-left"></use>
+        </svg>
+      </div>
+      <div class="next">
+        <svg class="icon icon-size icon-right" aria-hidden="true">
+          <use xlink:href="#icon-left"></use>
+        </svg>
+      </div>
+    </div>
+    <script src="../animation.js"></script>
+    <script src="./carousel.js"></script>
+  </body>
+</html>

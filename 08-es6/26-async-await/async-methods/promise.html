@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promise</title>
+  </head>
+  <body>
+    <script type="module">
+      import { urls, loadImagePromise } from "./async-methods.js";
+
+      const imgArr = [];
+
+      // Sequential request with promise
+      // Solve callback hell
+      // Problem: The code is not concise enough
+
+      loadImagePromise(urls[0])
+        .then((img) => {
+          imgArr.push(img);
+          return loadImagePromise(urls[1]);
+        })
+        .then((img) => {
+          imgArr.push(img);
+          return loadImagePromise(urls[2]);
+        })
+        .then((img) => {
+          imgArr.push(img);
+          return loadImagePromise(urls[3]);
+        })
+        .then((img) => {
+          imgArr.push(img);
+          for (const img of imgArr) {
+            document.body.appendChild(img);
+          }
+        });
+
+        
+    </script>
+  </body>
+</html>

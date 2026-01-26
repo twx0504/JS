@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Regular Function - this</title>
+  </head>
+  <body>
+    <button>Click</button>
+    <script>
+      //   "use strict";
+      // This inside Regular Function
+
+      // 1. global context
+      console.log(this); // window (both strict and non-strict)
+
+      // 2. function context
+      function fn() {
+        console.log(this); // window (non-strict) undefined (strict)
+      }
+      fn();
+
+      // 3. obj.fn()
+      const obj = {
+        a: 1,
+        b: 2,
+        c: function () {
+          console.log(this);
+        },
+      };
+      obj.c(); // {a: 1, b: 2, c: ƒ} (both strict and non-strict)
+
+      // 4. IIFE
+      (function () {
+        console.log(this);
+      })(); // window (non-strict) undefined (strict)
+
+      // 5. arr[index]()
+      const arr = [
+        1,
+        2,
+        function () {
+          console.log(this);
+        },
+      ];
+
+      arr[2](); // [1, 2, ƒ] (both strict and non-strict)
+
+      // 6. call, apply, bind - used to change the this inside function
+      const test = { a: 1, b: 2 };
+      function sum(a, b) {
+        console.log(this);
+      }
+      sum.call(test, 1, 2); // {a: 1, b: 2} (both strict and non-strict)
+      sum.apply(test, [1, 2]); // {a: 1, b: 2} (both strict and non-strict)
+      const sumBind = sum.bind(test);
+      sumBind(1, 2); // {a: 1, b: 2} (both strict and non-strict)
+
+      // 7. callback - e.g., inside forEach, filter, etc...
+      // most of the time this refers to window.
+
+      const arr2 = [1, 2, 3];
+      arr2.forEach(function () {
+        console.log(this); // window (non-strict) undefined (strict)
+      });
+
+      // 8. callback in setTimeout - webAPI window.setTimeout() so it is window.
+      setTimeout(function () {
+        console.log(this); // window (both strict and non-strict)
+      }, 1000);
+
+      // 9. callback in event handler - this is bind to the element.
+      const btn = document.querySelector("button");
+      console.log(btn);
+      //   btn.addEventListener("click", function () {
+      //     console.log(this); // <button></button> (both strict and non-strict)
+      //   });
+
+
+      // note: 
+      //   btn.addEventListener("click", () => {
+      //     console.log(this); // window  (both strict and non-strict)
+      //   });
+
+      // 10. constructor called with new - this refers to instance
+      function Point(x, y) {
+        this.x = x;
+        this.y = y;
+        console.log(this); // Point {x: 1, y: 2} (both strict and non-strict)
+      }
+      const p = new Point(1, 2);
+    </script>
+  </body>
+</html>

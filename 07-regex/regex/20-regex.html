@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>20-regex - lookahead assertion</title>
+  </head>
+  <body>
+    <script>
+      // understand x(?=y)(?=z)
+      // xy xz (not valid) unless y & z is the same thing.
+      // e.g., x(?=1)(?=1)
+
+      var reg = /1(?=A)(?=a)/g;
+      console.log("1aA".match(reg)); // null - do not work.
+      console.log("1aa".match(reg)); // null - do not work.
+
+      // use i flag, make it case insensitive, it will work.
+      // A & a now means the same things.
+      var reg = /1(?=A)(?=a)/gi;
+      console.log("1aA".match(reg)); // ['1']
+      console.log("1aa".match(reg)); // ['1']
+
+      // if you want 1 followed by a or 1 followed by A
+      var reg = /1((?=a)|(?=A))/g;
+      console.log("1aA".match(reg)); // ['1']
+      console.log("1aa".match(reg)); // ['1']
+
+      var reg = /(?=1)(?=\d)(?=\w)/; // (?=1)(?=\d)(?=\w) here refers to 1
+      console.log("1".match(reg)); // ['', index: 0, input: '1', groups: undefined]
+      console.log("2".match(reg)); // null 
+
+      var reg = /(?=\d)(?=\w)/; // (?=\d)(?=\w) refers to \d (any digit)
+      console.log("1".match(reg)); // ['', index: 0, input: '1', groups: undefined]
+      console.log("2".match(reg)); // ['', index: 0, input: '2', groups: undefined]
+
+
+    </script>
+  </body>
+</html>

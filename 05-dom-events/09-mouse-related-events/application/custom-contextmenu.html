@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Context Menu</title>
+    <style>
+      body,
+      ul,
+      li {
+        margin: 0;
+      }
+      ul {
+        padding: 0;
+        list-style: none;
+      }
+      .context-menu {
+        position: absolute;
+        width: 180px;
+        border: 1px solid #ddd;
+        box-shadow: 2px 2px 3px #ddd;
+        display: none;
+      }
+      .context-menu li {
+        height: 30px;
+        line-height: 30px;
+        font-size: 12px;
+        text-indent: 1em;
+        border-bottom: 1px solid #ddd;
+        background-color: #fff;
+        cursor: pointer;
+      }
+      .context-menu li:hover {
+        background-color: #ddd;
+      }
+      .bg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px;
+        height: 400px;
+        background-color: khaki;
+        display: none;
+      }
+      .bg .close-btn {
+        position: absolute;
+        right: -24px;
+        top: -24px;
+        width: 48px;
+        height: 48px;
+        background-color: #000;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 48px;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .show {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="context-menu">
+      <li>change background color</li>
+      <li>add tag</li>
+      <li>show or hide element</li>
+      <li>others</li>
+    </ul>
+    <!-- change bg -->
+    <div class="bg"><div class="close-btn">X</div></div>
+    <script>
+      var contextmenu = document.querySelector(".context-menu");
+      var bg = document.querySelector(".bg");
+      var closeBtn = document.querySelector(".close-btn");
+      document.addEventListener("contextmenu", function (e) {
+        e.preventDefault(); // disable the default context menu.
+      });
+
+      document.addEventListener("mouseup", function (e) {
+        var btn = e.button;
+        if (btn === 2) {
+          // if the user click the right button.
+          // the distance of pointer to the edge of the viewport.
+          var _pageX = e.pageX;
+          var _pageY = e.pageY;
+          contextmenu.style.left = _pageX + "px";
+          contextmenu.style.top = _pageY + "px";
+          contextmenu.style.display = "block";
+        } else {
+          contextmenu.style.display = "none";
+        }
+      });
+
+      var liList = document.querySelectorAll(".context-menu li");
+
+      liList.forEach(function (li, index) {
+        li.dataset.index = index;
+      });
+
+      contextmenu.addEventListener("click", function (e) {
+        var target = e.target;
+        // Do not need to check if target is LI.
+        var index = Number(target.dataset.index);
+        // you can do whatever you like here.
+        switch (index) {
+          case 0:
+            document.body.style.backgroundColor = "green";
+            break;
+          case 1:
+            break;
+          case 2:
+            bg.classList.toggle("show");
+            console.log("show or hide bg");
+            break;
+          case 3:
+            console.log("other operations");
+            break;
+        }
+      });
+
+      closeBtn.addEventListener("click", function (e) {
+        bg.classList.remove("show");
+      });
+    </script>
+  </body>
+</html>

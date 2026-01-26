@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04 - Dealing with Naming Conflict 1 - IIFE</title>
+  </head>
+  <body>
+    <!-- Use of closure to avoid global scope pollution  -->
+    <!-- The order of files matters. -->
+    <!-- Variable Pollution in global scope is reduced, but not eliminated entirely. -->
+    <script src="./data-iife.js"></script>
+    <script src="./max-iife.js"></script>
+    <script src="./min-iife.js"></script>
+    <script>
+      console.log(data); // {max: 10, min: 1}
+      console.log(min()); // 1
+      console.log(max()); // 10
+    </script>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ES5</title>
+  </head>
+  <body>
+    <script src="./es5.js"></script>
+    <script>
+      function fn(a, b, c) {
+        console.log(a, b, c);
+        console.log("this", this);
+      }
+
+      var obj = { a: 1, b: 2 };
+      var newFn = fn._bind(obj, 1, 2, 3);
+      newFn();
+
+      function Point(x, y) {
+        this.x = x;
+        this.y = y;
+        console.log(x, y);
+        console.log("this", this);
+      }
+
+      var newFn2 = Point._bind("ctx", 3, 4);
+      var p1 = new newFn2();
+      console.log(p1);
+    </script>
+  </body>
+</html>

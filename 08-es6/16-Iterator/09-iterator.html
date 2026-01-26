@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>09-Iterator</title>
+  </head>
+  <body>
+    <script>
+      console.log(Iterator);
+
+      // Note: Iterator is an abstract class, we must extend it.
+      class newIterator extends Iterator {}
+
+      const a = new newIterator();
+      // ƒ Iterator() { [native code] } - since 2025.
+      // Uncaught ReferenceError: Iterator is not defined.
+
+      // Each collection type, array, map, set, has a Symbol.iterator property, which is a function that returns an iterator object.
+      // These iterator object is the instance of the collectionIterator class that extends from the base Iterator class.
+      const arrIterator = [1, 2, 3][Symbol.iterator](); // this is similar to getIterator that we implement before.
+      // Almost similar to what we implement!
+      // console.log(arrIterator.next()); // {value: 1, done: false}
+      // console.log(arrIterator.next()); // {value: 2, done: false}
+      // console.log(arrIterator.next()); // {value: 3, done: false}
+      // console.log(arrIterator.next()); // {value: undefined, done: true}
+
+      // But the arrIterator doesn't have isDone method.
+      // We can use the done prop the object contains for the conditional check.
+      let obj = arrIterator.next();
+      while (!obj.done) {
+        console.log(obj.value);
+        // You must write to prevent infinite loop.
+        obj = arrIterator.next(); // update the next obj returned from next method.
+      }
+      // 1
+      // 2
+      // 3
+      console.log(obj.value); // undefined
+
+      const mapIterator = new Map()[Symbol.iterator]();
+      const setIterator = new Set()[Symbol.iterator]();
+      console.log(arrIterator); // Array Iterator {}
+      console.log(mapIterator); // MapIterator {}
+      console.log(setIterator); // SetIterator {}
+
+      // The implementation of Symbol.iterator method (kind of)
+      // Array.prototype[Symbol.iterator] = function(){
+      //   return {
+      //     next(){
+      //       value: xx,
+      //       done: false/ true,
+      //     }
+      //   }
+      // }
+    </script>
+  </body>
+</html>

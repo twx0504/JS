@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05 - Dealing with Naming Conflict 2 - Object</title>
+  </head>
+  <body>
+    <!-- Expose object that encapsulate properties and methods to prevent naming conflict. -->
+    <!-- The order of files matters. -->
+    <!-- Variable Pollution in global scope is reduced, but not eliminated entirely. -->
+    <script src="./data.js"></script>
+    <script src="./max-obj.js"></script>
+    <script src="./min-obj.js"></script>
+    <script>
+      console.log(data); // {max: 10, min: 1}
+      console.log(minObj.min()); // 1
+      console.log(maxObj.max()); // 10
+    </script>
+  </body>
+</html>

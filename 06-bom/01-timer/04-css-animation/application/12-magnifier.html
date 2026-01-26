@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>12-Magnifier</title>
+    <style>
+      body,
+      ul,
+      li {
+        margin: 0;
+      }
+
+      ul {
+        padding: 0;
+        list-style: none;
+      }
+      .preview {
+        position: relative;
+        width: 350px;
+        /* height: 350px; */
+        padding: 20px;
+        margin: 100px;
+        border: 1px solid #ddd;
+      }
+
+      .preview .main-img {
+        position: relative;
+        width: 100%;
+        height: 350px;
+        background-color: khaki;
+      }
+      .preview .main-img img {
+        width: 350px;
+        height: 350px;
+      }
+
+      .preview .main-img .mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 150px;
+        height: 150px;
+        background-color: rgba(255, 255, 0, 0.2);
+        cursor: move;
+        /* hide */
+        display: none;
+      }
+      .preview .small-img {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        width: 100%;
+        height: 85px;
+      }
+      .preview .small-img li {
+        width: 75px;
+        height: 75px;
+      }
+
+      .preview .small-img li img {
+        width: 75px;
+        height: 75px;
+      }
+
+      .preview .big-img {
+        position: absolute;
+        top: 0;
+        left: 400px;
+        width: 450px;
+        height: 475px;
+        background-color: red;
+        overflow: hidden;
+        display: none;
+      }
+
+      .preview .big-img img {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+
+      .active {
+        /* do not use border it will cause layout shift. */
+        outline: 3px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="preview">
+      <div class="main-img js-main">
+        <img src="./assets/magnifier/big1.jpg" alt="" width="350" />
+        <div class="mask"></div>
+      </div>
+      <ul class="small-img js-list">
+        <li>
+          <img
+            class="active"
+            src="./assets/magnifier/small1.jpg"
+            data-src="./assets/magnifier/big1.jpg"
+            alt="item1"
+            width="75"
+          />
+        </li>
+        <li>
+          <img
+            src="./assets/magnifier/small2.jpg"
+            alt="item2"
+            data-src="./assets/magnifier/big2.jpg"
+            width="75"
+          />
+        </li>
+        <li>
+          <img
+            src="./assets/magnifier/small3.jpg"
+            alt="item3"
+            data-src="./assets/magnifier/big3.jpg"
+            width="75"
+          />
+        </li>
+        <li>
+          <img
+            src="./assets/magnifier/small4.jpg"
+            alt="item4"
+            data-src="./assets/magnifier/big4.jpg"
+            width="75"
+          />
+        </li>
+      </ul>
+      <div class="big-img js-big-img">
+        <img src="./assets/magnifier/big1.jpg" alt="big1" />
+      </div>
+    </div>
+    <script src="../../../../04-DOM/04-getting-element-dimension/implementation/getElementPageOffset.js"></script>
+    <script>
+      // 1. click small image, change the main img src, and big-img src
+      var smallImgs = document.querySelectorAll(".preview .small-img li img");
+      var ulList = document.querySelector(".js-list");
+      var mainImgWrapper = document.querySelector(".js-main");
+      var mainImg = document.querySelector(".js-main img");
+      var mask = document.querySelector(".js-main .mask");
+      var bigImgWrapper = document.querySelector(".js-big-img");
+      var bigImg = document.querySelector(".js-big-img img");
+      var prev = smallImgs[0];
+      ulList.addEventListener("click", function (e) {
+        var target = e.target;
+        if (target.tagName === "IMG") {
+          // 1. remove prev small img class name.
+          if (prev) {
+            prev.classList.remove("active");
+          }
+          // 2. add outline
+          target.classList.add("active");
+          // 3. store current target to prev
+          prev = target;
+          // 4. change main img
+          var src = target.dataset.src;
+          mainImg.src = src;
+          // 5. change big img
+          bigImg.src = src;
+        }
+      });
+
+      mainImgWrapper.addEventListener("mouseover", function (e) {
+        mask.style.display = "block";
+        bigImgWrapper.style.display = "block";
+      });
+      mainImgWrapper.addEventListener("mousemove", function (e) {
+        // consider scroll bar.
+        var pageX = e.pageX;
+        var pageY = e.pageY;
+        // console.log(pageX, pageY);
+
+        // recursively get the offset size from this element to the viewport edge.
+        var offsets = this._pageOffset();
+        var mainLeft = offsets.left;
+        var mainTop = offsets.top;
+
+        // console.log(mainLeft, mainTop);
+
+        // calculate mask size - offset size takes into consideration of border.
+        var maskWidth = mask.offsetWidth;
+        var maskHeight = mask.offsetHeight;
+
+        // calculate mask positoin
+        var maskLeft = pageX - mainLeft - maskWidth / 2;
+        var maskTop = pageY - mainTop - maskHeight / 2;
+
+        var maxLeft = mainImgWrapper.offsetWidth - maskWidth;
+        var maxTop = mainImgWrapper.offsetHeight - maskHeight;
+
+        // handle out of bound cases
+        maskLeft = Math.max(0, Math.min(maskLeft, maxLeft));
+        maskTop = Math.max(0, Math.min(maskTop, maxTop));
+
+        mask.style.left = maskLeft + "px";
+        mask.style.top = maskTop + "px";
+
+        // movingDistance / maxMovingDistance = bigImgMovingDistance / maxImgMovingDistance
+        // note: 
+        // - bigImg size is 800px 
+        // - bigImgWrapper size is smaller
+        // - movableDistance = bigImgSize - bigImgWrapperSize!
+        var maxImgMovingLeft = bigImg.clientWidth - bigImgWrapper.clientWidth;
+        var maxImgMovingTop = bigImg.clientHeight - bigImgWrapper.clientHeight;
+
+        var bigLeft = (maskLeft / maxLeft) * maxImgMovingLeft;
+        var bigTop = (maskTop / maxTop) * maxImgMovingTop;
+
+        bigImg.style.left = -bigLeft + "px";
+        bigImg.style.top = -bigTop + "px";
+      });
+      mainImgWrapper.addEventListener("mouseout", function (e) {
+        mask.style.display = "none";
+        bigImgWrapper.style.display = "none";
+      });
+    </script>
+  </body>
+</html>

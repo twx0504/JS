@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Destructuring - Assignment Pattern</title>
+  </head>
+  <body>
+    <script>
+      // Assignment Pattern: destructuring operation without declaring keyword like var, let, const.
+      // It is prepared beforehand.
+      let a, b, c;
+      //   let [a, b, c] = [1, 2, 3]; // Uncaught SyntaxError: Identifier 'a' has already been declared
+
+      // since it is declared with let beforehand, redeclare the same variables throws error.
+      // declare with var has no problem.
+      [a, b, c] = [1, 2, 3]; // Uncaught SyntaxError: Identifier 'a' has already been declared
+      console.log(a, b, c); // 1 2 3
+
+      let x, y;
+      //   {a:x, b:y} = {a:1, b:2} // this is error, it is treated as code block if no declaration keyward.
+      // Remember using () to wrap the expression in object destructuring.
+      // {a:x, b:y} on the left-hand side is considered a block, not an object literal.
+      ({ a: x, b: y } = { a: 10, b: 20 });
+      console.log(x, y); // 10 20
+    </script>
+  </body>
+</html>

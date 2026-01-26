@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08-Array: Type Checking</title>
+  </head>
+  <body>
+    <!-- iframe -> just to get the Array from iframe. -->
+    <iframe src="" frameborder="0"></iframe>
+    <script>
+      var arr = [1, 2, 3];
+
+      /* Limitation of typeof operator: object and array returns the same result. */
+      console.log(typeof arr); // 'object'
+      console.log(typeof { a: 1, b: 2 }); // 'object'
+
+      /* Array.isArray */
+      console.log(Array.isArray([])); // true
+      console.log(Array.isArray(arr)); // true
+      console.log(Array.isArray({ a: 1, b: 2 })); // false
+
+      /* instanceof  */
+      console.log(arr instanceof Array); // true
+
+      // Array from another realm (iframe)
+      var iframeArray = window.frames[window.frames.length - 1].Array;
+      var iframeArr = new iframeArray(1, 2, 3);
+
+      // instanceof returns false even though technically it is true.
+      console.log(iframeArr instanceof Array); // false
+      console.log(iframeArr instanceof iframeArray); // true
+      // Array.isArray() treats any array instance equally, regardless where it comes from.
+      console.log(Array.isArray(iframeArr)); // true
+      console.log(iframeArray.isArray(iframeArr)); // true
+    </script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>13-Class Inheritance - Abstract Classes</title>
+  </head>
+  <body>
+    <script>
+      class A {
+        // cannot called with new A()
+        // it is only used for inheritance.
+        constructor() {
+          console.log(new.target === A);
+          if (new.target === A) {
+            throw new Error(
+              "A is an abstract class that cannot be called with new."
+            );
+          }
+        }
+      }
+
+      class B extends A {
+        constructor() {
+          super();
+          console.log(new.target);
+        }
+      }
+      // new A();
+      // true
+      // Uncaught Error: A is an abstract class that cannot be called with new.
+
+      new B();
+      // false
+      //   class B extends A {
+      //     constructor() {
+      //       super();
+      //       console.log(new.target);
+      //     }
+      //   }
+    </script>
+  </body>
+</html>

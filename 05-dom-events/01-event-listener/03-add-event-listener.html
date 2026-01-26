@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-addEventListener</title>
+  </head>
+  <body>
+    <button>Click</button>
+    <script>
+      var btn = document.querySelector("button");
+      //   btn.addEventListener("click", function () {
+      //     console.log("clicked");
+      //   }, false);
+
+      btn.addEventListener("click", fn, false);
+      function fn() {
+        console.log("clicked");
+      }
+
+      btn.addEventListener("click", function () {
+        console.log("I added another click handler1!");
+      });
+
+      btn.addEventListener("click", function () {
+        console.log("I added another click handler2!");
+      });
+    </script>
+  </body>
+</html>

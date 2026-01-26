@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-Module - Static Import</title>
+  </head>
+  <body>
+    <script type="module">
+      console.log(1);
+      console.log(2);
+
+      // #1. only import a module that doesn't export anything.
+      // #2. import is hoisted.
+      import "./import1.js";
+      // Hello, I am imported from import1.js
+      // 3
+      // 1
+      // 2
+    </script>
+
+    <script type="module">
+      // #3. import is handled at compiled time, not runtime.
+      // - import can only present at top level, written inside if-else, loops, function will throw SyntaxError.
+      // - import is statically analzyzed by JavaScript engine, any code inside if-else, loops, function will not analyzed / execute until runtime.
+      //   let a = 3;
+      //   if (a >= 3) {
+      //     import "./import2.js"; // Uncaught SyntaxError: Unexpected string
+      //   } else {
+      //     import "./import3.js";
+      //   }
+
+      import { bar } from "./import2.js";
+      console.log(bar);
+
+      // The binding with the identifier "bar" already exists.
+      // declare a variable with the similar identifier throws.
+      // let bar = "foo"; // Uncaught SyntaxError: Identifier 'bar' has already been declared
+    </script>
+    <script type="module">
+      // #4: A module is evaluated only once - even if imported multiple times.
+      import { foo } from "./import3.js";
+      import { bar } from "./import3.js";
+      import { baz } from "./import3.js";
+      console.log(foo, bar, baz); // foo bar baz
+    </script>
+    <script type="module">
+      // #5: Import can be used in a module to import another modules.
+      import { a, b, c } from "./import-c.js";
+      // Imported apple and orange
+      console.log(a, b); // apple orange
+      console.log(c); // My favourite fruit is apple & orange
+    </script>
+  </body>
+</html>

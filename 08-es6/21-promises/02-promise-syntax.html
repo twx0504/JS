@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-Promise</title>
+  </head>
+  <body>
+    <script>
+      // #1: Syntax
+      // new Promise(executor);
+      // new Promise(function(resolve, reject){})
+      // const promise1 = new Promise(); // Uncaught TypeError: Promise resolver undefined is not a function
+
+      // #2: When creating the instance of Promise, the executor provided is run immediately.
+      const promise1 = new Promise(function (resolve, reject) {
+        console.log("Execute immediately.");
+      });
+
+      // #3: resolve and reject are parameters of executor, called after the completion of the asynchronous task (success or failure).
+      const promise2 = new Promise((resolve, reject) => {
+        const img = new Image();
+        // Success
+        img.onload = function () {
+          // We will send the required data out with resolve callback.
+          resolve(img);
+        };
+        // Failure
+        img.onerror = function () {
+          // We will send the required error message out with reject callback.
+          reject(new Error("The image loading is failed."));
+        };
+        img.src =
+          "https://emojiisland.com/cdn/shop/products/Hugging_Face_Emoji_2028ce8b-c213-4d45-94aa-21e1a0842b4d_grande.png?v=1571606036";
+      });
+
+      promise2.then(
+        // Fulfilled.
+        (data) => {
+          // data sent from resolve.
+          document.body.appendChild(data);
+        },
+        // Rejected.
+        (err) => {
+          // err sent from reject.
+          console.log(err);
+        }
+      );
+    </script>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Async Await 5: Retry</title>
+  </head>
+  <body>
+    <script>
+      const url = "http://localhost:5500"; // wrong url to test request retry
+
+      async function foo(maxCount = 5) {
+        let lastError = null;
+        for (let attempt = 0; attempt <= maxCount; attempt++) {
+          try {
+            const res = await fetch(url);
+            if (res.status !== 200) {
+              throw new DOMException(`HTTP status ${res.status}`, "HttpError");
+            }
+            return await res.json();
+          } catch (err) {
+            lastError = err;
+          }
+        }
+        throw lastError;
+      }
+      foo(3);
+
+      //   async function bar(maxCount = 5) {
+      //     try {
+      //       const res = await fetch(url);
+      //       const data = await res.json();
+      //       console.log(data);
+      //     } catch (err) {
+      //       return await (maxCount <= 0
+      //         ? Promise.reject(new Error("Retry failed."))
+      //         : bar(maxCount - 1));
+      //     }
+      //   }
+
+      //   bar();
+    </script>
+  </body>
+</html>

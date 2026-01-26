@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-Default Parameter</title>
+  </head>
+  <body>
+    <script>
+      //   function fn(a, b) {
+      //     console.log(a, b);
+      //   }
+      //   fn(); // undefined undefined
+      //   fn(1); // 1 undefined
+      //   fn(1, 2); // 1 2
+
+      // ES5
+      //   function fn(a, b) {
+      //     if (a === undefined) a = 0;
+      //     if (b === undefined) b = 0;
+      //     console.log(a, b);
+      //   }
+
+      // ES6
+      function fn(a = 0, b = 0) {
+        console.log(a, b);
+      }
+      fn(); // 0 0
+      fn(1); // 1 0
+      fn(1, 2); // 1 2
+      fn(1, undefined); // 1 0
+
+      // Lazy Evaluation if default parameter is a function
+      let x = 10;
+      function fn2(a = x++) {
+        console.log(x);
+      }
+
+      fn2();
+      fn2(1);
+
+      // Default parameter should be put behind most of the time.
+
+      function fn3(a = 100, b, c) {
+        console.log(a, b, c);
+      }
+
+      fn3();
+      fn3(2);
+      // Usually, with default parameter, we don't want to pass anything like undefined.
+      // But the following code when we skip a and hopefully it will use default value simply doesn't work.
+      // It is an error.
+      // Unless you pass undefined.
+      // fn3(,3,2)
+      fn3(undefined, 30, 20);
+
+      function fn4(a, b, c = 100) {
+        console.log(a, b, c);
+      }
+      fn4();
+      fn4(1);
+      // When default parameter is put at the back, we can ignore c and it will use default
+      fn4(1, 2);
+      fn4(1, 2, 3);
+
+      // Note: Putting default parameter at the front is still ok.
+      // Case: when callback is rarely used.
+      function move1(target, delay = 20, callback) {}
+      move1(700, 50); // since delay is used a lot, this is reasonable. And it is okay to not pass callback or give any value to it too.
+      function move2(target, callback, delay = 20) {}
+      move2(700, function () {}, 50); // since callback is rarely used, putting it in front only make the life a bit harder.
+    </script>
+  </body>
+</html>

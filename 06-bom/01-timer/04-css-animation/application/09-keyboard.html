@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>09-Keyboard Event</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      .box {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        /* transition: top 0.2s, left 0.2s; */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+    <script>
+      var box = document.querySelector(".box");
+      var speed = 5;
+      var lock = false;
+      var timerId = null;
+      var key; // ensure key is always attainable.
+      document.addEventListener("keydown", function (e) {
+        // if pressing Alt + arrow key,
+        // key = ALT (functional key is prioritized) lock is set to true, and key = ALT will not invoke toMove.
+        // the subsequent arrow key will not be able to execute toMove due to lock = true.
+        key = e.key; // make sure key is available globally.
+        var altKey = e.altKey;
+        speed = altKey ? 50 : speed;
+        if (!lock) {
+          // make sure one timer exists at a time.
+          lock = true;
+          toMove();
+        }
+      });
+
+      document.addEventListener("keyup", function (e) {
+        speed = 5;
+        clearInterval(timerId); // TODO: this causes the lag.
+        lock = false;
+      });
+
+      function toMove() {
+        timerId = setInterval(function () {
+          var prevLeft = box.offsetLeft;
+          var prevTop = box.offsetTop;
+          switch (key) {
+            case "ArrowUp":
+              box.style.top = prevTop - speed + "px";
+              console.log("top");
+              break;
+            case "ArrowDown":
+              box.style.top = prevTop + speed + "px";
+              console.log("bottom");
+              break;
+            case "ArrowLeft":
+              box.style.left = prevLeft - speed + "px";
+              console.log("left");
+              break;
+            case "ArrowRight":
+              box.style.left = prevLeft + speed + "px";
+              console.log("right");
+              break;
+          }
+        }, 16);
+      }
+
+      // keydown event: the execution interval between the first and second event handler is a bit longer.
+      // this causes some delay after the first movement, but the subsequent movement is smooth.
+      // use setInterval （timer) to handle the movement.
+      // keydown: get the key, and control the speed of the movement.
+      // keyup: clear timer and unlock.
+      // note: functional key (alt, ctrl, etc) > other key
+    </script>
+  </body>
+</html>
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>优化的键盘移动控制</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      .box {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        /* 不再使用top/left定位，而是使用transform */
+        transform: translate(20px, 20px);
+        /* 可选：添加过渡效果使移动更平滑 */
+        /* transition: transform 0.05s linear; */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+    <script>
+      // 获取元素
+      const box = document.querySelector(".box");
+
+      // 状态变量
+      let posX = 20;
+      let posY = 20;
+      let speed = 5;
+      let isAnimating = false;
+      let keys = {};
+
+      // 键盘事件监听
+      document.addEventListener("keydown", function (e) {
+        // 记录按键状态
+        keys[e.key] = true;
+
+        // 设置速度(Alt键加速)
+        speed = e.altKey ? 50 : 5;
+
+        // 如果动画未运行，启动动画
+        if (!isAnimating) {
+          isAnimating = true;
+          requestAnimationFrame(animate);
+        }
+
+        // 阻止默认行为(如页面滚动)
+        if (
+          ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(
+            e.key
+          )
+        ) {
+          e.preventDefault();
+        }
+      });
+
+      document.addEventListener("keyup", function (e) {
+        // 清除按键状态
+        keys[e.key] = false;
+
+        // 如果所有方向键都释放，停止动画
+        if (
+          !keys["ArrowUp"] &&
+          !keys["ArrowDown"] &&
+          !keys["ArrowLeft"] &&
+          !keys["ArrowRight"]
+        ) {
+          isAnimating = false;
+        }
+
+        // 恢复默认速度
+        if (e.key === "Alt") {
+          speed = 5;
+        }
+      });
+
+      // 动画函数
+      function animate() {
+        // 基于当前按键状态更新位置
+        if (keys["ArrowUp"]) {
+          posY -= speed;
+        }
+        if (keys["ArrowDown"]) {
+          posY += speed;
+        }
+        if (keys["ArrowLeft"]) {
+          posX -= speed;
+        }
+        if (keys["ArrowRight"]) {
+          posX += speed;
+        }
+
+        // 应用位置变化(一次DOM操作)
+        box.style.transform = `translate(${posX}px, ${posY}px)`;
+
+        // 可选：添加边界检查
+        // posX = Math.max(0, Math.min(window.innerWidth - 100, posX));
+        // posY = Math.max(0, Math.min(window.innerHeight - 100, posY));
+
+        // 如果还有按键被按下，继续动画循环
+        if (isAnimating) {
+          requestAnimationFrame(animate);
+        }
+      }
+
+      // 当窗口失去焦点时，清除所有按键状态
+      window.addEventListener("blur", function () {
+        keys = {};
+        isAnimating = false;
+      });
+
+      /* 
+      主要改进:
+      1. 使用requestAnimationFrame代替setInterval，与浏览器渲染同步
+      2. 使用transform代替top/left，性能更好
+      3. 使用对象跟踪多个按键的状态，支持同时按下多个方向键
+      4. 减少DOM操作，只在必要时更新
+      5. 添加了防止页面滚动的preventDefault
+      6. 添加了窗口失焦处理
+      */ -->
+    </script>
+  </body>
+</html>

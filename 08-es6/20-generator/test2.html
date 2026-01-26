@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test 2</title>
+  </head>
+  <body>
+    <script>
+      //   function* gen() {
+      //     yield 1;
+      //     yield 2;
+      //     yield 3;
+      //   }
+
+      //   const it = gen();
+      //   console.log(it.next());
+      //   console.log(it.next());
+      //   throw new Error("Error!");
+      //   console.log(it.next());
+
+      //   function* gen() {
+      //     yield 1;
+      //     yield 2;
+      //     throw new Error("Error!");
+      //     yield 3;
+      //   }
+
+      //   const it = gen();
+      //   console.log(it.next());
+      //   console.log(it.next());
+      //   console.log(it.next());
+      // //   console.log(it.next());
+      //   console.log("he");
+
+      //   function* gen() {
+      //     yield 1;
+
+      //     try {
+      //       throw new Error("Error!");
+      //       yield 2;
+      //     } catch (e) {
+      //       console.log(e);
+      //       yield 3;
+      //     }
+      //     yield 4;
+      //   }
+
+      //   const it = gen();
+      //   console.log(it.next());
+      //   console.log(it.next());
+      //   console.log(it.next()); // Uncaught Error: Error!
+
+      //   function* gen() {
+      //     yield 1;
+      //     yield 2;
+      //     yield 3;
+      //   }
+
+      //   const it = gen();
+      //   console.log(it.next()); // {value: 1, done: false}
+      //   try {
+      //     it.throw(new Error("Error!"));
+      //   } catch (e) {
+      //     console.log(e); // Error: Error!
+      //   }
+      //   console.log(it.next()); // {value: undefined, done: true}
+      //   console.log("hi");
+
+      //   function* gen() {
+      //     yield 1;
+      //     yield 2;
+      //     throw new Error("Error!");
+      //     yield 3;
+      //   }
+
+      //   const it = gen();
+      //   console.log(it.next());
+      //   console.log(it.next());
+      //   try {
+      //     console.log(it.next());
+      //   } catch (e) {
+      //     console.log(e);
+      //   }
+      //   console.log(it.next());
+
+      //   function* gen() {
+      //     yield 1;
+      //     yield 2;
+      //     yield 3;
+      //   }
+
+      //   const it = gen();
+      //   console.log(it.next());
+      //   console.log(it.next());
+      //   console.log(it.return("cleanup"));
+      //   console.log(it.next());
+
+      function* gen() {
+        yield 1;
+        yield 2;
+        try {
+          yield 3;
+        } catch (e) {
+          console.log(e);
+        } finally {
+          yield 4;
+          console.log("hi");
+          yield 5;
+          yield 6;
+          console.log("hi");
+        }
+      }
+
+      //   const it = gen();
+      //   console.log(it.next()); // {value: 1, done: false}
+      //   console.log(it.next()); // {value: 2, done: false}
+      //   console.log(it.next()); // {value: 3, done: false}
+      //   console.log(it.next()); // {value: 4, done: false}
+
+      //   console.log(it.next()); // {value: undefined, done: true}
+      //   console.log(it.return("cleanup")); // {value: 'cleanup', done: true}
+      //   console.log(it.next()); // {value: undefined, done: true}
+
+      function* gen() {
+        yield 1;
+        try {
+          yield 2;
+          return "done";
+        } catch (e) {
+          console.log(e);
+        } finally {
+          yield 3;
+        }
+        yield 4;
+      }
+
+      const it = gen();
+      console.log(it.next()); // {value: 1, done: false}
+      console.log(it.next()); // {value: 2, done: false}
+      console.log(it.next()); // {value: 'done', done: true}
+      console.log(it.next()); // {value: undefined, done: true}
+    </script>
+  </body>
+</html>

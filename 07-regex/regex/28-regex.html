@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>28-regex - s flag</title>
+  </head>
+  <body>
+    <script>
+      // without s flag, to match all character, we would use [\s\S] or [\d\D] or [\w\W]
+
+      var str = `ab\n12`;
+      var reg = /^ab.12$/; // without s flag, \n is not included in wildcard(.)
+      console.log(reg.test(str)); // false
+      var str = `ab\n12`;
+      var reg = /^ab.12$/s; // with s flag, \n is now able to be matched with wildcard.
+      console.log(reg.test(str)); // true
+    </script>
+  </body>
+</html>

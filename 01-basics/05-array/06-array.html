@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>06-Array Traversal</title>
+  </head>
+  <body>
+    <script>
+      var arr = ["A", "B", "C", "D", "E"];
+      for (var i = 0; i < arr.length; i++) {
+        console.log(arr[i]);
+      }
+
+      var arr = ["A", "B", , , , , , , "C", , , "D", "E"];
+      for (var i = 0; i < arr.length; i++) {
+        console.log(arr[i]);
+      }
+
+      /* Note: empty slot returns undefined */
+      //   A;
+      //   B;
+      //   6 x undefined;
+      //   C;
+      //   2 x undefined;
+      //   D;
+      //   E;
+    </script>
+  </body>
+</html>

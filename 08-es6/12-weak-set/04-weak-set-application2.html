@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-WeakSet Application 2</title>
+  </head>
+  <body>
+    <script>
+      // param obj also holds the strong reference
+      function execRecursively(fn, obj, _refs = new WeakSet()) {
+        // stops the infinite recursion.
+        if (_refs.has(obj)) {
+          // e.g., when foo.bar.baz is reached, its value foo has already existed in weakset.
+          return;
+        }
+        // Execute callback for both object and primitive types.
+        fn(obj);
+        // If the obj is an object, we will want to further process it.
+        if (typeof obj === "object" && obj !== null) {
+          _refs.add(obj); // add current obj to the weakset to mark it as being processed.
+          for (const key in obj) {
+            execRecursively(fn, obj[key], _refs);
+          }
+          _refs.delete(obj); // After processing, remove from the weakset.
+        }
+      }
+
+      // holding strong reference of {foo, bar}
+      const foo = {
+        foo: "foo",
+        bar: {
+          // holding strong reference of {bar}
+          bar: "Bar",
+        },
+      };
+
+      // holding strong reference of foo
+      foo.bar.baz = foo; // circular reference
+      execRecursively((obj) => console.log(obj), foo);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-Movie Seat</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      li {
+        text-align: center;
+      }
+      span {
+        width: 50px;
+        height: 25px;
+        margin: 5px;
+        border: 1px solid #ccc;
+        text-align: center;
+        line-height: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      function createSeats(row, col) {
+        var ul = document.createElement("ul");
+        var count = 1; // keep track of seat number.
+        var referenceNode = null; // initialize referenceNode as null.
+        for (var i = 0; i < row; i++) {
+          var li = document.createElement("li");
+          for (var j = 0; j < col; j++) {
+            var span = document.createElement("span");
+            span.style.display = "inline-block";
+            span.innerText = count++; // assignment before increment
+            li.appendChild(span);
+          }
+          // store new referenceNode of the recently inserted element.
+          referenceNode = ul.insertBefore(li, referenceNode);
+        }
+        return ul;
+      }
+      var seats = createSeats(9, 9);
+      document.body.appendChild(seats);
+      console.log(seats);
+    </script>
+  </body>
+</html>

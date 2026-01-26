@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calender</title>
+    <style>
+      /* RESET */
+      body {
+        margin: 0;
+      }
+
+      /* ICONFONT */
+      @font-face {
+        font-family: "iconfont";
+        src: url("./iconfont/iconfont.woff2") format("woff2"),
+          url("./iconfont/iconfont.woff") format("woff"),
+          url("./iconfont/iconfont.ttf") format("truetype");
+      }
+      .iconfont {
+        font-family: "iconfont" !important;
+        font-size: 16px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      .icon-color {
+        color: #aaa;
+      }
+
+      .icon-size {
+        font-size: 16px;
+      }
+
+      /* CALENDER HEADER */
+      .calender {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 320px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        box-shadow: 0 0 5px #ddd;
+        border-radius: 5px;
+      }
+
+      .calender-header {
+        display: flex;
+        height: 20px;
+        line-height: 20px;
+      }
+      .calender-header span {
+        color: rgb(125, 124, 124);
+        user-select: none; /* cannot be selected. */
+        cursor: pointer;
+      }
+
+      .calender-header .prev-yr-btn,
+      .calender-header .prev-mth-btn {
+        margin-left: 20px;
+      }
+
+      .calender-header .next-yr-btn,
+      .calender-header .next-mth-btn {
+        margin-right: 20px;
+      }
+
+      .calender-header .prev-yr-btn:hover,
+      .calender-header .prev-mth-btn:hover,
+      .calender-header .next-yr-btn:hover,
+      .calender-header .next-mth-btn:hover {
+        color: rgb(244, 31, 102);
+      }
+
+      .calender-header .current-date {
+        flex-grow: 1;
+        text-align: center;
+        font-size: 18px;
+        user-select: none;
+      }
+      .calender-header .current-date span {
+        color: #000;
+      }
+      /* TABLE LAYOUT */
+
+      .table {
+        display: table;
+        width: 100%;
+      }
+      .calender-main .table {
+        border-spacing: 5px;
+      }
+
+      .table .tr {
+        display: table-row;
+      }
+
+      .table .tr .th,
+      .table .tr .td {
+        display: table-cell;
+        height: 40.23px;
+        vertical-align: middle;
+        text-align: center;
+        font-size: 12px;
+        user-select: none;
+      }
+
+      .table .tr .th {
+        padding-top: 20px;
+        border-bottom: 1px solid #ddd;
+        cursor: default;
+      }
+
+      .table .tr .td {
+        cursor: pointer;
+      }
+
+      .table .tr .td:hover {
+        outline: 2px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .table .tr .td.prev-month,
+      .table .tr .td.next-month {
+        color: rgb(194, 194, 194);
+      }
+
+      .table .tr .td.current {
+        background-color: rgb(244, 31, 102);
+        color: #fff;
+        border-radius: 5px;
+      }
+
+      .table .tr .td.active {
+        outline: 2px solid rgb(244, 31, 102);
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calender">
+      <!--  CALENDER HEADER STARTS  -->
+      <div class="calender-header">
+        <span class="iconfont icon-color icon-size prev-yr-btn">&#xe670;</span>
+        <span class="iconfont icon-color icon-size prev-mth-btn">&#xe664;</span>
+        <div class="current-date">June 2025</div>
+        <span class="iconfont icon-color icon-size next-mth-btn">&#xe666;</span>
+        <span class="iconfont icon-color icon-size next-yr-btn">&#xe671;</span>
+      </div>
+      <!--  CALENDER HEADER ENDS  -->
+      <!--  WEEK INFO STARTS  -->
+      <div class="calender-weeks table">
+        <div class="tr">
+          <div class="th">Sun</div>
+          <div class="th">Mon</div>
+          <div class="th">Tue</div>
+          <div class="th">Wed</div>
+          <div class="th">Thu</div>
+          <div class="th">Fri</div>
+          <div class="th">Sat</div>
+        </div>
+      </div>
+      <!--  WEEK INFO ENDS  -->
+      <!--  DAYS INFO STARTS  -->
+
+      <div id="calender-main" class="calender-main">
+        <div class="table">
+          <div class="tr">
+            <div class="td prev-month">28</div>
+            <div class="td prev-month">29</div>
+            <div class="td prev-month">30</div>
+            <div class="td prev-month">31</div>
+            <div class="td">1</div>
+            <div class="td">2</div>
+            <div class="td">3</div>
+          </div>
+          <div class="tr">
+            <div class="td active">4</div>
+            <div class="td current">5</div>
+            <div class="td">6</div>
+            <div class="td">7</div>
+            <div class="td">8</div>
+            <div class="td">9</div>
+            <div class="td">10</div>
+          </div>
+          <div class="tr">
+            <div class="td">11</div>
+            <div class="td">12</div>
+            <div class="td">13</div>
+            <div class="td">14</div>
+            <div class="td">15</div>
+            <div class="td">16</div>
+            <div class="td">17</div>
+          </div>
+          <div class="tr">
+            <div class="td">18</div>
+            <div class="td">19</div>
+            <div class="td">20</div>
+            <div class="td">21</div>
+            <div class="td">22</div>
+            <div class="td">23</div>
+            <div class="td">24</div>
+          </div>
+          <div class="tr">
+            <div class="td">25</div>
+            <div class="td">26</div>
+            <div class="td">27</div>
+            <div class="td">28</div>
+            <div class="td">29</div>
+            <div class="td">30</div>
+            <div class="td next-month">1</div>
+          </div>
+          <div class="tr">
+            <div class="td next-month">2</div>
+            <div class="td next-month">3</div>
+            <div class="td next-month">4</div>
+            <div class="td next-month">5</div>
+            <div class="td next-month">6</div>
+            <div class="td next-month">7</div>
+            <div class="td next-month">8</div>
+          </div>
+        </div>
+      </div>
+
+      <!--  DAYS INFO ENDS  -->
+    </div>
+    <script src="./date.js"></script>
+    <script>
+      var YEAR = 2025;
+      var MONTH = 6;
+      // Rendering
+      // 0. totalCells = 7 * 6 = 42 cells
+      // 1. how many days we have in the current month?
+      // 2. what is the day of week for the first day of the current month?
+      // 3. how many days are there in the previous month? based on the first day of week of the current month
+      // 4. is the last day 0 or 31? new Date(2025, 6, 0).getDate() to get the last day of May
+      // 5. how many days are there in the next month? totalCells - previousMonthDays + currentMonthDays
+
+      // console.log(composeCalenderTds(YEAR, MONTH));
+      // console.log(generateCalendarDays(YEAR, MONTH));
+      // renderCalenderUI(YEAR, MONTH);
+      // renderCalenderUI(YEAR, 5);
+
+      var currentDate = getCurrentDate();
+      var currentYr = currentDate.year;
+      var currentMth = currentDate.month;
+      var currentDay = currentDate.date;
+      renderCalenderUI(currentYr, currentMth);
+
+      // 1. the current date must be painted with red background color.
+      // 2. update the year and month on the header.
+
+      // get switch buttons and register click event.
+      var calenderMain = document.getElementById("calender-main");
+      var prevYrBtn = document.querySelector(".prev-yr-btn");
+      var nextYrBtn = document.querySelector(".next-yr-btn");
+      var prevMthBtn = document.querySelector(".prev-mth-btn");
+      var nextMthBtn = document.querySelector(".next-mth-btn");
+
+      prevYrBtn.addEventListener("click", function () {
+        currentYr--;
+        renderCalenderUI(currentYr, currentMth);
+      });
+
+      nextYrBtn.addEventListener("click", function () {
+        currentYr++;
+        renderCalenderUI(currentYr, currentMth);
+      });
+
+      prevMthBtn.addEventListener("click", function () {
+        currentMth--;
+        if (currentMth < 0) {
+          currentYr--;
+          currentMth = 11;
+        }
+        renderCalenderUI(currentYr, currentMth);
+      });
+
+      nextMthBtn.addEventListener("click", function () {
+        currentMth++;
+        if (currentMth > 11) {
+          currentYr++;
+          currentMth = 0;
+        }
+        renderCalenderUI(currentYr, currentMth);
+      });
+
+      // Select specific date from the calendar
+      var prevEl = null;
+      calenderMain.addEventListener("click", function (e) {
+        var target = e.target;
+        if (target.tagName !== "TD") {
+          return;
+        }
+        if (prevEl) {
+          prevEl.classList.remove("active");
+        }
+        target.classList.add("active");
+        prevEl = target;
+        var selectedDate;
+        if (target.classList.contains("prev-month")) {
+          // when the selected date is prev-month's
+          currentMth--;
+          if (currentMth < 0) {
+            currentMth = 11;
+            currentYr--;
+          }
+          selectedDate = parseInt(target.textContent);
+          renderCalenderUI(currentYr, currentMth, selectedDate);
+        } else if (target.classList.contains("next-month")) {
+          // when the selected date is next-month's
+          currentMth++;
+          if (currentMth === 12) {
+            currentMth = 0;
+            currentYr++;
+          }
+          selectedDate = parseInt(target.textContent);
+          renderCalenderUI(currentYr, currentMth, selectedDate);
+        }
+
+        // log date
+        console.log(
+          currentYr +
+            "-" +
+            padZeroes(currentMth + 1) +
+            "-" +
+            padZeroes(target.textContent)
+        );
+      });
+
+      /* Click to log the selected date */
+
+      // // These variables are for displaying the _currentYr and _currentMth without touching currentYr and currentMth.
+      // var _currentYr = currentYr,
+      //   _currentMth = currentMth;
+      // if (target.classList.contains("prev-month")) {
+      //   // Check first month
+      //   if (_currentMth === 0) {
+      //     _currentMth = 12;
+      //     _currentYr = currentYr - 1;
+      //   }
+      // } else if (target.classList.contains("next-month")) {
+      //   _currentMth = currentMth + 2;
+      //   // Check last month
+      //   if (_currentMth === 13) {
+      //     _currentMth = 1;
+      //     _currentYr = currentYr + 1;
+      //   }
+      // } else {
+      //   _currentMth = currentMth + 1;
+      // }
+      // console.log(
+      //   currentYr +
+      //     "-" +
+      //     padZeroes(_currentMth) +
+      //     "-" +
+      //     padZeroes(target.textContent)
+      // );
+
+      function padZeroes(value, targetLength = 2) {
+        return String(value).padStart(targetLength, "0");
+      }
+    </script>
+  </body>
+</html>

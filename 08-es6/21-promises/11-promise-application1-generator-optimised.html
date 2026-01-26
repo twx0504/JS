@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      11-Promise - Application 1 - Sequential Image Preloading with Generator -
+      Optimised
+    </title>
+  </head>
+  <body>
+    <script>
+      const urls = [
+        "https://emojiisland.com/cdn/shop/products/Hugging_Face_Emoji_2028ce8b-c213-4d45-94aa-21e1a0842b4d_grande.png?v=1571606036",
+        "https://i.pinimg.com/736x/19/82/2c/19822c18e912ad0ffb2ad2faed8a61af.jpg",
+        // The URL below is intentionally incorrect to test error handling.
+        "htt://i.pinimg.com/736x/81/aa/6b/81aa6b36930a0af2d0a6ef967adfe5af.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWqPywvm0jmBaK8f944mTqST4RnA5DCGxRQA&s",
+        "https://emojiisland.com/cdn/shop/products/Emoji_Icon_-_Thinking_grande.png?v=1571606093",
+      ];
+
+      function* gen() {
+        // Sequentially load each image.
+        for (const url of urls) {
+          try {
+            // The generator pauses here until `it.next(img)` or `it.throw(err)` is called.
+            yield preloadImage(url);
+            // const a = yield preloadImage(url);
+            // console.log(a);
+            // Other operations will be handled in callback.
+          } catch (err) {
+            // Handle individual image load errors without stopping the loop.
+            console.log(err);
+          }
+        }
+      }
+
+      function preloadImage(url) {
+        // Return a function.
+        // When we gets img or not, all the operations will be handled by passing callback to this returned function.
+        return function (resolve, reject) {
+          const img = new Image();
+          img.style.cssText = "width:200px; margin:10px";
+
+          // When the image loads successfully, resume the generator and pass the loaded image element.
+          img.onload = function () {
+            resolve(img); // Callback
+          };
+
+          // When the image fails to load, throw an error into the generator.
+          img.onerror = function () {
+            reject(new Error(`Image loading with url ${url} has failed.`)); // Callback
+
+            // Alternatively, if you want to *skip* broken images instead of stopping execution:
+            // it.next(null);
+          };
+
+          // Start loading the image by setting its source.
+          // Send HTTP request.
+          img.src = url;
+        };
+      }
+
+      function autorun(gen) {
+        const it = gen();
+        function step(err, val) {
+          // first it.next(), val is undefined, the very first it.next() doesn't use the argument at all.
+          // it.next(val) returns the last yield value.
+          // it.throw(err) sends the error to generator for handling.
+          // If it.throw(err) is called and the generator has internally dealt with this error, it will return the object like it.next().
+          const res = err ? it.throw(err) : it.next(val);
+          // If seems like after it.throw(err) is called instead, and the internal generator has deal with it with try catch the rest of the line is run as usual.
+          if (res.done) return; // Recursion termination condition.
+          const task = res.value;
+          task(
+            (img) => {
+              // If each image has different operation, you could consider pass a callback here to handle complex operation.
+              document.body.appendChild(img);
+              step(null, img); // Sequential.
+            },
+            (err) => {
+              step(err);
+            }
+          );
+        }
+        // start
+        step();
+      }
+
+      autorun(gen);
+
+      // const it = gen();
+
+      // // Problem: There's still callback hell.
+      // // Solution: Create an autorun function to handle this for us.
+      // it.next().value(
+      //   (img) => {
+      //     document.body.appendChild(img);
+      //     // loading next img.
+      //     it.next().value(
+      //       (img) => {
+      //         document.body.appendChild(img);
+      //         it.next().value(
+      //           (img) => {
+      //             document.body.appendChild(img);
+      //             it.next().value(
+      //               (img) => {
+      //                 document.body.appendChild(img);
+      //               },
+      //               (err) => {
+      //                 it.throw(err);
+      //               }
+      //             );
+      //           },
+      //           (err) => {
+      //             it.throw(err);
+      //           }
+      //         );
+      //       },
+      //       (err) => {
+      //         it.throw(err);
+      //       }
+      //     );
+      //   },
+      //   (err) => {
+      //     it.throw(err);
+      //   }
+      // );
+    </script>
+  </body>
+</html>

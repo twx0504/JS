@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-Array: Modifying Array Item Values</title>
+  </head>
+  <body>
+    <script>
+      var arr = [1, 2, 3, 4];
+
+      // Modify the last item's value.
+      arr[arr.length - 1] = "I changed!";
+      console.log(arr); // [1, 2, 3, 'I changed!']
+
+      // When the index > arr.length - 1
+      // Skipping indices creates empty slots.
+      arr[5] = 5;
+      console.log(arr); // [1, 2, 3, 'I changed!', 5]
+
+      // Assigning value to a distant index expands the array and introduces empty slots.
+      arr[10] = 10;
+      console.log(arr); // [1, 2, 3, 'I changed!', empty, 5, empty × 4, 10]
+
+      // Accessing empty slot returns undefined.
+      console.log(arr[6]); // undefined - but it is empty slot!
+
+      /* Create an empty array and assign with values */
+      var arr = [];
+      arr[0] = 1;
+      arr[1] = 2;
+      arr[2] = 3;
+      console.log(arr, arr.length); // [1, 2, 3] 3
+    </script>
+  </body>
+</html>
