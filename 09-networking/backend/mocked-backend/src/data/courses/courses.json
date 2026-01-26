@@ -1,0 +1,602 @@
+[
+  {
+    "courseId": "c8f3a2b1-4d5e-6f7a-8b9c-0d1e2f3a4b5c",
+    "courseName": "JavaScript Basics",
+    "desc": "Learn the fundamentals of JavaScript, including variables, functions, and loops.",
+    "imageUrl": "https://picsum.photos/200?random=1",
+    "category": "Programming",
+    "level": "Beginner",
+    "duration": "6 weeks",
+    "instructor": "Sarah Mitchell"
+  },
+  {
+    "courseId": "d9e4b3c2-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+    "courseName": "Advanced CSS",
+    "desc": "Master CSS Grid, Flexbox, animations, and responsive design techniques.",
+    "imageUrl": "https://picsum.photos/200?random=2",
+    "category": "Web Design",
+    "level": "Advanced",
+    "duration": "8 weeks",
+    "instructor": "Marcus Chen"
+  },
+  {
+    "courseId": "e0f5c4d3-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+    "courseName": "React for Beginners",
+    "desc": "Build interactive UIs and single-page applications with React.",
+    "imageUrl": "https://picsum.photos/200?random=3",
+    "category": "Frontend Development",
+    "level": "Beginner",
+    "duration": "10 weeks",
+    "instructor": "Emily Rodriguez"
+  },
+  {
+    "courseId": "f1a6d5e4-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+    "courseName": "Node.js Essentials",
+    "desc": "Learn server-side JavaScript and build scalable backend applications.",
+    "imageUrl": "https://picsum.photos/200?random=4",
+    "category": "Backend Development",
+    "level": "Intermediate",
+    "duration": "8 weeks",
+    "instructor": "David Kumar"
+  },
+  {
+    "courseId": "a2b7e6f5-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+    "courseName": "TypeScript Fundamentals",
+    "desc": "Write safer JavaScript code using TypeScript's type system.",
+    "imageUrl": "https://picsum.photos/200?random=5",
+    "category": "Programming",
+    "level": "Intermediate",
+    "duration": "6 weeks",
+    "instructor": "Anna Kowalski"
+  },
+  {
+    "courseId": "b3c8f7a6-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
+    "courseName": "Frontend Performance",
+    "desc": "Optimize your web applications for speed and efficiency.",
+    "imageUrl": "https://picsum.photos/200?random=6",
+    "category": "Web Development",
+    "level": "Advanced",
+    "duration": "5 weeks",
+    "instructor": "James Wilson"
+  },
+  {
+    "courseId": "c4d9a8b7-0d1e-2f3a-4b5c-6d7e8f9a0b1c",
+    "courseName": "Vue.js Crash Course",
+    "desc": "Build reactive web apps quickly using Vue.js and its ecosystem.",
+    "imageUrl": "https://picsum.photos/200?random=7",
+    "category": "Frontend Development",
+    "level": "Beginner",
+    "duration": "7 weeks",
+    "instructor": "Sophie Laurent"
+  },
+  {
+    "courseId": "d5e0b9c8-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+    "courseName": "CSS Animations & Transitions",
+    "desc": "Create smooth animations and transitions with pure CSS.",
+    "imageUrl": "https://picsum.photos/200?random=8",
+    "category": "Web Design",
+    "level": "Intermediate",
+    "duration": "4 weeks",
+    "instructor": "Lucas Martinez"
+  },
+  {
+    "courseId": "e6f1c0d9-2f3a-4b5c-6d7e-8f9a0b1c2d3e",
+    "courseName": "Fullstack Project",
+    "desc": "Combine frontend and backend skills to build a complete web project.",
+    "imageUrl": "https://picsum.photos/200?random=9",
+    "category": "Full Stack",
+    "level": "Advanced",
+    "duration": "12 weeks",
+    "instructor": "Rachel Thompson"
+  },
+  {
+    "courseId": "f7a2d1e0-3a4b-5c6d-7e8f-9a0b1c2d3e4f",
+    "courseName": "Web Accessibility",
+    "desc": "Make your websites usable and inclusive for all users.",
+    "imageUrl": "https://picsum.photos/200?random=10",
+    "category": "Web Development",
+    "level": "Intermediate",
+    "duration": "5 weeks",
+    "instructor": "Michael Zhang"
+  },
+  {
+    "courseId": "a8b3e2f1-4b5c-6d7e-8f9a-0b1c2d3e4f5a",
+    "courseName": "Python for Data Science",
+    "desc": "Analyze data and build machine learning models using Python libraries.",
+    "imageUrl": "https://picsum.photos/200?random=11",
+    "category": "Data Science",
+    "level": "Beginner",
+    "duration": "10 weeks",
+    "instructor": "Priya Sharma"
+  },
+  {
+    "courseId": "b9c4f3a2-5c6d-7e8f-9a0b-1c2d3e4f5a6b",
+    "courseName": "Git & GitHub Mastery",
+    "desc": "Version control, collaboration, and best practices for modern development.",
+    "imageUrl": "https://picsum.photos/200?random=12",
+    "category": "DevOps",
+    "level": "Beginner",
+    "duration": "4 weeks",
+    "instructor": "Tom Anderson"
+  },
+  {
+    "courseId": "c0d5a4b3-6d7e-8f9a-0b1c-2d3e4f5a6b7c",
+    "courseName": "Database Design with SQL",
+    "desc": "Design efficient databases and write powerful SQL queries.",
+    "imageUrl": "https://picsum.photos/200?random=13",
+    "category": "Database",
+    "level": "Intermediate",
+    "duration": "8 weeks",
+    "instructor": "Jennifer Lee"
+  },
+  {
+    "courseId": "d1e6b5c4-7e8f-9a0b-1c2d-3e4f5a6b7c8d",
+    "courseName": "REST API Development",
+    "desc": "Build robust RESTful APIs with best practices and authentication.",
+    "imageUrl": "https://picsum.photos/200?random=14",
+    "category": "Backend Development",
+    "level": "Intermediate",
+    "duration": "7 weeks",
+    "instructor": "Carlos Gomez"
+  },
+  {
+    "courseId": "e2f7c6d5-8f9a-0b1c-2d3e-4f5a6b7c8d9e",
+    "courseName": "GraphQL Fundamentals",
+    "desc": "Query data efficiently with GraphQL and build modern APIs.",
+    "imageUrl": "https://picsum.photos/200?random=15",
+    "category": "Backend Development",
+    "level": "Advanced",
+    "duration": "6 weeks",
+    "instructor": "Nina Petrov"
+  },
+  {
+    "courseId": "f3a8d7e6-9a0b-1c2d-3e4f-5a6b7c8d9e0f",
+    "courseName": "Docker for Developers",
+    "desc": "Containerize applications and streamline deployment workflows.",
+    "imageUrl": "https://picsum.photos/200?random=16",
+    "category": "DevOps",
+    "level": "Intermediate",
+    "duration": "6 weeks",
+    "instructor": "Ahmed Hassan"
+  },
+  {
+    "courseId": "a4b9e8f7-0b1c-2d3e-4f5a-6b7c8d9e0f1a",
+    "courseName": "UI/UX Design Principles",
+    "desc": "Create intuitive and beautiful user interfaces that users love.",
+    "imageUrl": "https://picsum.photos/200?random=17",
+    "category": "Design",
+    "level": "Beginner",
+    "duration": "8 weeks",
+    "instructor": "Olivia Brown"
+  },
+  {
+    "courseId": "b5c0f9a8-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
+    "courseName": "MongoDB Essentials",
+    "desc": "Work with NoSQL databases and build flexible data models.",
+    "imageUrl": "https://picsum.photos/200?random=18",
+    "category": "Database",
+    "level": "Intermediate",
+    "duration": "7 weeks",
+    "instructor": "Ryan O'Connor"
+  },
+  {
+    "courseId": "c6d1a0b9-2d3e-4f5a-6b7c-8d9e0f1a2b3c",
+    "courseName": "Testing with Jest",
+    "desc": "Write unit and integration tests to ensure code quality.",
+    "imageUrl": "https://picsum.photos/200?random=19",
+    "category": "Testing",
+    "level": "Intermediate",
+    "duration": "5 weeks",
+    "instructor": "Lisa Wang"
+  },
+  {
+    "courseId": "d7e2b1c0-3e4f-5a6b-7c8d-9e0f1a2b3c4d",
+    "courseName": "AWS Cloud Fundamentals",
+    "desc": "Deploy and manage applications on Amazon Web Services.",
+    "imageUrl": "https://picsum.photos/200?random=20",
+    "category": "Cloud Computing",
+    "level": "Beginner",
+    "duration": "9 weeks",
+    "instructor": "Kevin Patel"
+  },
+  {
+    "courseId": "e8f3c2d1-4f5a-6b7c-8d9e-0f1a2b3c4d5e",
+    "courseName": "Cybersecurity Basics",
+    "desc": "Protect applications from common security vulnerabilities and attacks.",
+    "imageUrl": "https://picsum.photos/200?random=21",
+    "category": "Security",
+    "level": "Beginner",
+    "duration": "8 weeks",
+    "instructor": "Diana Foster"
+  },
+  {
+    "courseId": "f9a4d3e2-5a6b-7c8d-9e0f-1a2b3c4d5e6f",
+    "courseName": "Svelte Framework",
+    "desc": "Build fast web applications with the lightweight Svelte framework.",
+    "imageUrl": "https://picsum.photos/200?random=22",
+    "category": "Frontend Development",
+    "level": "Intermediate",
+    "duration": "6 weeks",
+    "instructor": "Erik Johansson"
+  },
+  {
+    "courseId": "a0b5e4f3-6b7c-8d9e-0f1a-2b3c4d5e6f7a",
+    "courseName": "Progressive Web Apps",
+    "desc": "Create app-like experiences that work offline and on any device.",
+    "imageUrl": "https://picsum.photos/200?random=23",
+    "category": "Mobile Development",
+    "level": "Advanced",
+    "duration": "7 weeks",
+    "instructor": "Maria Santos"
+  },
+  {
+    "courseId": "b1c6f5a4-7c8d-9e0f-1a2b-3c4d5e6f7a8b",
+    "courseName": "Django Web Development",
+    "desc": "Build secure and scalable web applications with Python and Django.",
+    "imageUrl": "https://picsum.photos/200?random=24",
+    "category": "Backend Development",
+    "level": "Intermediate",
+    "duration": "10 weeks",
+    "instructor": "Nathan Green"
+  },
+  {
+    "courseId": "c2d7a6b5-8d9e-0f1a-2b3c-4d5e6f7a8b9c",
+    "courseName": "Mobile Development with Flutter",
+    "desc": "Create beautiful native apps for iOS and Android from one codebase.",
+    "imageUrl": "https://picsum.photos/200?random=25",
+    "category": "Mobile Development",
+    "level": "Intermediate",
+    "duration": "12 weeks",
+    "instructor": "Yuki Tanaka"
+  },
+  {
+    "courseId": "d3e8b7c6-9e0f-1a2b-3c4d-5e6f7a8b9c0d",
+    "courseName": "Kubernetes Orchestration",
+    "desc": "Deploy and manage containerized applications at scale with Kubernetes.",
+    "imageUrl": "https://picsum.photos/200?random=26",
+    "category": "DevOps",
+    "level": "Advanced",
+    "duration": "8 weeks",
+    "instructor": "Sebastian Mueller"
+  },
+  {
+    "courseId": "e4f9c8d7-0f1a-2b3c-4d5e-6f7a8b9c0d1e",
+    "courseName": "Tailwind CSS Workshop",
+    "desc": "Build modern interfaces rapidly with utility-first CSS framework.",
+    "imageUrl": "https://picsum.photos/200?random=27",
+    "category": "Web Design",
+    "level": "Beginner",
+    "duration": "4 weeks",
+    "instructor": "Grace Kim"
+  },
+  {
+    "courseId": "f5a0d9e8-1a2b-3c4d-5e6f-7a8b9c0d1e2f",
+    "courseName": "WebSocket Real-time Apps",
+    "desc": "Create live chat, notifications, and collaborative apps with WebSockets.",
+    "imageUrl": "https://picsum.photos/200?random=28",
+    "category": "Backend Development",
+    "level": "Advanced",
+    "duration": "6 weeks",
+    "instructor": "Ibrahim Ali"
+  },
+  {
+    "courseId": "a6b1e0f9-2b3c-4d5e-6f7a-8b9c0d1e2f3a",
+    "courseName": "Redis Caching Strategies",
+    "desc": "Improve application performance with in-memory data caching.",
+    "imageUrl": "https://picsum.photos/200?random=29",
+    "category": "Backend Development",
+    "level": "Advanced",
+    "duration": "5 weeks",
+    "instructor": "Victoria Chen"
+  },
+  {
+    "courseId": "b7c2f1a0-3c4d-5e6f-7a8b-9c0d1e2f3a4b",
+    "courseName": "Next.js Full Course",
+    "desc": "Build production-ready React applications with server-side rendering.",
+    "imageUrl": "https://picsum.photos/200?random=30",
+    "category": "Frontend Development",
+    "level": "Advanced",
+    "duration": "10 weeks",
+    "instructor": "Daniel Park"
+  },
+  {
+    "courseId": "c8d3a2b1-4d5e-6f7a-8b9c-0d1e2f3a4b5c",
+    "courseName": "Blockchain Development",
+    "desc": "Build decentralized applications and smart contracts on Ethereum.",
+    "imageUrl": "https://picsum.photos/200?random=31",
+    "category": "Blockchain",
+    "level": "Advanced",
+    "duration": "12 weeks",
+    "instructor": "Alexei Volkov"
+  },
+  {
+    "courseId": "d9e4b3c2-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+    "courseName": "DevOps Essentials",
+    "desc": "Learn CI/CD pipelines, automation, and deployment best practices.",
+    "imageUrl": "https://picsum.photos/200?random=32",
+    "category": "DevOps",
+    "level": "Intermediate",
+    "duration": "8 weeks",
+    "instructor": "Patricia Lewis"
+  },
+  {
+    "courseId": "e0f5c4d3-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+    "courseName": "Webpack Configuration",
+    "desc": "Master module bundling and optimize your build process.",
+    "imageUrl": "https://picsum.photos/200?random=33",
+    "category": "Build Tools",
+    "level": "Advanced",
+    "duration": "5 weeks",
+    "instructor": "Marco Rossi"
+  },
+  {
+    "courseId": "f1a6d5e4-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+    "courseName": "Serverless Architecture",
+    "desc": "Build scalable apps without managing servers using AWS Lambda.",
+    "imageUrl": "https://picsum.photos/200?random=34",
+    "category": "Cloud Computing",
+    "level": "Advanced",
+    "duration": "7 weeks",
+    "instructor": "Fatima Rahman"
+  },
+  {
+    "courseId": "a2b7e6f5-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+    "courseName": "Machine Learning Basics",
+    "desc": "Introduction to ML algorithms, training models, and predictions.",
+    "imageUrl": "https://picsum.photos/200?random=35",
+    "category": "Machine Learning",
+    "level": "Beginner",
+    "duration": "10 weeks",
+    "instructor": "Andrew Chen"
+  },
+  {
+    "courseId": "b3c8f7a6-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
+    "courseName": "Remix Framework",
+    "desc": "Build fast, dynamic web apps with modern React framework.",
+    "imageUrl": "https://picsum.photos/200?random=36",
+    "category": "Frontend Development",
+    "level": "Advanced",
+    "duration": "8 weeks",
+    "instructor": "Charlotte Davis"
+  },
+  {
+    "courseId": "c4d9a8b7-0d1e-2f3a-4b5c-6d7e8f9a0b1c",
+    "courseName": "Chrome Extension Development",
+    "desc": "Create powerful browser extensions to enhance user productivity.",
+    "imageUrl": "https://picsum.photos/200?random=37",
+    "category": "Web Development",
+    "level": "Intermediate",
+    "duration": "6 weeks",
+    "instructor": "Ben Taylor"
+  },
+  {
+    "courseId": "d5e0b9c8-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+    "courseName": "Three.js 3D Graphics",
+    "desc": "Build stunning 3D visualizations and interactive experiences on the web.",
+    "imageUrl": "https://picsum.photos/200?random=38",
+    "category": "Graphics",
+    "level": "Advanced",
+    "duration": "9 weeks",
+    "instructor": "Sofia Gonzalez"
+  },
+  {
+    "courseId": "e6f1c0d9-2f3a-4b5c-6d7e-8f9a0b1c2d3e",
+    "courseName": "OAuth & Authentication",
+    "desc": "Implement secure user authentication and authorization systems.",
+    "imageUrl": "https://picsum.photos/200?random=39",
+    "category": "Security",
+    "level": "Advanced",
+    "duration": "6 weeks",
+    "instructor": "Marcus Johnson"
+  },
+  {
+    "courseId": "f7a2d1e0-3a4b-5c6d-7e8f-9a0b1c2d3e4f",
+    "courseName": "Microservices Architecture",
+    "desc": "Design and build distributed systems with independent services.",
+    "imageUrl": "https://picsum.photos/200?random=40",
+    "category": "Architecture",
+    "level": "Advanced",
+    "duration": "10 weeks",
+    "instructor": "Helena Novak"
+  },
+  {
+    "courseId": "a8b3e2f1-4b5c-6d7e-8f9a-0b1c2d3e4f5a",
+    "courseName": "Electron Desktop Apps",
+    "desc": "Build cross-platform desktop applications using web technologies.",
+    "imageUrl": "https://picsum.photos/200?random=41",
+    "category": "Desktop Development",
+    "level": "Intermediate",
+    "duration": "8 weeks",
+    "instructor": "Oliver Wright"
+  },
+  {
+    "courseId": "b9c4f3a2-5c6d-7e8f-9a0b-1c2d3e4f5a6b",
+    "courseName": "Laravel PHP Framework",
+    "desc": "Create elegant web applications with the powerful Laravel framework.",
+    "imageUrl": "https://picsum.photos/200?random=42",
+    "category": "Backend Development",
+    "level": "Intermediate",
+    "duration": "10 weeks",
+    "instructor": "Isabella Costa"
+  },
+  {
+    "courseId": "c0d5a4b3-6d7e-8f9a-0b1c-2d3e4f5a6b7c",
+    "courseName": "D3.js Data Visualization",
+    "desc": "Create interactive and dynamic data visualizations for the web.",
+    "imageUrl": "https://picsum.photos/200?random=43",
+    "category": "Data Visualization",
+    "level": "Advanced",
+    "duration": "7 weeks",
+    "instructor": "Robert Kim"
+  },
+  {
+    "courseId": "d1e6b5c4-7e8f-9a0b-1c2d-3e4f5a6b7c8d",
+    "courseName": "Ruby on Rails Bootcamp",
+    "desc": "Rapidly develop full-stack web applications with Ruby on Rails.",
+    "imageUrl": "https://picsum.photos/200?random=44",
+    "category": "Full Stack",
+    "level": "Intermediate",
+    "duration": "12 weeks",
+    "instructor": "Maya Patel"
+  },
+  {
+    "courseId": "e2f7c6d5-8f9a-0b1c-2d3e-4f5a6b7c8d9e",
+    "courseName": "Socket.io Development",
+    "desc": "Build real-time bidirectional communication between clients and servers.",
+    "imageUrl": "https://picsum.photos/200?random=45",
+    "category": "Backend Development",
+    "level": "Advanced",
+    "duration": "6 weeks",
+    "instructor": "Liam Murphy"
+  },
+  {
+    "courseId": "f3a8d7e6-9a0b-1c2d-3e4f-5a6b7c8d9e0f",
+    "courseName": "SEO Optimization",
+    "desc": "Boost your website's visibility and ranking on search engines.",
+    "imageUrl": "https://picsum.photos/200?random=46",
+    "category": "Marketing",
+    "level": "Beginner",
+    "duration": "5 weeks",
+    "instructor": "Emma Wilson"
+  },
+  {
+    "courseId": "a4b9e8f7-0b1c-2d3e-4f5a-6b7c8d9e0f1a",
+    "courseName": "Gatsby Static Sites",
+    "desc": "Build blazing-fast static websites with React and GraphQL.",
+    "imageUrl": "https://picsum.photos/200?random=47",
+    "category": "Frontend Development",
+    "level": "Intermediate",
+    "duration": "7 weeks",
+    "instructor": "Noah Anderson"
+  },
+  {
+    "courseId": "b5c0f9a8-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
+    "courseName": "Spring Boot Java",
+    "desc": "Develop enterprise-grade Java applications with Spring Boot.",
+    "imageUrl": "https://picsum.photos/200?random=48",
+    "category": "Backend Development",
+    "level": "Advanced",
+    "duration": "10 weeks",
+    "instructor": "Aisha Khan"
+  },
+  {
+    "courseId": "c6d1a0b9-2d3e-4f5a-6b7c-8d9e0f1a2b3c",
+    "courseName": "Firebase Backend",
+    "desc": "Build serverless apps with Firebase authentication and real-time database.",
+    "imageUrl": "https://picsum.photos/200?random=49",
+    "category": "Backend Development",
+    "level": "Beginner",
+    "duration": "6 weeks",
+    "instructor": "Lucas Silva"
+  },
+  {
+    "courseId": "d7e2b1c0-3e4f-5a6b-7c8d-9e0f1a2b3c4d",
+    "courseName": "Nginx Web Server",
+    "desc": "Configure and optimize Nginx for high-performance web serving.",
+    "imageUrl": "https://picsum.photos/200?random=50",
+    "category": "DevOps",
+    "level": "Advanced",
+    "duration": "5 weeks",
+    "instructor": "Julia Schmidt"
+  },
+  {
+    "courseId": "e8f3c2d1-4f5a-6b7c-8d9e-0f1a2b3c4d5e",
+    "courseName": "Stripe Payment Integration",
+    "desc": "Accept online payments securely with Stripe API integration.",
+    "imageUrl": "https://picsum.photos/200?random=51",
+    "category": "E-commerce",
+    "level": "Intermediate",
+    "duration": "4 weeks",
+    "instructor": "Ethan Brooks"
+  },
+  {
+    "courseId": "f9a4d3e2-5a6b-7c8d-9e0f-1a2b3c4d5e6f",
+    "courseName": "Prisma ORM Mastery",
+    "desc": "Simplify database access with modern type-safe ORM for Node.js.",
+    "imageUrl": "https://picsum.photos/200?random=52",
+    "category": "Database",
+    "level": "Intermediate",
+    "duration": "6 weeks",
+    "instructor": "Zara Ahmed"
+  },
+  {
+    "courseId": "a0b5e4f3-6b7c-8d9e-0f1a-2b3c4d5e6f7a",
+    "courseName": "Ansible Automation",
+    "desc": "Automate infrastructure provisioning and configuration management.",
+    "imageUrl": "https://picsum.photos/200?random=53",
+    "category": "DevOps",
+    "level": "Advanced",
+    "duration": "7 weeks",
+    "instructor": "Mason Cooper"
+  },
+  {
+    "courseId": "b1c6f5a4-7c8d-9e0f-1a2b-3c4d5e6f7a8b",
+    "courseName": "Solidity Smart Contracts",
+    "desc": "Write secure smart contracts for Ethereum blockchain applications.",
+    "imageUrl": "https://picsum.photos/200?random=54",
+    "category": "Blockchain",
+    "level": "Advanced",
+    "duration": "9 weeks",
+    "instructor": "Hana Suzuki"
+  },
+  {
+    "courseId": "c2d7a6b5-8d9e-0f1a-2b3c-4d5e6f7a8b9c",
+    "courseName": "Figma to Code",
+    "desc": "Transform design mockups into pixel-perfect web interfaces.",
+    "imageUrl": "https://picsum.photos/200?random=55",
+    "category": "Design",
+    "level": "Intermediate",
+    "duration": "6 weeks",
+    "instructor": "Isaac Martinez"
+  },
+  {
+    "courseId": "d3e8b7c6-9e0f-1a2b-3c4d-5e6f7a8b9c0d",
+    "courseName": "Terraform Infrastructure",
+    "desc": "Manage cloud infrastructure as code with Terraform automation.",
+    "imageUrl": "https://picsum.photos/200?random=56",
+    "category": "DevOps",
+    "level": "Advanced",
+    "duration": "8 weeks",
+    "instructor": "Leah Bennett"
+  },
+  {
+    "courseId": "e4f9c8d7-0f1a-2b3c-4d5e-6f7a8b9c0d1e",
+    "courseName": "Elasticsearch & Kibana",
+    "desc": "Search, analyze, and visualize large volumes of data efficiently.",
+    "imageUrl": "https://picsum.photos/200?random=57",
+    "category": "Data Engineering",
+    "level": "Advanced",
+    "duration": "7 weeks",
+    "instructor": "Oscar Fernandez"
+  },
+  {
+    "courseId": "f5a0d9e8-1a2b-3c4d-5e6f-7a8b9c0d1e2f",
+    "courseName": "RabbitMQ Message Queue",
+    "desc": "Build reliable message-driven architectures with RabbitMQ.",
+    "imageUrl": "https://picsum.photos/200?random=58",
+    "category": "Backend Development",
+    "level": "Advanced",
+    "duration": "6 weeks",
+    "instructor": "Chloe Martin"
+  },
+  {
+    "courseId": "a6b1e0f9-2b3c-4d5e-6f7a-8b9c0d1e2f3a",
+    "courseName": "Cypress E2E Testing",
+    "desc": "Write reliable end-to-end tests for modern web applications.",
+    "imageUrl": "https://picsum.photos/200?random=59",
+    "category": "Testing",
+    "level": "Intermediate",
+    "duration": "5 weeks",
+    "instructor": "Tyler Harris"
+  },
+  {
+    "courseId": "b7c2f1a0-3c4d-5e6f-7a8b-9c0d1e2f3a4b",
+    "courseName": "Astro Framework",
+    "desc": "Build fast content-focused websites with the Astro framework.",
+    "imageUrl": "https://picsum.photos/200?random=60",
+    "category": "Frontend Development",
+    "level": "Intermediate",
+    "duration": "6 weeks",
+    "instructor": "Aria Thompson"
+  }
+]

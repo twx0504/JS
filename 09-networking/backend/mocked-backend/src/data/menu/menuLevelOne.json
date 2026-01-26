@@ -1,0 +1,22 @@
+[
+  {
+    "category_id": "c1b2a8e4-7c31-4d0e-9d45-1a8f5f01a001",
+    "title": "Dashboard"
+  },
+  {
+    "category_id": "c1b2a8e4-7c31-4d0e-9d45-1a8f5f01a002",
+    "title": "Products"
+  },
+  {
+    "category_id": "c1b2a8e4-7c31-4d0e-9d45-1a8f5f01a003",
+    "title": "Orders"
+  },
+  {
+    "category_id": "c1b2a8e4-7c31-4d0e-9d45-1a8f5f01a004",
+    "title": "Customers"
+  },
+  {
+    "category_id": "c1b2a8e4-7c31-4d0e-9d45-1a8f5f01a005",
+    "title": "Settings"
+  }
+]

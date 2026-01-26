@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Async Await 7: Await</title>
+  </head>
+  <body>
+    <script>
+      async function foo() {
+        // 1. await value === [[PromiseResult]]
+        // 2. If a promise is rejected, it throws.
+        // console.log(Promise.reject(new Error("Failed.")));
+
+        // Note: when there's async tasks, we should consider using try...catch
+        // Async tasks have chance to go wrong
+        // await Promise.reject("success");
+        try {
+          const x = await Promise.reject("success");
+
+          // If Promise.reject is executed, x will not receive value, because the error is thrown.
+          //   const x = await Promise.reject(new Error("Failed."));
+
+          const y = await 2; // This line is similar to await Promise.resolve(2)
+          console.log(x, y);
+        } catch (err) {
+          console.log(err);
+        }
+
+        return "async function succeeded";
+
+        // return undefined; // if not specified
+
+        // Note:
+        // - if all async tasks have successfully completed, async function returns a resolved promise.
+        // - if any of the async tasks have failed and there's no try...catch to capture the errors, async function will eventually returns a rejected promise.
+      }
+
+      console.log(foo());
+
+      foo()
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    </script>
+  </body>
+</html>

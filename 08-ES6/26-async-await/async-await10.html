@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Async Await 10: Differentiate Sequential & Concurrent</title>
+  </head>
+  <body>
+    <script>
+      const url = "http://localhost:8881/api/users/";
+      const arr = [
+        "a1b2c3d4-1a2b-3c4d-5e6f-1234567890ab",
+        "b2c3d4e5-2b3c-4d5e-6f7a-2345678901bc",
+        "c3d4e5f6-3c4d-5e6f-7a8b-3456789012cd",
+      ];
+
+      // Sequential
+      async function foo() {
+        for (let id of arr) {
+          const res = await fetch(url + id);
+          const data = await res.json();
+          console.log(data);
+        }
+
+        // This is essentially as such:
+        // await fetch("get", url);
+        // await fetch("get", url);
+        // await fetch("get", url);
+      }
+
+      foo();
+
+      // Concurrent
+      async function bar() {
+        // Calling async function will not block the other code execution
+        // It is like normal function
+        // await only pauses the inside of the async function, not the outer forEach loop
+        arr.forEach(async (id) => {
+          const res = await fetch(url + id);
+          const data = await res.json();
+          console.log(data);
+        });
+
+        // This is essentially as such:
+        // (async (id) => {
+        //   await fetch("get", url);
+        // })()(async (id) => {
+        //   await fetch("get", url);
+        // })()(async (id) => {
+        //   await fetch("get", url);
+        // })();
+      }
+
+      bar();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Async Await 3: Async</title>
+  </head>
+  <body>
+    <script>
+      // async
+      // 1. returns a promise instance.
+      // 2. wrap the return value in a resolved promise if the return value is not a promise
+
+      // Note: returning Promise.resolve / Promise.reject seems to be slowest.
+
+      // Case 1: no return statement (default return undefined)
+      async function foo() {
+        console.log("foo");
+        // return Promise.resolve(undefined); // undefined will be wrapped in a resolved promise
+      }
+
+      foo().then((data) => {
+        console.log(data); // undefined
+      });
+
+      // Case 2: return value is not a promise
+      async function bar() {
+        console.log("bar");
+        return 2; // return Promise.resolve(2);
+      }
+
+      bar().then((data) => {
+        console.log(data); // 2
+      });
+
+      // Case 3: return a resolved promise
+      async function baz() {
+        console.log("baz");
+        return Promise.resolve("success");
+      }
+      baz().then((data) => {
+        console.log(data); // success
+      });
+
+      // Case 4: return a rejected promise
+      async function qux() {
+        console.log("qux");
+        return Promise.reject("failure");
+        console.log("This line will not run.");
+      }
+      qux()
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err); // "failure"
+        });
+
+      // Case 5: throw error
+      async function fred() {
+        console.log("fred");
+        throw new Error("failure");
+        console.log("This line will not run.");
+      }
+      fred()
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err); // "failure"
+        });
+    </script>
+  </body>
+</html>
