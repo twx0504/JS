@@ -1,8 +1,0 @@
-{
-  "description": "Bald eagles are not actually bald.",
-  "image": {
-    "src": "images/eagle.jpg",
-    "alt": "A bald eagle"
-  },
-  "name": "Eagle"
-}
