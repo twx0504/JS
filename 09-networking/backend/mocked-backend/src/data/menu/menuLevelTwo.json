@@ -3,100 +3,85 @@
     {
       "id": "d1a001e0-1111-4aaa-8aaa-000000000001",
       "product_name": "Overview",
-      "product_image": "https://picsum.photos/200?random=1",
-      "product_desc": "Overview section"
+      "product_image": "https://picsum.photos/200?random=1"
     },
     {
       "id": "d1a001e0-1111-4aaa-8aaa-000000000002",
       "product_name": "Analytics",
-      "product_image": "https://picsum.photos/200?random=2",
-      "product_desc": "Analytics dashboard"
+      "product_image": "https://picsum.photos/200?random=2"
     },
     {
       "id": "d1a001e0-1111-4aaa-8aaa-000000000003",
       "product_name": "Reports",
-      "product_image": "https://picsum.photos/200?random=3",
-      "product_desc": "Reports summary"
+      "product_image": "https://picsum.photos/200?random=3"
     }
   ],
   "c1b2a8e4-7c31-4d0e-9d45-1a8f5f01a002": [
     {
       "id": "p2b002e0-2222-4bbb-8bbb-000000000001",
       "product_name": "Wireless Mouse",
-      "product_image": "https://picsum.photos/200?random=1",
-      "product_desc": "Wireless mouse"
+      "product_image": "https://picsum.photos/200?random=1"
     },
     {
       "id": "p2b002e0-2222-4bbb-8bbb-000000000002",
       "product_name": "Mechanical Keyboard",
-      "product_image": "https://picsum.photos/200?random=2",
-      "product_desc": "Mechanical keyboard"
+      "product_image": "https://picsum.photos/200?random=2"
     },
     {
       "id": "p2b002e0-2222-4bbb-8bbb-000000000003",
       "product_name": "HD Monitor",
-      "product_image": "https://picsum.photos/200?random=3",
-      "product_desc": "HD monitor"
+      "product_image": "https://picsum.photos/200?random=3"
     }
   ],
   "c1b2a8e4-7c31-4d0e-9d45-1a8f5f01a003": [
     {
       "id": "o3c003e0-3333-4ccc-8ccc-000000000001",
       "product_name": "All Orders",
-      "product_image": "https://picsum.photos/200?random=1",
-      "product_desc": "All orders"
+      "product_image": "https://picsum.photos/200?random=1"
     },
     {
       "id": "o3c003e0-3333-4ccc-8ccc-000000000002",
       "product_name": "Pending Orders",
-      "product_image": "https://picsum.photos/200?random=2",
-      "product_desc": "Pending orders"
+      "product_image": "https://picsum.photos/200?random=2"
     },
     {
       "id": "o3c003e0-3333-4ccc-8ccc-000000000003",
       "product_name": "Completed Orders",
-      "product_image": "https://picsum.photos/200?random=3",
-      "product_desc": "Completed orders"
+      "product_image": "https://picsum.photos/200?random=3"
     }
   ],
   "c1b2a8e4-7c31-4d0e-9d45-1a8f5f01a004": [
     {
       "id": "c4d004e0-4444-4ddd-8ddd-000000000001",
       "product_name": "Customer List",
-      "product_image": "https://picsum.photos/200?random=1",
-      "product_desc": "Customer list"
+      "product_image": "https://picsum.photos/200?random=1"
     },
     {
       "id": "c4d004e0-4444-4ddd-8ddd-000000000002",
       "product_name": "Customer Groups",
-      "product_image": "https://picsum.photos/200?random=2",
-      "product_desc": "Customer groups"
+      "product_image": "https://picsum.photos/200?random=2"
     },
     {
       "id": "c4d004e0-4444-4ddd-8ddd-000000000003",
       "product_name": "Feedback",
-      "product_image": "https://picsum.photos/200?random=3",
-      "product_desc": "Customer feedback"
+      "product_image": "https://picsum.photos/200?random=3"
     }
   ],
   "c1b2a8e4-7c31-4d0e-9d45-1a8f5f01a005": [
     {
       "id": "s5e005e0-5555-4eee-8eee-000000000001",
       "product_name": "Profile Settings",
-      "product_image": "https://picsum.photos/200?random=1",
-      "product_desc": "Profile settings"
+      "product_image": "https://picsum.photos/200?random=1"
     },
     {
       "id": "s5e005e0-5555-4eee-8eee-000000000002",
       "product_name": "Security",
-      "product_image": "https://picsum.photos/200?random=2",
-      "product_desc": "Security"
+      "product_image": "https://picsum.photos/200?random=2"
     },
     {
       "id": "s5e005e0-5555-4eee-8eee-000000000003",
       "product_name": "System Preferences",
-      "product_image": "https://picsum.photos/200?random=3",
-      "product_desc": "System preferences"
+      "product_image": "https://picsum.photos/200?random=3"
     }
   ]
 }
